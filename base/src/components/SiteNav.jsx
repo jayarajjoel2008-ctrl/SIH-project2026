@@ -32,23 +32,6 @@ export default function SiteNav() {
 
   return (
     <>
-      {/* Top Emergency Utility Bar */}
-      <div className="bg-[#FF5722] text-white text-xs sm:text-sm font-semibold tracking-wide py-2 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 flex items-center justify-center gap-3 sm:gap-4 flex-wrap">
-          <a href="tel:14566" className="underline underline-offset-2 hover:opacity-90 font-bold">
-            14566 (NHAA)
-          </a>
-          <span className="opacity-75 font-normal">|</span>
-          <a href="tel:100" className="underline underline-offset-2 hover:opacity-90 font-bold">
-            Police: 100
-          </a>
-          <span className="opacity-75 font-normal">|</span>
-          <a href="tel:108" className="underline underline-offset-2 hover:opacity-90 font-bold">
-            Medical: 108
-          </a>
-        </div>
-      </div>
-
       {/* Main Header / Navigation */}
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-100 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 h-18 py-3 flex items-center justify-between">

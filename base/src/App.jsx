@@ -17,6 +17,8 @@ import Dashboard from '@/pages/Dashboard';
 import AssessmentDetail from '@/pages/AssessmentDetail';
 import Breathe from '@/pages/Breathe';
 
+import EmergencyBottomBar from '@/components/EmergencyBottomBar';
+
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings } = useAuth();
 
@@ -59,7 +61,12 @@ function App() {
       <QueryClientProvider client={queryClientInstance}>
         <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <ScrollToTop />
-          <AuthenticatedApp />
+          <div className="min-h-screen flex flex-col justify-between">
+            <div className="flex-1">
+              <AuthenticatedApp />
+            </div>
+            <EmergencyBottomBar />
+          </div>
         </Router>
         <Toaster />
       </QueryClientProvider>
