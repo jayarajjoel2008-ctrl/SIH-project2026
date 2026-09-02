@@ -941,15 +941,23 @@ export default function Dashboard() {
 
 function StatCard({ icon: Icon, label, value, color }) {
   return (
-    <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-5 sm:p-6 transition hover:shadow-md">
-      <div
-        className="w-11 h-11 rounded-2xl flex items-center justify-center mb-3.5"
-        style={{ backgroundColor: `${color}15` }}
-      >
-        <Icon className="w-5 h-5" style={{ color }} />
+    <div className="bg-white rounded-3xl shadow-sm border border-slate-200/80 p-5 sm:p-6 transition hover:shadow-lg relative overflow-hidden flex flex-col justify-between">
+      <div className="absolute top-0 left-0 right-0 h-1.5" style={{ backgroundColor: color }} />
+      <div>
+        <div className="flex items-center justify-between mb-3.5">
+          <div
+            className="w-11 h-11 rounded-2xl flex items-center justify-center"
+            style={{ backgroundColor: `${color}15` }}
+          >
+            <Icon className="w-5 h-5" style={{ color }} />
+          </div>
+          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 bg-slate-50 px-2 py-0.5 rounded-md">
+            Live
+          </span>
+        </div>
+        <p className="text-2xl sm:text-3xl font-black text-[#081C35] tracking-tight">{value}</p>
       </div>
-      <p className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">{value}</p>
-      <p className="text-xs font-semibold text-slate-500 mt-1">{label}</p>
+      <p className="text-xs font-bold text-slate-500 mt-2 uppercase tracking-wide">{label}</p>
     </div>
   );
 }

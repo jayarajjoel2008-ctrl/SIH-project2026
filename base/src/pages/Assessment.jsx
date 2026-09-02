@@ -130,32 +130,64 @@ export default function Assessment() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-[#E8F3FC]">
+    <div className="min-h-screen bg-[#F8FAFC]">
       <SiteNav />
       <Chatbot />
 
-      <div className="max-w-3xl mx-auto px-4 py-10">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-[#081C35]">Stress & Trauma Assessment</h1>
-          <p className="text-slate-500 mt-2">AI-enabled real-time psychological assessment for NHAA 14566 complainants.</p>
+      <div className="max-w-4xl mx-auto px-4 py-12">
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center gap-2 bg-[#E8F3FC] border border-[#0E9F9A]/30 text-[#0E9F9A] px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-3">
+            NHAA 14566 Clinical Screening Engine
+          </div>
+          <h1 className="text-3xl sm:text-4xl font-black text-[#081C35] tracking-tight">
+            Stress & Trauma Assessment
+          </h1>
+          <p className="text-slate-600 mt-2 text-sm sm:text-base max-w-xl mx-auto">
+            AI-enabled real-time psychological assessment and objective vulnerability screening.
+          </p>
         </div>
 
-        {/* Progress */}
-        <div className="flex items-center justify-center gap-2 mb-8">
-          {["Consent", "Details", "Input", "Results"].map((s, i) => (
-            <React.Fragment key={s}>
-              <div className={`flex items-center gap-1.5 text-sm ${step >= i + 1 || (step === 5 && i === 3) ? "text-[#0E9F9A] font-semibold" : "text-slate-400"}`}>
-                <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs ${step >= i + 1 || (step === 5 && i === 3) ? "bg-[#0E9F9A] text-white" : "bg-slate-200"}`}>{i + 1}</span>
-                {s}
-              </div>
-              {i < 3 && <div className={`w-8 h-0.5 ${step > i + 1 ? "bg-[#0E9F9A]" : "bg-slate-200"}`} />}
-            </React.Fragment>
-          ))}
+        {/* Infographic Connected Stepper (Matching Slide Template Business Process style) */}
+        <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm mb-8">
+          <div className="grid grid-cols-4 gap-2 relative">
+            {[
+              { n: "01", name: "Consent", id: 1 },
+              { n: "02", name: "Details", id: 2 },
+              { n: "03", name: "Input", id: 3 },
+              { n: "04", name: "Results", id: 5 }
+            ].map((s, idx) => {
+              const isCurrent = (step === s.id) || (step === 4 && s.id === 3);
+              const isDone = (step > s.id) || (step === 5 && s.id < 5);
+              return (
+                <div key={s.n} className="flex flex-col items-center text-center relative z-10">
+                  <div
+                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center font-black text-sm transition-all duration-200 shadow-sm mb-2 ${
+                      isDone
+                        ? "bg-[#0E9F9A] text-white"
+                        : isCurrent
+                        ? "bg-[#081C35] text-[#0E9F9A] ring-4 ring-[#0E9F9A]/20"
+                        : "bg-slate-100 text-slate-400"
+                    }`}
+                  >
+                    {isDone ? "✓" : s.n}
+                  </div>
+                  <span
+                    className={`text-xs font-bold transition-colors ${
+                      isCurrent ? "text-[#081C35]" : isDone ? "text-[#0E9F9A]" : "text-slate-400"
+                    }`}
+                  >
+                    {s.name}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
         </div>
 
         {error && (
-          <div className="mb-4 bg-red-50 border border-red-200 text-red-700 text-sm rounded-xl px-4 py-3 flex items-center gap-2">
-            <AlertTriangle className="w-4 h-4 shrink-0" /> {error}
+          <div className="mb-6 bg-red-50 border border-red-200 text-red-700 text-sm rounded-2xl px-5 py-4 flex items-center gap-3">
+            <AlertTriangle className="w-5 h-5 shrink-0 text-red-600" />
+            <span className="font-medium">{error}</span>
           </div>
         )}
 
