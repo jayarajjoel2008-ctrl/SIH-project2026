@@ -1,0 +1,120 @@
+{
+  "name": "Assessment",
+  "type": "object",
+  "properties": {
+    "reference_id": {
+      "type": "string",
+      "description": "Unique reference ID for the complainant, e.g. NHAA-2026-0001"
+    },
+    "full_name": {
+      "type": "string"
+    },
+    "age": {
+      "type": "number"
+    },
+    "gender": {
+      "type": "string",
+      "enum": [
+        "Male",
+        "Female",
+        "Other",
+        "Prefer not to say"
+      ]
+    },
+    "phone": {
+      "type": "string"
+    },
+    "language": {
+      "type": "string",
+      "description": "Language/dialect of interaction, e.g. English, Hindi, Telugu"
+    },
+    "input_mode": {
+      "type": "string",
+      "enum": [
+        "Voice",
+        "Text"
+      ]
+    },
+    "narrative": {
+      "type": "string",
+      "description": "Transcribed voice narrative or typed text from the complainant"
+    },
+    "primary_concern": {
+      "type": "string",
+      "description": "e.g. Caste-based violence, Social boycott, Threats, Displacement, Legal distress"
+    },
+    "self_reported_stress": {
+      "type": "number",
+      "description": "Self-reported stress level 1-10"
+    },
+    "consent_given": {
+      "type": "boolean",
+      "description": "Whether informed consent was given for AI analysis"
+    },
+    "svi_score": {
+      "type": "number",
+      "description": "Stress Vulnerability Index score 0-100"
+    },
+    "risk_category": {
+      "type": "string",
+      "enum": [
+        "Low",
+        "Moderate",
+        "High",
+        "Critical"
+      ]
+    },
+    "detected_indicators": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Detected indicators: trauma, fear, depression, suicidal ideation, intimidation, social isolation, extreme vulnerability"
+    },
+    "voice_features": {
+      "type": "object",
+      "description": "Analyzed voice features: pitch variation, pauses, speech rate, emotional tone",
+      "properties": {
+        "pitch_variation": {
+          "type": "string"
+        },
+        "pause_pattern": {
+          "type": "string"
+        },
+        "speech_rate": {
+          "type": "string"
+        },
+        "emotional_tone": {
+          "type": "string"
+        }
+      }
+    },
+    "recommendations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Recommended actions: counselling, legal aid, medical assistance, police intervention, witness protection, emergency support"
+    },
+    "summary": {
+      "type": "string",
+      "description": "AI-generated clinical summary of the assessment"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Pending",
+        "Analyzed",
+        "Escalated",
+        "Resolved"
+      ],
+      "default": "Analyzed"
+    }
+  },
+  "required": [
+    "reference_id",
+    "language",
+    "input_mode",
+    "consent_given"
+  ]
+}
