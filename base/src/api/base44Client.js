@@ -211,7 +211,7 @@ function chatLocally({ message = "", history = [], language = "English" }) {
   }
 
   if (msg.includes("hello") || msg.includes("hi") || msg.includes("hey")) {
-    return "Hello. Welcome to MindCare AI support. I am here to listen and assist you in a safe, confidential space. How are you feeling today, or what would you like help with?";
+    return "Hello. Welcome to MindPluze support. I am here to listen and assist you in a safe, confidential space. How are you feeling today, or what would you like help with?";
   }
 
   return "Thank you for sharing that with me. I understand this is difficult. We are here to support you with psychological counselling, legal resources, and emergency coordination. You can also complete a full Voice/Text assessment on the Assessment page for structured assistance.";

@@ -5,7 +5,7 @@ import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 
 const DefaultFallback = () => (
   <div className="fixed inset-0 flex items-center justify-center bg-white/80 backdrop-blur-sm">
-    <div className="w-9 h-9 border-4 border-slate-200 border-t-[#584CE4] rounded-full animate-spin"></div>
+    <div className="w-9 h-9 border-4 border-slate-200 border-t-[#0E9F9A] rounded-full animate-spin"></div>
   </div>
 );
 

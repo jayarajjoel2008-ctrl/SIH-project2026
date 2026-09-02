@@ -45,21 +45,21 @@ export default function Chatbot() {
       {/* Floating button */}
       <button
         onClick={() => setOpen((o) => !o)}
-        className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-gradient-to-br from-[#584CE4] to-[#3A338F] text-white shadow-xl shadow-indigo-300 flex items-center justify-center hover:scale-105 transition cursor-pointer"
+        className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-[#081C35] text-[#0E9F9A] shadow-xl shadow-slate-900/30 flex items-center justify-center hover:scale-105 transition cursor-pointer border border-[#0E9F9A]/30"
         aria-label="AI Support Chatbot"
       >
-        {open ? <X className="w-6 h-6" /> : <Bot className="w-6 h-6" />}
+        {open ? <X className="w-6 h-6 text-white" /> : <Bot className="w-6 h-6 text-[#0E9F9A]" />}
       </button>
 
       {open && (
         <div className="fixed bottom-24 right-6 z-50 w-[calc(100vw-2.5rem)] sm:w-96 h-[28rem] bg-white rounded-3xl shadow-2xl border border-slate-100 flex flex-col overflow-hidden animate-in slide-in-from-bottom-2">
-          <div className="px-4 py-3.5 bg-gradient-to-r from-[#584CE4] to-[#3A338F] text-white flex items-center justify-between">
+          <div className="px-4 py-3.5 bg-[#081C35] text-white flex items-center justify-between border-b border-[#0E9F9A]/30">
             <div className="flex items-center gap-2">
-              <Bot className="w-5 h-5" />
+              <Bot className="w-5 h-5 text-[#0E9F9A]" />
               <div>
-                <p className="font-semibold text-sm leading-tight">MindCare AI Assistant</p>
-                <p className="text-[11px] opacity-90 flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" /> Online · 24/7 Support
+                <p className="font-semibold text-sm leading-tight text-white">MindPluze AI Assistant</p>
+                <p className="text-[11px] opacity-90 flex items-center gap-1 text-[#D9F6EF]">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#0E9F9A]" /> Online · 24/7 Support
                 </p>
               </div>
             </div>

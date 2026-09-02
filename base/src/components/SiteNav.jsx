@@ -37,10 +37,10 @@ export default function SiteNav() {
         <div className="max-w-7xl mx-auto px-4 h-18 py-3 flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2.5 shrink-0">
-            <div className="w-10 h-10 rounded-2xl bg-[#584CE4] flex items-center justify-center text-white shadow-md shadow-indigo-100">
+            <div className="w-10 h-10 rounded-2xl bg-[#081C35] flex items-center justify-center text-[#0E9F9A] shadow-md shadow-slate-200">
               <Brain className="w-5 h-5" />
             </div>
-            <span className="font-extrabold text-xl text-[#3A338F] tracking-tight">MindCare AI</span>
+            <span className="font-extrabold text-xl text-[#081C35] tracking-tight">MindPluze</span>
           </Link>
 
           {/* Desktop Navigation Links */}
@@ -48,7 +48,7 @@ export default function SiteNav() {
             <Link
               to="/"
               className={`px-2 py-1 transition flex items-center gap-1 ${
-                pathname === "/" ? "text-[#584CE4] font-bold" : "text-slate-700 hover:text-[#584CE4]"
+                pathname === "/" ? "text-[#0E9F9A] font-bold" : "text-slate-700 hover:text-[#0E9F9A]"
               }`}
             >
               <span className="text-slate-400 mr-0.5">•</span> Home
@@ -56,7 +56,7 @@ export default function SiteNav() {
 
             <button
               onClick={() => handleNavClick("/#features")}
-              className="px-2 py-1 text-slate-700 hover:text-[#584CE4] transition flex items-center gap-1 cursor-pointer"
+              className="px-2 py-1 text-slate-700 hover:text-[#0E9F9A] transition flex items-center gap-1 cursor-pointer"
             >
               <span className="text-slate-400 mr-0.5">•</span> Features
             </button>
@@ -64,7 +64,7 @@ export default function SiteNav() {
             <Link
               to="/assessment"
               className={`px-2 py-1 transition flex items-center gap-1 ${
-                pathname === "/assessment" ? "text-[#584CE4] font-bold" : "text-slate-700 hover:text-[#584CE4]"
+                pathname === "/assessment" ? "text-[#0E9F9A] font-bold" : "text-slate-700 hover:text-[#0E9F9A]"
               }`}
             >
               <span className="text-slate-400 mr-0.5">•</span> Assessment
@@ -72,14 +72,14 @@ export default function SiteNav() {
 
             <button
               onClick={openChatbot}
-              className="px-2 py-1 text-slate-700 hover:text-[#584CE4] transition flex items-center gap-1 cursor-pointer"
+              className="px-2 py-1 text-slate-700 hover:text-[#0E9F9A] transition flex items-center gap-1 cursor-pointer"
             >
               <span className="text-slate-400 mr-0.5">•</span> AI Chatbot
             </button>
 
             <button
               onClick={() => handleNavClick("/#how-it-works")}
-              className="px-2 py-1 text-slate-700 hover:text-[#584CE4] transition flex items-center gap-1 cursor-pointer"
+              className="px-2 py-1 text-slate-700 hover:text-[#0E9F9A] transition flex items-center gap-1 cursor-pointer"
             >
               <span className="text-slate-400 mr-0.5">•</span> How It Works
             </button>
@@ -87,7 +87,7 @@ export default function SiteNav() {
             <Link
               to="/breathe"
               className={`px-2 py-1 transition flex items-center gap-1 font-semibold ${
-                pathname === "/breathe" ? "text-[#584CE4] font-bold" : "text-[#584CE4] hover:text-[#473BC7]"
+                pathname === "/breathe" ? "text-[#0E9F9A] font-bold" : "text-[#0E9F9A] hover:text-[#0C8783]"
               }`}
             >
               <span className="text-slate-400 mr-0.5">•</span> 🫁 Breathe
@@ -96,7 +96,7 @@ export default function SiteNav() {
             <Link
               to="/dashboard"
               className={`px-2 py-1 transition flex items-center gap-1 ${
-                pathname === "/dashboard" ? "text-[#584CE4] font-bold" : "text-slate-700 hover:text-[#584CE4]"
+                pathname === "/dashboard" ? "text-[#0E9F9A] font-bold" : "text-slate-700 hover:text-[#0E9F9A]"
               }`}
             >
               <span className="text-slate-400 mr-0.5">•</span> 📈 Admin
@@ -107,8 +107,8 @@ export default function SiteNav() {
           <div className="hidden sm:flex items-center gap-3 shrink-0">
             {isAuthenticated ? (
               <div className="flex items-center gap-2">
-                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-700 bg-slate-100 px-3 py-1.5 rounded-full">
-                  <User className="w-3.5 h-3.5 text-[#584CE4]" /> {user?.email || "Admin"}
+                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-700 bg-[#E8F3FC] px-3 py-1.5 rounded-full">
+                  <User className="w-3.5 h-3.5 text-[#0E9F9A]" /> {user?.email || "Admin"}
                 </span>
                 <button
                   onClick={() => logout(true)}
@@ -121,7 +121,7 @@ export default function SiteNav() {
             ) : (
               <Link
                 to="/login?returnTo=/dashboard"
-                className="bg-[#584CE4] hover:bg-[#473BC7] text-white text-sm font-semibold px-5 py-2 rounded-full shadow-md shadow-indigo-100 transition"
+                className="bg-[#0E9F9A] hover:bg-[#0C8783] text-white text-sm font-semibold px-5 py-2 rounded-full shadow-md shadow-teal-100 transition"
               >
                 Login / Sign Up
               </Link>
@@ -130,10 +130,10 @@ export default function SiteNav() {
             <Link
               to="/dashboard"
               className={`text-sm font-semibold hover:underline flex items-center gap-1 ml-1 ${
-                pathname === "/dashboard" ? "text-[#584CE4]" : "text-[#584CE4]"
+                pathname === "/dashboard" ? "text-[#0E9F9A]" : "text-[#081C35] hover:text-[#0E9F9A]"
               }`}
             >
-              <span className="text-slate-400">•</span> <TrendingUp className="w-4 h-4" /> My Dashboard
+              <span className="text-slate-400">•</span> <TrendingUp className="w-4 h-4 text-[#0E9F9A]" /> My Dashboard
             </Link>
           </div>
 
@@ -149,7 +149,7 @@ export default function SiteNav() {
             ) : (
               <Link
                 to="/login?returnTo=/dashboard"
-                className="bg-[#584CE4] text-white text-xs font-semibold px-3.5 py-1.5 rounded-full"
+                className="bg-[#0E9F9A] text-white text-xs font-semibold px-3.5 py-1.5 rounded-full"
               >
                 Login
               </Link>

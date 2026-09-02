@@ -58,7 +58,7 @@ export default function AssessmentDetail() {
   const downloadReport = () => {
     const a = assessment;
     const lines = [
-      "MindCare AI - Stress & Trauma Assessment Report",
+      "MindPluze - Stress & Trauma Assessment Report",
       "NHAA 14566 - National Helpline Against Atrocities",
       "================================================",
       `Reference ID: ${a.reference_id}`,
@@ -95,7 +95,7 @@ export default function AssessmentDetail() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `${a.reference_id}_report.txt`;
+    link.download = `MindPluze_${a.reference_id}_report.txt`;
     link.click();
     URL.revokeObjectURL(url);
   };

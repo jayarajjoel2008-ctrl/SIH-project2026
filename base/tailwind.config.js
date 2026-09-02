@@ -60,6 +60,22 @@ module.exports = {
   				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
   				border: 'hsl(var(--sidebar-border))',
   				ring: 'hsl(var(--sidebar-ring))'
+  			},
+  			navy: {
+  				DEFAULT: '#081C35',
+  				dark: '#051224',
+  				light: '#0D2B52',
+  			},
+  			teal: {
+  				DEFAULT: '#0E9F9A',
+  				hover: '#0C8783',
+  				light: '#D9F6EF',
+  			},
+  			softblue: '#E8F3FC',
+  			wellness: {
+  				mint: '#D9F6EF',
+  				amber: '#FFF0C2',
+  				softred: '#FCE1E0',
   			}
   		},
   		fontFamily: {

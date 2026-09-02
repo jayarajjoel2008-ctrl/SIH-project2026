@@ -26,7 +26,7 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center p-4 sm:p-6 bg-gradient-to-br from-[#6875DF] via-[#5B50D6] to-[#433496] relative">
+    <div className="min-h-screen w-full flex items-center justify-center p-4 sm:p-6 bg-gradient-to-br from-[#081C35] via-[#0D2B52] to-[#081C35] relative">
       {/* Top back link */}
       <Link
         to="/"
@@ -35,17 +35,17 @@ export default function Login() {
         <ArrowLeft className="w-4 h-4" /> Back to Home
       </Link>
 
-      {/* Admin Login Card matching screenshot */}
+      {/* Admin Login Card */}
       <div className="w-full max-w-[440px] bg-white rounded-[2rem] p-8 sm:p-10 shadow-2xl border border-white/20 animate-in fade-in zoom-in-95 duration-200">
         <div className="flex items-center gap-2.5 mb-1">
-          <Shield className="w-7 h-7 text-slate-900 fill-slate-900 shrink-0" />
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+          <Shield className="w-7 h-7 text-[#081C35] fill-[#081C35] shrink-0" />
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-[#081C35] tracking-tight">
             Admin Login
           </h1>
         </div>
 
         <p className="text-sm font-medium text-slate-500 mb-6">
-          Access the MindCare AI Dashboard
+          Access the MindPluze Dashboard
         </p>
 
         {error && (
@@ -56,7 +56,7 @@ export default function Login() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-1.5" htmlFor="email">
+            <label className="block text-sm font-semibold text-[#081C35] mb-1.5" htmlFor="email">
               Email
             </label>
             <input
@@ -64,21 +64,21 @@ export default function Login() {
               type="email"
               required
               autoFocus
-              placeholder="admin@mindcare.com"
+              placeholder="admin@mindpluze.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 text-slate-800 placeholder-slate-400 focus:outline-none focus:border-[#584CE4] focus:ring-2 focus:ring-[#584CE4]/20 transition text-sm"
+              className="w-full px-4 py-3 rounded-xl border border-slate-200 text-slate-800 placeholder-slate-400 focus:outline-none focus:border-[#0E9F9A] focus:ring-2 focus:ring-[#0E9F9A]/20 transition text-sm"
             />
           </div>
 
           <div>
             <div className="flex items-center justify-between mb-1.5">
-              <label className="block text-sm font-semibold text-slate-700" htmlFor="password">
+              <label className="block text-sm font-semibold text-[#081C35]" htmlFor="password">
                 Password
               </label>
               <Link
                 to="/forgot-password"
-                className="text-xs text-[#584CE4] hover:underline font-medium"
+                className="text-xs text-[#0E9F9A] hover:underline font-medium"
               >
                 Forgot password?
               </Link>
@@ -90,14 +90,14 @@ export default function Login() {
               placeholder="Enter password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 text-slate-800 placeholder-slate-400 focus:outline-none focus:border-[#584CE4] focus:ring-2 focus:ring-[#584CE4]/20 transition text-sm"
+              className="w-full px-4 py-3 rounded-xl border border-slate-200 text-slate-800 placeholder-slate-400 focus:outline-none focus:border-[#0E9F9A] focus:ring-2 focus:ring-[#0E9F9A]/20 transition text-sm"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full mt-2 bg-gradient-to-r from-[#6366F1] to-[#584CE4] hover:from-[#5457E5] hover:to-[#473BC7] text-white font-bold py-3.5 rounded-xl shadow-lg shadow-indigo-200 flex items-center justify-center gap-2 text-base transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-70 cursor-pointer"
+            className="w-full mt-2 bg-[#0E9F9A] hover:bg-[#0C8783] text-white font-bold py-3.5 rounded-xl shadow-lg shadow-teal-900/20 flex items-center justify-center gap-2 text-base transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-70 cursor-pointer"
           >
             {loading ? (
               <>
@@ -121,7 +121,7 @@ export default function Login() {
           Don't have an account?{" "}
           <Link
             to={"/register" + (returnTo !== "/dashboard" ? "?returnTo=" + encodeURIComponent(returnTo) : "")}
-            className="text-[#584CE4] font-semibold hover:underline"
+            className="text-[#0E9F9A] font-semibold hover:underline"
           >
             Create account
           </Link>
