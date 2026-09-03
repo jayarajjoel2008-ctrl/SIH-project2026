@@ -33,73 +33,84 @@ export default function SiteNav() {
   return (
     <>
       {/* Main Header / Navigation */}
-      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-100 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 h-18 py-3 flex items-center justify-between">
+      <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-100/80 shadow-soft">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           {/* Logo */}
-          <Link to="/home" className="flex items-center gap-2.5 shrink-0">
-            <div className="w-10 h-10 rounded-2xl bg-[#1E1B4B] flex items-center justify-center text-[#4E36E2] shadow-md shadow-slate-200">
-              <Brain className="w-5 h-5 text-[#FFA07A]" />
+          <Link to="/home" className="flex items-center gap-3 shrink-0 group">
+            <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#FF8C68] via-[#FFA07A] to-[#4E36E2] flex items-center justify-center text-white shadow-soft-purple group-hover:scale-105 transition">
+              <Brain className="w-6 h-6 text-white" />
             </div>
-            <span className="font-extrabold text-xl text-[#1E1B4B] tracking-tight">MindPluze</span>
+            <div>
+              <span className="font-black text-xl text-[#1E1B4B] tracking-tight">MindPluze</span>
+              <p className="text-[10px] text-[#8E95B2] font-bold tracking-wider uppercase -mt-0.5">NHAA 14566 Module</p>
+            </div>
           </Link>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-1.5 text-sm font-medium text-slate-700">
+          <nav className="hidden lg:flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#8E95B2] bg-[#F4F6FB] p-1.5 rounded-full border border-slate-200/60">
             <Link
               to="/home"
-              className={`px-2 py-1 transition flex items-center gap-1 ${
-                pathname === "/home" || pathname === "/" ? "text-[#4E36E2] font-bold" : "text-slate-700 hover:text-[#4E36E2]"
+              className={`px-4 py-2 rounded-full transition-all ${
+                pathname === "/home" || pathname === "/"
+                  ? "bg-white text-[#4E36E2] shadow-sm font-black"
+                  : "hover:text-[#1E1B4B]"
               }`}
             >
-              <span className="text-slate-400 mr-0.5">•</span> Home
+              Home
             </Link>
 
             <button
               onClick={() => handleNavClick("/#features")}
-              className="px-2 py-1 text-slate-700 hover:text-[#4E36E2] transition flex items-center gap-1 cursor-pointer"
+              className="px-4 py-2 rounded-full hover:text-[#1E1B4B] transition-all cursor-pointer"
             >
-              <span className="text-slate-400 mr-0.5">•</span> Features
+              Features
             </button>
 
             <Link
               to="/assessment"
-              className={`px-2 py-1 transition flex items-center gap-1 ${
-                pathname === "/assessment" ? "text-[#4E36E2] font-bold" : "text-slate-700 hover:text-[#4E36E2]"
+              className={`px-4 py-2 rounded-full transition-all ${
+                pathname === "/assessment"
+                  ? "bg-white text-[#4E36E2] shadow-sm font-black"
+                  : "hover:text-[#1E1B4B]"
               }`}
             >
-              <span className="text-slate-400 mr-0.5">•</span> Assessment
+              Assessment
             </Link>
 
             <button
               onClick={openChatbot}
-              className="px-2 py-1 text-slate-700 hover:text-[#4E36E2] transition flex items-center gap-1 cursor-pointer"
+              className="px-4 py-2 rounded-full hover:text-[#1E1B4B] transition-all cursor-pointer"
             >
-              <span className="text-slate-400 mr-0.5">•</span> AI Chatbot
+              AI Chatbot
             </button>
 
             <button
               onClick={() => handleNavClick("/#how-it-works")}
-              className="px-2 py-1 text-slate-700 hover:text-[#4E36E2] transition flex items-center gap-1 cursor-pointer"
+              className="px-4 py-2 rounded-full hover:text-[#1E1B4B] transition-all cursor-pointer"
             >
-              <span className="text-slate-400 mr-0.5">•</span> How It Works
+              How It Works
             </button>
 
             <Link
               to="/breathe"
-              className={`px-2 py-1 transition flex items-center gap-1 font-semibold ${
-                pathname === "/breathe" ? "text-[#4E36E2] font-bold" : "text-[#4E36E2] hover:text-[#3C28B6]"
+              className={`px-4 py-2 rounded-full transition-all ${
+                pathname === "/breathe"
+                  ? "bg-white text-[#4E36E2] shadow-sm font-black"
+                  : "hover:text-[#1E1B4B]"
               }`}
             >
-              <span className="text-slate-400 mr-0.5">•</span> 🫁 Breathe
+              🫁 Breathe
             </Link>
 
             <Link
               to="/dashboard"
-              className={`px-2 py-1 transition flex items-center gap-1 ${
-                pathname === "/dashboard" ? "text-[#4E36E2] font-bold" : "text-slate-700 hover:text-[#4E36E2]"
+              className={`px-4 py-2 rounded-full transition-all ${
+                pathname === "/dashboard"
+                  ? "bg-[#4E36E2] text-white shadow-soft-purple font-black"
+                  : "hover:text-[#1E1B4B]"
               }`}
             >
-              <span className="text-slate-400 mr-0.5">•</span> 📈 Admin
+              📈 Admin
             </Link>
           </nav>
 
@@ -107,16 +118,17 @@ export default function SiteNav() {
           <div className="hidden sm:flex items-center gap-3 shrink-0">
             {isAuthenticated ? (
               <div className="flex items-center gap-2">
-                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-700 bg-[#F4F6FB] px-3 py-1.5 rounded-full border border-slate-200">
+                <span className="inline-flex items-center gap-2 text-xs font-bold text-[#1E1B4B] bg-[#F4F6FB] px-4 py-2 rounded-full border border-slate-200/80 shadow-xs">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                   <User className="w-3.5 h-3.5 text-[#4E36E2]" />
                   <span>{user?.name || user?.email || "Citizen"}</span>
-                  <span className={`text-[10px] uppercase font-bold px-1.5 py-0.5 rounded ${user?.role === "admin" ? "bg-[#1E1B4B] text-white" : "bg-[#4E36E2] text-white"}`}>
+                  <span className={`text-[10px] uppercase font-black px-2 py-0.5 rounded-full ${user?.role === "admin" ? "bg-[#1E1B4B] text-white" : "bg-[#4E36E2] text-white"}`}>
                     {user?.role === "admin" ? "Officer" : "Citizen"}
                   </span>
                 </span>
                 <button
                   onClick={() => logout("/")}
-                  className="inline-flex items-center gap-1 text-xs font-semibold text-rose-600 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 px-3 py-1.5 rounded-full transition cursor-pointer"
+                  className="inline-flex items-center gap-1 text-xs font-bold text-rose-600 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 px-3.5 py-2 rounded-full transition cursor-pointer"
                   title="Log out"
                 >
                   <LogOut className="w-3.5 h-3.5" /> Logout
@@ -125,7 +137,7 @@ export default function SiteNav() {
             ) : (
               <Link
                 to="/login"
-                className="bg-[#4E36E2] hover:bg-[#3C28B6] text-white text-sm font-semibold px-5 py-2 rounded-full shadow-md shadow-purple-200 transition"
+                className="bg-[#4E36E2] hover:bg-[#3C28B6] text-white text-xs sm:text-sm font-bold px-6 py-2.5 rounded-full shadow-soft-purple transition hover:scale-105"
               >
                 Login / Portals
               </Link>
@@ -133,11 +145,13 @@ export default function SiteNav() {
 
             <Link
               to="/dashboard"
-              className={`text-sm font-semibold hover:underline flex items-center gap-1 ml-1 ${
-                pathname === "/dashboard" ? "text-[#4E36E2]" : "text-[#1E1B4B] hover:text-[#4E36E2]"
+              className={`text-xs sm:text-sm font-bold flex items-center gap-1.5 px-4 py-2 rounded-full border transition ${
+                pathname === "/dashboard"
+                  ? "bg-[#4E36E2] text-white border-[#4E36E2] shadow-soft-purple"
+                  : "bg-white text-[#1E1B4B] border-slate-200 hover:border-[#4E36E2] shadow-sm"
               }`}
             >
-              <span className="text-slate-400">•</span> <TrendingUp className="w-4 h-4 text-[#4E36E2]" /> My Dashboard
+              <TrendingUp className="w-4 h-4 text-[#FF8C68]" /> My Dashboard
             </Link>
           </div>
 
@@ -146,21 +160,21 @@ export default function SiteNav() {
             {isAuthenticated ? (
               <button
                 onClick={() => logout("/")}
-                className="text-rose-600 bg-rose-50 text-xs font-semibold px-3 py-1.5 rounded-full"
+                className="text-rose-600 bg-rose-50 text-xs font-bold px-3.5 py-1.5 rounded-full"
               >
                 Logout
               </button>
             ) : (
               <Link
                 to="/login"
-                className="bg-[#4E36E2] text-white text-xs font-semibold px-3.5 py-1.5 rounded-full"
+                className="bg-[#4E36E2] text-white text-xs font-bold px-4 py-2 rounded-full shadow-sm"
               >
                 Login
               </Link>
             )}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 text-slate-700 hover:bg-slate-100 rounded-lg"
+              className="p-2 text-slate-700 hover:bg-slate-100 rounded-xl"
               aria-label="Toggle navigation menu"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -170,24 +184,24 @@ export default function SiteNav() {
 
         {/* Mobile dropdown menu */}
         {mobileMenuOpen && (
-          <div className="sm:hidden border-t border-slate-100 bg-white px-4 py-4 space-y-2">
+          <div className="sm:hidden border-t border-slate-100 bg-white px-5 py-5 space-y-2 shadow-soft-lg rounded-b-3xl">
             <Link
               to="/home"
               onClick={() => setMobileMenuOpen(false)}
-              className="block py-2 text-slate-800 font-medium"
+              className="block py-2.5 text-[#1E1B4B] font-bold text-sm"
             >
               • Home
             </Link>
             <button
               onClick={() => handleNavClick("/#features")}
-              className="block w-full text-left py-2 text-slate-800 font-medium"
+              className="block w-full text-left py-2.5 text-slate-700 font-bold text-sm"
             >
               • Features
             </button>
             <Link
               to="/assessment"
               onClick={() => setMobileMenuOpen(false)}
-              className="block py-2 text-slate-800 font-medium"
+              className="block py-2.5 text-slate-700 font-bold text-sm"
             >
               • Assessment
             </Link>
@@ -196,27 +210,27 @@ export default function SiteNav() {
                 setMobileMenuOpen(false);
                 openChatbot();
               }}
-              className="block w-full text-left py-2 text-slate-800 font-medium"
+              className="block w-full text-left py-2.5 text-slate-700 font-bold text-sm"
             >
               • AI Chatbot
             </button>
             <button
               onClick={() => handleNavClick("/#how-it-works")}
-              className="block w-full text-left py-2 text-slate-800 font-medium"
+              className="block w-full text-left py-2.5 text-slate-700 font-bold text-sm"
             >
               • How It Works
             </button>
             <Link
               to="/breathe"
               onClick={() => setMobileMenuOpen(false)}
-              className="block w-full text-left py-2 text-[#4E36E2] font-semibold"
+              className="block w-full text-left py-2.5 text-[#4E36E2] font-bold text-sm"
             >
               • 🫁 Breathe
             </Link>
             <Link
               to="/dashboard"
               onClick={() => setMobileMenuOpen(false)}
-              className="block py-2 text-slate-800 font-medium"
+              className="block py-2.5 text-[#4E36E2] font-black text-sm"
             >
               • 📈 My Dashboard
             </Link>

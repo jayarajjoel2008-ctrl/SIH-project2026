@@ -130,25 +130,27 @@ export default function Assessment() {
   };
 
   return (
-    <div className="min-h-screen bg-[#EEF2F8]">
+    <div className="min-h-screen bg-[#EEF2F8] text-[#1E1B4B]">
       <SiteNav />
       <Chatbot />
 
-      <div className="max-w-4xl mx-auto px-4 py-12">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
+        {/* Header */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 bg-purple-50 border border-[#4E36E2]/30 text-[#4E36E2] px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-3">
+          <div className="inline-flex items-center gap-2 bg-white border border-slate-200/80 text-[#4E36E2] px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-3 shadow-soft">
+            <span className="w-2 h-2 rounded-full bg-[#4E36E2] animate-pulse" />
             NHAA 14566 Clinical Screening Engine
           </div>
-          <h1 className="text-3xl sm:text-4xl font-black text-[#1E1B4B] tracking-tight">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#1E1B4B] tracking-tight">
             Stress & Trauma Assessment
           </h1>
-          <p className="text-slate-600 mt-2 text-sm sm:text-base max-w-xl mx-auto">
+          <p className="text-[#8E95B2] mt-2 text-sm sm:text-base font-medium max-w-xl mx-auto">
             AI-enabled real-time psychological assessment and objective vulnerability screening.
           </p>
         </div>
 
-        {/* Infographic Connected Stepper */}
-        <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm mb-8">
+        {/* Soft-UI Stepper Card */}
+        <div className="bg-white rounded-[32px] p-6 sm:p-8 border border-slate-100 shadow-soft mb-8">
           <div className="grid grid-cols-4 gap-2 relative">
             {[
               { n: "01", name: "Consent", id: 1 },
@@ -161,19 +163,19 @@ export default function Assessment() {
               return (
                 <div key={s.n} className="flex flex-col items-center text-center relative z-10">
                   <div
-                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center font-black text-sm transition-all duration-200 shadow-sm mb-2 ${
+                    className={`w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center font-black text-sm transition-all duration-300 shadow-soft mb-2.5 ${
                       isDone
-                        ? "bg-[#4E36E2] text-white"
+                        ? "bg-[#4E36E2] text-white shadow-soft-purple"
                         : isCurrent
-                        ? "bg-[#1E1B4B] text-[#FFA07A] ring-4 ring-[#4E36E2]/20"
-                        : "bg-slate-100 text-slate-400"
+                        ? "bg-gradient-to-tr from-[#FF8C68] to-[#4E36E2] text-white ring-4 ring-[#4E36E2]/20 shadow-soft-purple"
+                        : "bg-[#F4F6FB] text-[#8E95B2] border border-slate-200/60"
                     }`}
                   >
                     {isDone ? "✓" : s.n}
                   </div>
                   <span
                     className={`text-xs font-bold transition-colors ${
-                      isCurrent ? "text-[#1E1B4B]" : isDone ? "text-[#4E36E2]" : "text-slate-400"
+                      isCurrent ? "text-[#4E36E2] font-black" : isDone ? "text-[#1E1B4B]" : "text-[#8E95B2]"
                     }`}
                   >
                     {s.name}
@@ -185,85 +187,90 @@ export default function Assessment() {
         </div>
 
         {error && (
-          <div className="mb-6 bg-red-50 border border-red-200 text-red-700 text-sm rounded-2xl px-5 py-4 flex items-center gap-3">
+          <div className="mb-6 bg-red-50 border border-red-200 text-red-700 text-sm rounded-2xl px-5 py-4 flex items-center gap-3 font-semibold">
             <AlertTriangle className="w-5 h-5 shrink-0 text-red-600" />
-            <span className="font-medium">{error}</span>
+            <span>{error}</span>
           </div>
         )}
 
         {/* STEP 1: Consent */}
         {step === 1 && (
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 sm:p-8">
-            <div className="flex items-center gap-2 mb-4">
-              <ShieldCheck className="w-6 h-6 text-[#4E36E2]" />
-              <h2 className="text-xl font-semibold text-[#1E1B4B]">Informed Consent</h2>
+          <div className="bg-white rounded-[32px] shadow-soft-lg border border-slate-100 p-7 sm:p-10">
+            <div className="flex items-center gap-3 mb-5">
+              <div className="w-11 h-11 rounded-2xl bg-purple-50 text-[#4E36E2] flex items-center justify-center">
+                <ShieldCheck className="w-6 h-6 text-[#4E36E2]" />
+              </div>
+              <div>
+                <h2 className="text-xl sm:text-2xl font-black text-[#1E1B4B]">Informed Consent</h2>
+                <p className="text-xs text-[#8E95B2] font-semibold">Confidential & Voluntary AI Assessment</p>
+              </div>
             </div>
-            <div className="space-y-3 text-sm text-slate-600">
-              <p>This module uses AI (NLP, speech analytics and Emotion AI) to assess stress, trauma and vulnerability from your voice or text. Your responses are analyzed to generate a Stress Vulnerability Index and support recommendations.</p>
-              <ul className="space-y-2">
-                <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-[#4E36E2] mt-0.5 shrink-0" /> Your data is kept confidential and stored securely.</li>
-                <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-[#4E36E2] mt-0.5 shrink-0" /> Participation is voluntary. You may decline or stop anytime.</li>
-                <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-[#4E36E2] mt-0.5 shrink-0" /> This is a screening tool, not a medical diagnosis.</li>
-                <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-[#4E36E2] mt-0.5 shrink-0" /> Ethical AI standards are maintained throughout.</li>
+            <div className="space-y-3.5 text-sm text-slate-600 font-medium">
+              <p className="leading-relaxed">This module uses AI (NLP, speech analytics and Emotion AI) to assess stress, trauma and vulnerability from your voice or text. Your responses are analyzed to generate a Stress Vulnerability Index and support recommendations.</p>
+              <ul className="space-y-2.5 pt-2">
+                <li className="flex items-start gap-2.5"><CheckCircle2 className="w-5 h-5 text-[#4E36E2] shrink-0" /> Your data is kept confidential, encrypted, and stored securely.</li>
+                <li className="flex items-start gap-2.5"><CheckCircle2 className="w-5 h-5 text-[#4E36E2] shrink-0" /> Participation is voluntary. You may decline or stop anytime.</li>
+                <li className="flex items-start gap-2.5"><CheckCircle2 className="w-5 h-5 text-[#4E36E2] shrink-0" /> This is a screening tool, not a medical diagnosis.</li>
+                <li className="flex items-start gap-2.5"><CheckCircle2 className="w-5 h-5 text-[#4E36E2] shrink-0" /> Ethical AI standards are maintained throughout.</li>
               </ul>
             </div>
-            <label className="mt-5 flex items-start gap-2.5 cursor-pointer bg-[#F4F6FB] rounded-xl p-4">
-              <input type="checkbox" checked={form.consent_given} onChange={(e) => update("consent_given", e.target.checked)} className="mt-0.5 w-5 h-5 accent-[#4E36E2]" />
-              <span className="text-sm text-slate-700">I have read and understood the above. I give informed consent for AI-based analysis of my responses.</span>
+            <label className="mt-6 flex items-start gap-3 cursor-pointer bg-[#F4F6FB] rounded-2xl p-4 sm:p-5 border border-slate-200/70">
+              <input type="checkbox" checked={form.consent_given} onChange={(e) => update("consent_given", e.target.checked)} className="mt-1 w-5 h-5 accent-[#4E36E2]" />
+              <span className="text-xs sm:text-sm text-[#1E1B4B] font-semibold">I have read and understood the above. I give informed consent for AI-based analysis of my responses.</span>
             </label>
             <button
               disabled={!form.consent_given}
               onClick={() => setStep(2)}
-              className="mt-5 w-full bg-[#4E36E2] hover:bg-[#3C28B6] disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2 transition"
+              className="mt-6 w-full bg-[#4E36E2] hover:bg-[#3C28B6] disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold py-4 rounded-full flex items-center justify-center gap-2 transition shadow-soft-purple text-base cursor-pointer"
             >
-              Continue <ArrowRight className="w-4 h-4" />
+              Continue <ArrowRight className="w-5 h-5" />
             </button>
           </div>
         )}
 
         {/* STEP 2: Details */}
         {step === 2 && (
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 sm:p-8">
-            <h2 className="text-xl font-semibold text-[#1E1B4B] mb-5">Complainant Details</h2>
-            <div className="grid sm:grid-cols-2 gap-4">
-              <Field label="Full Name (optional)"><input value={form.full_name} onChange={(e) => update("full_name", e.target.value)} className="input" placeholder="Name" /></Field>
-              <Field label="Age"><input type="number" value={form.age} onChange={(e) => update("age", e.target.value)} className="input" placeholder="Age" /></Field>
+          <div className="bg-white rounded-[32px] shadow-soft-lg border border-slate-100 p-7 sm:p-10">
+            <h2 className="text-xl sm:text-2xl font-black text-[#1E1B4B] mb-6">Complainant Details</h2>
+            <div className="grid sm:grid-cols-2 gap-5">
+              <Field label="Full Name (optional)"><input value={form.full_name} onChange={(e) => update("full_name", e.target.value)} className="soft-input" placeholder="Name" /></Field>
+              <Field label="Age"><input type="number" value={form.age} onChange={(e) => update("age", e.target.value)} className="soft-input" placeholder="Age" /></Field>
               <Field label="Gender">
-                <select value={form.gender} onChange={(e) => update("gender", e.target.value)} className="input">
+                <select value={form.gender} onChange={(e) => update("gender", e.target.value)} className="soft-input">
                   <option value="">Select</option><option>Male</option><option>Female</option><option>Other</option><option>Prefer not to say</option>
                 </select>
               </Field>
-              <Field label="Phone (optional)"><input value={form.phone} onChange={(e) => update("phone", e.target.value)} className="input" placeholder="Phone" /></Field>
+              <Field label="Phone (optional)"><input value={form.phone} onChange={(e) => update("phone", e.target.value)} className="soft-input" placeholder="Phone" /></Field>
               <Field label="Language / Dialect">
-                <select value={form.language} onChange={(e) => update("language", e.target.value)} className="input">
+                <select value={form.language} onChange={(e) => update("language", e.target.value)} className="soft-input">
                   {LANGUAGES.map((l) => <option key={l}>{l}</option>)}
                 </select>
               </Field>
               <Field label="Primary Concern">
-                <select value={form.primary_concern} onChange={(e) => update("primary_concern", e.target.value)} className="input">
+                <select value={form.primary_concern} onChange={(e) => update("primary_concern", e.target.value)} className="soft-input">
                   <option value="">Select</option>{CONCERNS.map((c) => <option key={c}>{c}</option>)}
                 </select>
               </Field>
             </div>
-            <div className="mt-6">
-              <label className="text-sm font-medium text-slate-700">Self-reported stress level: <span className="font-bold text-[#4E36E2]">{form.self_reported_stress}/10</span></label>
-              <input type="range" min={1} max={10} value={form.self_reported_stress} onChange={(e) => update("self_reported_stress", Number(e.target.value))} className="w-full mt-2 accent-[#4E36E2]" />
-              <div className="flex justify-between text-xs text-slate-400"><span>Low (1)</span><span>High (10)</span></div>
+            <div className="mt-6 bg-[#F4F6FB] p-5 rounded-2xl border border-slate-200/60">
+              <label className="text-sm font-bold text-[#1E1B4B]">Self-reported stress level: <span className="font-black text-[#4E36E2] text-base ml-1">{form.self_reported_stress}/10</span></label>
+              <input type="range" min={1} max={10} value={form.self_reported_stress} onChange={(e) => update("self_reported_stress", Number(e.target.value))} className="w-full mt-3 accent-[#4E36E2]" />
+              <div className="flex justify-between text-xs text-[#8E95B2] font-semibold mt-1"><span>Low (1)</span><span>High (10)</span></div>
             </div>
             <div className="mt-6">
-              <label className="text-sm font-medium text-slate-700 mb-2 block">Input Method</label>
-              <div className="grid grid-cols-2 gap-3">
+              <label className="text-sm font-bold text-[#1E1B4B] mb-2.5 block">Input Method</label>
+              <div className="grid grid-cols-2 gap-4">
                 {[["Text", "Type your experience"], ["Voice", "Speak your experience"]].map(([m, d]) => (
-                  <button key={m} onClick={() => update("input_mode", m)} className={`p-4 rounded-xl border-2 text-left transition ${form.input_mode === m ? "border-[#4E36E2] bg-[#4E36E2]/5" : "border-slate-200 hover:border-slate-300"}`}>
-                    <div className="flex items-center gap-2 font-semibold text-slate-700">{m === "Voice" ? <Mic className="w-4 h-4 text-[#4E36E2]" /> : <FileText className="w-4 h-4 text-[#4E36E2]" />} {m}</div>
-                    <p className="text-xs text-slate-500 mt-1">{d}</p>
+                  <button key={m} onClick={() => update("input_mode", m)} className={`p-5 rounded-2xl border-2 text-left transition cursor-pointer ${form.input_mode === m ? "border-[#4E36E2] bg-purple-50/50 shadow-soft" : "border-slate-200 bg-white hover:border-slate-300"}`}>
+                    <div className="flex items-center gap-2 font-bold text-[#1E1B4B]">{m === "Voice" ? <Mic className="w-5 h-5 text-[#FF8C68]" /> : <FileText className="w-5 h-5 text-[#4E36E2]" />} {m}</div>
+                    <p className="text-xs text-[#8E95B2] font-medium mt-1">{d}</p>
                   </button>
                 ))}
               </div>
             </div>
-            <div className="mt-6 flex gap-3">
-              <button onClick={() => setStep(1)} className="px-5 py-3 rounded-xl border border-slate-200 text-slate-600 font-semibold hover:bg-slate-50">Back</button>
-              <button onClick={() => setStep(3)} className="flex-1 bg-[#4E36E2] hover:bg-[#3C28B6] text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2 transition">
+            <div className="mt-7 flex gap-3">
+              <button onClick={() => setStep(1)} className="px-6 py-3.5 rounded-full border border-slate-200 text-slate-700 font-bold hover:bg-slate-50 cursor-pointer">Back</button>
+              <button onClick={() => setStep(3)} className="flex-1 bg-[#4E36E2] hover:bg-[#3C28B6] text-white font-bold py-3.5 rounded-full flex items-center justify-center gap-2 transition shadow-soft-purple cursor-pointer">
                 Continue <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -272,51 +279,51 @@ export default function Assessment() {
 
         {/* STEP 3: Input */}
         {step === 3 && (
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 sm:p-8">
-            <h2 className="text-xl font-semibold text-[#1E1B4B] mb-1">{form.input_mode === "Voice" ? "Voice Assessment" : "Text Assessment"}</h2>
-            <p className="text-sm text-slate-500 mb-5">Express your experience in {form.language}. Speak or type freely — there is no right or wrong.</p>
+          <div className="bg-white rounded-[32px] shadow-soft-lg border border-slate-100 p-7 sm:p-10">
+            <h2 className="text-xl sm:text-2xl font-black text-[#1E1B4B] mb-1">{form.input_mode === "Voice" ? "Voice Assessment" : "Text Assessment"}</h2>
+            <p className="text-sm text-[#8E95B2] font-medium mb-6">Express your experience in {form.language}. Speak or type freely — there is no right or wrong.</p>
 
             {form.input_mode === "Voice" ? (
-              <div className="text-center py-6">
-                <div className={`w-24 h-24 mx-auto rounded-full flex items-center justify-center ${recording ? "bg-red-50 animate-pulse" : "bg-[#4E36E2]/10"}`}>
+              <div className="text-center py-8 bg-[#F4F6FB] rounded-3xl border border-slate-200/60 p-6">
+                <div className={`w-24 h-24 mx-auto rounded-full flex items-center justify-center shadow-soft transition-transform ${recording ? "bg-red-50 animate-pulse scale-110" : "bg-white"}`}>
                   <Mic className={`w-10 h-10 ${recording ? "text-red-500" : "text-[#4E36E2]"}`} />
                 </div>
-                <p className="mt-4 text-sm font-medium text-slate-600">
+                <p className="mt-4 text-sm font-bold text-[#1E1B4B]">
                   {recording ? "Listening... speak now" : transcribing ? "Transcribing your speech..." : "Press to start recording"}
                 </p>
                 {!recording && !transcribing && (
-                  <button onClick={startRecording} className="mt-4 bg-[#4E36E2] hover:bg-[#3C28B6] text-white font-semibold px-6 py-2.5 rounded-xl inline-flex items-center gap-2 transition shadow">
+                  <button onClick={startRecording} className="mt-4 bg-[#4E36E2] hover:bg-[#3C28B6] text-white font-bold px-7 py-3 rounded-full inline-flex items-center gap-2 transition shadow-soft-purple cursor-pointer">
                     <Mic className="w-4 h-4" /> Start Recording
                   </button>
                 )}
                 {recording && (
-                  <button onClick={stopRecording} className="mt-4 bg-red-500 hover:bg-red-600 text-white font-semibold px-6 py-2.5 rounded-xl inline-flex items-center gap-2 transition">
+                  <button onClick={stopRecording} className="mt-4 bg-red-500 hover:bg-red-600 text-white font-bold px-7 py-3 rounded-full inline-flex items-center gap-2 transition shadow-md cursor-pointer">
                     <Square className="w-4 h-4" /> Stop Recording
                   </button>
                 )}
-                {transcribing && <Loader2 className="w-5 h-5 text-[#4E36E2] animate-spin mx-auto mt-4" />}
+                {transcribing && <Loader2 className="w-6 h-6 text-[#4E36E2] animate-spin mx-auto mt-4" />}
               </div>
             ) : null}
 
             {narrative && (
-              <div className="mt-5">
-                <label className="text-sm font-medium text-slate-700 mb-1.5 block">Transcribed / Typed Narrative</label>
-                <textarea value={narrative} onChange={(e) => setNarrative(e.target.value)} rows={6} className="input resize-none" placeholder="Your narrative appears here — you can edit it." />
-                <p className="text-xs text-slate-400 mt-1">{narrative.trim().split(/\s+/).filter(Boolean).length} words detected</p>
+              <div className="mt-6">
+                <label className="text-xs font-bold uppercase tracking-wider text-[#1E1B4B] mb-2 block">Transcribed / Typed Narrative</label>
+                <textarea value={narrative} onChange={(e) => setNarrative(e.target.value)} rows={6} className="soft-input resize-none" placeholder="Your narrative appears here — you can edit it." />
+                <p className="text-xs text-[#8E95B2] font-semibold mt-1">{narrative.trim().split(/\s+/).filter(Boolean).length} words detected</p>
               </div>
             )}
 
             {form.input_mode === "Text" && (
-              <div className="mt-5">
-                <label className="text-sm font-medium text-slate-700 mb-1.5 block">Describe your experience and how you have been feeling</label>
-                <textarea value={narrative} onChange={(e) => setNarrative(e.target.value)} rows={6} className="input resize-none" placeholder="Share what happened and how you are feeling..." />
-                <p className="text-xs text-slate-400 mt-1">{narrative.trim().split(/\s+/).filter(Boolean).length} words</p>
+              <div className="mt-6">
+                <label className="text-xs font-bold uppercase tracking-wider text-[#1E1B4B] mb-2 block">Describe your experience and how you have been feeling</label>
+                <textarea value={narrative} onChange={(e) => setNarrative(e.target.value)} rows={6} className="soft-input resize-none" placeholder="Share what happened and how you are feeling..." />
+                <p className="text-xs text-[#8E95B2] font-semibold mt-1">{narrative.trim().split(/\s+/).filter(Boolean).length} words</p>
               </div>
             )}
 
-            <div className="mt-6 flex gap-3">
-              <button onClick={() => setStep(2)} className="px-5 py-3 rounded-xl border border-slate-200 text-slate-600 font-semibold hover:bg-slate-50">Back</button>
-              <button onClick={runAnalysis} disabled={!narrative.trim()} className="flex-1 bg-[#4E36E2] hover:bg-[#3C28B6] disabled:opacity-40 text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2 transition shadow">
+            <div className="mt-7 flex gap-3">
+              <button onClick={() => setStep(2)} className="px-6 py-3.5 rounded-full border border-slate-200 text-slate-700 font-bold hover:bg-slate-50 cursor-pointer">Back</button>
+              <button onClick={runAnalysis} disabled={!narrative.trim()} className="flex-1 bg-[#4E36E2] hover:bg-[#3C28B6] disabled:opacity-40 text-white font-bold py-3.5 rounded-full flex items-center justify-center gap-2 transition shadow-soft-purple cursor-pointer">
                 Analyze with AI <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -325,10 +332,10 @@ export default function Assessment() {
 
         {/* STEP 4: Analyzing */}
         {step === 4 && (
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-10 text-center">
-            <Loader2 className="w-12 h-12 text-[#4E36E2] animate-spin mx-auto" />
-            <h2 className="mt-4 text-xl font-semibold text-[#1E1B4B]">Analyzing your responses...</h2>
-            <p className="text-sm text-slate-500 mt-2">AI is assessing stress, trauma and vulnerability indicators using NLP and speech analytics.</p>
+          <div className="bg-white rounded-[32px] shadow-soft-lg border border-slate-100 p-12 text-center">
+            <Loader2 className="w-14 h-14 text-[#4E36E2] animate-spin mx-auto" />
+            <h2 className="mt-5 text-2xl font-black text-[#1E1B4B]">Analyzing your responses...</h2>
+            <p className="text-sm text-[#8E95B2] font-medium mt-2 max-w-md mx-auto">AI is assessing stress, trauma and vulnerability indicators using NLP and acoustic speech analytics.</p>
           </div>
         )}
 
@@ -338,7 +345,7 @@ export default function Assessment() {
         )}
       </div>
 
-      <style>{`.input{width:100%;padding:0.625rem 0.75rem;border:1px solid #e2e8f0;border-radius:0.6rem;font-size:0.875rem;outline:none}.input:focus{box-shadow:0 0 0 2px rgba(78,54,226,.25);border-color:#4E36E2}`}</style>
+      <style>{`.soft-input{width:100%;padding:0.75rem 1rem;border:1px solid #e2e8f0;border-radius:1rem;background:#F4F6FB;font-size:0.875rem;font-weight:500;outline:none;color:#1E1B4B}.soft-input:focus{box-shadow:0 0 0 3px rgba(78,54,226,.15);border-color:#4E36E2}`}</style>
     </div>
   );
 }
@@ -346,7 +353,7 @@ export default function Assessment() {
 function Field({ label, children }) {
   return (
     <div>
-      <label className="text-sm font-medium text-slate-700 mb-1.5 block">{label}</label>
+      <label className="text-xs font-bold uppercase tracking-wider text-[#1E1B4B] mb-2 block">{label}</label>
       {children}
     </div>
   );
@@ -359,36 +366,36 @@ function ResultsView({ result, savedId, onReset }) {
   const offset = circumference - (svi_score / 100) * circumference;
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-6">
       {/* Success banner */}
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 text-center">
-        <div className="w-12 h-12 rounded-full bg-purple-50 flex items-center justify-center mx-auto">
-          <CheckCircle2 className="w-7 h-7 text-[#4E36E2]" />
+      <div className="bg-white rounded-[32px] shadow-soft border border-slate-100 p-8 text-center">
+        <div className="w-14 h-14 rounded-full bg-purple-50 flex items-center justify-center mx-auto shadow-sm">
+          <CheckCircle2 className="w-8 h-8 text-[#4E36E2]" />
         </div>
-        <h2 className="mt-3 text-xl font-semibold text-[#1E1B4B]">Assessment Complete</h2>
-        <p className="text-sm text-slate-500 mt-1">AI analysis complete. A counselor will follow up based on your risk level.</p>
-        {savedId && <p className="mt-2 text-xs text-slate-400">Reference ID saved to dashboard.</p>}
+        <h2 className="mt-4 text-2xl font-black text-[#1E1B4B]">Assessment Complete</h2>
+        <p className="text-sm text-[#8E95B2] font-medium mt-1">AI analysis complete. A counselor will follow up based on your risk level.</p>
+        {savedId && <p className="mt-2 text-xs font-mono font-bold text-[#4E36E2]">Reference ID saved to database: {savedId}</p>}
       </div>
 
       {/* SVI Gauge */}
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-        <h3 className="text-sm font-semibold text-slate-500 uppercase tracking-wide">Stress Vulnerability Index</h3>
-        <div className="flex flex-col sm:flex-row items-center gap-6 mt-4">
-          <div className="relative w-44 h-44">
+      <div className="bg-white rounded-[32px] shadow-soft border border-slate-100 p-8">
+        <h3 className="text-xs font-bold text-[#8E95B2] uppercase tracking-wider">Stress Vulnerability Index</h3>
+        <div className="flex flex-col sm:flex-row items-center gap-8 mt-6">
+          <div className="relative w-48 h-48">
             <svg className="w-full h-full -rotate-90" viewBox="0 0 160 160">
-              <circle cx="80" cy="80" r="70" fill="none" stroke="#e2e8f0" strokeWidth="12" />
-              <circle cx="80" cy="80" r="70" fill="none" stroke={rs.color} strokeWidth="12" strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={offset} />
+              <circle cx="80" cy="80" r="70" fill="none" stroke="#F4F6FB" strokeWidth="14" />
+              <circle cx="80" cy="80" r="70" fill="none" stroke={rs.color} strokeWidth="14" strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={offset} />
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="text-4xl font-bold text-[#1E1B4B]">{svi_score}</span>
-              <span className="text-xs text-slate-400">out of 100</span>
+              <span className="text-4xl font-black text-[#1E1B4B]">{svi_score}</span>
+              <span className="text-xs text-[#8E95B2] font-bold">out of 100</span>
             </div>
           </div>
           <div className="flex-1 text-center sm:text-left">
-            <span className={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-bold ${rs.bg} ${rs.text}`}>
+            <span className={`inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-black shadow-xs ${rs.bg} ${rs.text}`}>
               <AlertTriangle className="w-4 h-4" /> {rs.label}
             </span>
-            <p className="text-sm text-slate-600 mt-3">
+            <p className="text-sm text-slate-600 font-medium mt-3 leading-relaxed">
               {risk_category === "Critical" && "Immediate escalation triggered. Emergency support is being notified."}
               {risk_category === "High" && "High vulnerability detected. Priority counselling and support recommended."}
               {risk_category === "Moderate" && "Moderate stress detected. Counselling and follow-up recommended."}
@@ -400,19 +407,19 @@ function ResultsView({ result, savedId, onReset }) {
 
       {/* Summary */}
       {summary && (
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-          <h3 className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-2">Clinical Summary</h3>
-          <p className="text-sm text-slate-700 leading-relaxed">{summary}</p>
+        <div className="bg-white rounded-[32px] shadow-soft border border-slate-100 p-8">
+          <h3 className="text-xs font-bold text-[#8E95B2] uppercase tracking-wider mb-2">Clinical Summary</h3>
+          <p className="text-sm text-slate-700 font-medium leading-relaxed">{summary}</p>
         </div>
       )}
 
       {/* Detected indicators */}
       {detected_indicators?.length > 0 && (
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-          <h3 className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-3">Detected Indicators</h3>
-          <div className="flex flex-wrap gap-2">
+        <div className="bg-white rounded-[32px] shadow-soft border border-slate-100 p-8">
+          <h3 className="text-xs font-bold text-[#8E95B2] uppercase tracking-wider mb-3">Detected Indicators</h3>
+          <div className="flex flex-wrap gap-2.5">
             {detected_indicators.map((ind) => (
-              <span key={ind} className="px-3 py-1.5 rounded-lg bg-red-50 text-red-600 text-sm font-medium border border-red-100">{ind}</span>
+              <span key={ind} className="px-4 py-2 rounded-full bg-rose-50 text-rose-600 text-xs font-bold border border-rose-100">{ind}</span>
             ))}
           </div>
         </div>
@@ -420,13 +427,13 @@ function ResultsView({ result, savedId, onReset }) {
 
       {/* Voice features */}
       {voice_features && (
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-          <h3 className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-3">Voice Analytics</h3>
+        <div className="bg-white rounded-[32px] shadow-soft border border-slate-100 p-8">
+          <h3 className="text-xs font-bold text-[#8E95B2] uppercase tracking-wider mb-4">Voice Analytics</h3>
           <div className="grid sm:grid-cols-2 gap-3 text-sm">
             {Object.entries(voice_features).filter(([, v]) => v).map(([k, v]) => (
-              <div key={k} className="flex justify-between bg-slate-50 rounded-lg px-3 py-2">
-                <span className="text-slate-500 capitalize">{k.replace(/_/g, " ")}</span>
-                <span className="font-medium text-slate-700">{String(v)}</span>
+              <div key={k} className="flex justify-between bg-[#F4F6FB] rounded-2xl px-4 py-3 border border-slate-200/50">
+                <span className="text-[#8E95B2] capitalize font-medium">{k.replace(/_/g, " ")}</span>
+                <span className="font-bold text-[#1E1B4B]">{String(v)}</span>
               </div>
             ))}
           </div>
@@ -435,15 +442,15 @@ function ResultsView({ result, savedId, onReset }) {
 
       {/* Recommendations */}
       {recommendations?.length > 0 && (
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-          <h3 className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-3">Recommended Support</h3>
-          <div className="space-y-2.5">
+        <div className="bg-white rounded-[32px] shadow-soft border border-slate-100 p-8">
+          <h3 className="text-xs font-bold text-[#8E95B2] uppercase tracking-wider mb-3">Recommended Support</h3>
+          <div className="space-y-3">
             {recommendations.map((r) => {
               const Icon = recIcons[String(r).toLowerCase().trim()] || CheckCircle2;
               return (
-                <div key={r} className="flex items-center gap-3 bg-[#F4F6FB] rounded-xl px-4 py-3">
-                  <div className="w-9 h-9 rounded-lg bg-purple-50 flex items-center justify-center"><Icon className="w-5 h-5 text-[#4E36E2]" /></div>
-                  <span className="text-sm font-medium text-slate-700 capitalize">{r}</span>
+                <div key={r} className="flex items-center gap-3 bg-[#F4F6FB] rounded-2xl px-5 py-3.5 border border-slate-200/60">
+                  <div className="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center shadow-xs"><Icon className="w-5 h-5 text-[#4E36E2]" /></div>
+                  <span className="text-sm font-bold text-[#1E1B4B] capitalize">{r}</span>
                 </div>
               );
             })}
@@ -453,18 +460,18 @@ function ResultsView({ result, savedId, onReset }) {
 
       {/* Emergency banner for critical */}
       {risk_category === "Critical" && (
-        <div className="rounded-2xl bg-[#FFE8DF] p-5 text-[#1E1B4B]">
-          <div className="flex items-center gap-2 font-semibold"><AlertTriangle className="w-5 h-5 text-[#EA580C]" /> Immediate Support Available</div>
-          <div className="mt-3 flex flex-wrap gap-2">
+        <div className="rounded-[32px] bg-rose-50 border border-rose-100 p-8 text-[#1E1B4B]">
+          <div className="flex items-center gap-2 font-black text-rose-600"><AlertTriangle className="w-5 h-5" /> Immediate Support Available</div>
+          <div className="mt-4 flex flex-wrap gap-3">
             {[["NHAA", "14566"], ["Police", "100"], ["Medical", "108"]].map(([l, n]) => (
-              <a key={n} href={`tel:${n}`} className="bg-[#1E1B4B] text-white font-semibold px-4 py-2 rounded-lg text-sm">{l}: {n}</a>
+              <a key={n} href={`tel:${n}`} className="bg-rose-600 text-white font-bold px-5 py-2.5 rounded-full text-xs shadow-sm">{l}: {n}</a>
             ))}
           </div>
         </div>
       )}
 
-      <button onClick={onReset} className="w-full bg-white border-2 border-[#4E36E2] text-[#1E1B4B] font-semibold py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-purple-50 transition">
-        <RotateCcw className="w-4 h-4 text-[#4E36E2]" /> New Assessment
+      <button onClick={onReset} className="w-full bg-[#4E36E2] hover:bg-[#3C28B6] text-white font-bold py-4 rounded-full flex items-center justify-center gap-2 shadow-soft-purple transition cursor-pointer text-base">
+        <RotateCcw className="w-5 h-5" /> New Assessment
       </button>
     </div>
   );

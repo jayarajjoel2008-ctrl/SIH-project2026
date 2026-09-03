@@ -87,6 +87,44 @@
   }
 
   body {
-    @apply bg-background text-foreground font-body;
+    @apply bg-[#EEF2F8] text-[#1E1B4B];
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
 }
+
+.soft-card {
+  background: #ffffff;
+  border-radius: 28px;
+  box-shadow: 0 10px 30px -5px rgba(45, 55, 95, 0.05), 0 0 1px 1px rgba(226, 232, 240, 0.8);
+}
+
+.soft-circle-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 9999px;
+  background: #ffffff;
+  box-shadow: 0 4px 14px 0 rgba(78, 54, 226, 0.08), 0 1px 3px rgba(0,0,0,0.05);
+  border: 1px solid #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.soft-circle-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px 0 rgba(78, 54, 226, 0.14);
+}
+
+.shadow-soft {
+  box-shadow: 0 10px 30px -5px rgba(45, 55, 95, 0.06);
+}
+
+.shadow-soft-lg {
+  box-shadow: 0 20px 40px -10px rgba(45, 55, 95, 0.09);
+}
+
+.shadow-soft-purple {
+  box-shadow: 0 10px 25px -4px rgba(78, 54, 226, 0.35);
+}
+
