@@ -18,7 +18,15 @@ import {
   Upload,
   MapPin,
   LogOut,
-  Brain
+  Brain,
+  Calendar as CalendarIcon,
+  CalendarDays,
+  Clock,
+  Activity,
+  Check,
+  Plus,
+  AlertTriangle,
+  PhoneCall
 } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
@@ -100,6 +108,79 @@ export default function Dashboard() {
   const [statsFilter, setStatsFilter] = useState("SVI Distribution");
   const [selectedAssessment, setSelectedAssessment] = useState(null);
   const [showDistributionModal, setShowDistributionModal] = useState(false);
+  const [showTriageLogsModal, setShowTriageLogsModal] = useState(false);
+  const [showCalendarModal, setShowCalendarModal] = useState(false);
+  const [triageFilter, setTriageFilter] = useState("All");
+  const [triageSearch, setTriageSearch] = useState("");
+  const [selectedDate, setSelectedDate] = useState(new Date().getDate());
+  const [calendarEvents, setCalendarEvents] = useState([
+    {
+      id: 1,
+      day: new Date().getDate(),
+      time: "09:30 AM",
+      duration: "45 mins",
+      title: "Acute Trauma Psychological De-escalation",
+      caseRef: "NHAA-2026-4891",
+      officer: "Dr. Sarah Collins",
+      priority: "Critical",
+      type: "Psychiatric Care",
+      status: "Scheduled"
+    },
+    {
+      id: 2,
+      day: new Date().getDate(),
+      time: "11:00 AM",
+      duration: "30 mins",
+      title: "NHAA 14566 Legal Aid Inter-Agency Hearing",
+      caseRef: "NHAA-2026-3108",
+      officer: "Adv. Rajesh Sharma",
+      priority: "High",
+      type: "Legal Aid",
+      status: "In Progress"
+    },
+    {
+      id: 3,
+      day: new Date().getDate(),
+      time: "02:15 PM",
+      duration: "60 mins",
+      title: "Medical Evaluation & Emergency Follow-up",
+      caseRef: "NHAA-2026-5920",
+      officer: "Dr. Priya Patel",
+      priority: "Critical",
+      type: "Medical Care",
+      status: "Scheduled"
+    },
+    {
+      id: 4,
+      day: new Date().getDate() + 1,
+      time: "10:00 AM",
+      duration: "30 mins",
+      title: "Vocal Biomarker Re-assessment & SVI Re-evaluation",
+      caseRef: "NHAA-2026-8812",
+      officer: "Officer K. Raman",
+      priority: "Moderate",
+      type: "SVI Check-in",
+      status: "Scheduled"
+    },
+    {
+      id: 5,
+      day: new Date().getDate() + 1,
+      time: "03:30 PM",
+      duration: "45 mins",
+      title: "Tele-MANAS Multi-Disciplinary Case Review",
+      caseRef: "NHAA-2026-1402",
+      officer: "Dr. Sarah Collins",
+      priority: "High",
+      type: "Inter-Agency Review",
+      status: "Scheduled"
+    }
+  ]);
+  const [newEventTitle, setNewEventTitle] = useState("");
+  const [newEventTime, setNewEventTime] = useState("10:00 AM");
+  const [newEventCase, setNewEventCase] = useState("");
+  const [newEventPriority, setNewEventPriority] = useState("High");
+  const [newEventOfficer, setNewEventOfficer] = useState("Dr. Sarah Collins");
+  const [showAddEventForm, setShowAddEventForm] = useState(false);
   const [selectedRowIds, setSelectedRowIds] = useState(new Set());
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
@@ -370,6 +451,10 @@ export default function Dashboard() {
                     document.getElementById("cases-table")?.scrollIntoView({ behavior: "smooth" });
                   } else if (tab === "Analytics") {
                     setShowDistributionModal(true);
+                  } else if (tab === "Triage Logs") {
+                    setShowTriageLogsModal(true);
+                  } else if (tab === "Calendar") {
+                    setShowCalendarModal(true);
                   }
                 }}
                 className={`px-4 py-2 rounded-full text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${
@@ -468,6 +553,32 @@ export default function Dashboard() {
                 <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
               </button>
             </div>
+
+            {/* Triage Logs button */}
+            <button
+              onClick={() => {
+                setActiveNavTab("Triage Logs");
+                setShowTriageLogsModal(true);
+              }}
+              className="bg-white border border-slate-200/90 text-slate-700 hover:text-[#0092B8] hover:border-[#0092B8] font-bold px-4 py-2.5 rounded-2xl text-xs flex items-center gap-2 shadow-sm hover:bg-slate-50 transition cursor-pointer"
+              title="Open Real-time Clinical Triage Logs"
+            >
+              <Activity className="w-3.5 h-3.5 text-[#0092B8]" />
+              <span>Triage Logs</span>
+            </button>
+
+            {/* Calendar button */}
+            <button
+              onClick={() => {
+                setActiveNavTab("Calendar");
+                setShowCalendarModal(true);
+              }}
+              className="bg-white border border-slate-200/90 text-slate-700 hover:text-[#0092B8] hover:border-[#0092B8] font-bold px-4 py-2.5 rounded-2xl text-xs flex items-center gap-2 shadow-sm hover:bg-slate-50 transition cursor-pointer"
+              title="Open Crisis Scheduling & Appointments Calendar"
+            >
+              <CalendarDays className="w-3.5 h-3.5 text-[#0092B8]" />
+              <span>Calendar</span>
+            </button>
 
             {/* Export button */}
             <button
@@ -1040,6 +1151,433 @@ export default function Dashboard() {
                 className="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-5 py-2.5 rounded-xl transition cursor-pointer"
               >
                 Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ================= MODAL: REAL-TIME TRIAGE LOGS ================= */}
+      {showTriageLogsModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="relative w-full max-w-4xl bg-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-100 max-h-[90vh] flex flex-col">
+            {/* Close button */}
+            <button
+              onClick={() => setShowTriageLogsModal(false)}
+              className="absolute top-5 right-5 text-slate-400 hover:text-slate-700 p-2 rounded-full hover:bg-slate-100 transition cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            {/* Modal Header */}
+            <div className="flex items-center gap-3 mb-5">
+              <div className="w-12 h-12 rounded-2xl bg-[#0092B8]/10 text-[#0092B8] flex items-center justify-center">
+                <Activity className="w-6 h-6 text-[#0092B8]" />
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h3 className="text-2xl font-black text-[#0D2444]">Clinical Triage Logs</h3>
+                  <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2.5 py-0.5 rounded-full">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" /> Live NHAA Stream
+                  </span>
+                </div>
+                <p className="text-xs text-slate-500">Real-time audit log of SVI risk assessments, helpline alerts, and crisis dispatches</p>
+              </div>
+            </div>
+
+            {/* Filter & Search Bar */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mb-4 bg-slate-50 p-3 rounded-2xl border border-slate-200/60">
+              {/* Risk category pills */}
+              <div className="flex items-center gap-1.5 overflow-x-auto max-w-full">
+                {["All", "Critical", "High", "Moderate", "Low"].map((lvl) => (
+                  <button
+                    key={lvl}
+                    onClick={() => setTriageFilter(lvl)}
+                    className={`px-3 py-1 rounded-full text-xs font-bold transition cursor-pointer ${
+                      triageFilter === lvl
+                        ? "bg-[#0D2444] text-white shadow-sm"
+                        : "text-slate-600 hover:text-slate-900 hover:bg-white"
+                    }`}
+                  >
+                    {lvl}
+                  </button>
+                ))}
+              </div>
+
+              {/* Search input */}
+              <div className="relative w-full sm:w-64">
+                <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                <input
+                  type="text"
+                  placeholder="Search logs by ID, name, or concern..."
+                  value={triageSearch}
+                  onChange={(e) => setTriageSearch(e.target.value)}
+                  className="w-full pl-9 pr-3 py-1.5 rounded-xl border border-slate-200 bg-white text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-[#0092B8]"
+                />
+              </div>
+            </div>
+
+            {/* Triage Log Stream List */}
+            <div className="flex-1 overflow-y-auto pr-1 space-y-3">
+              {assessments
+                .filter((a) => {
+                  const matchFilter = triageFilter === "All" || a.risk_category === triageFilter;
+                  const q = triageSearch.toLowerCase();
+                  const matchQuery =
+                    !q ||
+                    (a.reference_id || "").toLowerCase().includes(q) ||
+                    (a.full_name || "").toLowerCase().includes(q) ||
+                    (a.primary_concern || "").toLowerCase().includes(q) ||
+                    (a.language || "").toLowerCase().includes(q);
+                  return matchFilter && matchQuery;
+                })
+                .slice(0, 50)
+                .map((a, idx) => {
+                  const isCrit = a.risk_category === "Critical";
+                  const isHigh = a.risk_category === "High";
+                  const actionText = isCrit
+                    ? "🚨 Critical Escalation: Police 100 & NHAA Rapid Response Unit dispatched"
+                    : isHigh
+                    ? "📞 High Priority: Tele-MANAS 14416 Psychiatric Crisis Support assigned"
+                    : a.risk_category === "Moderate"
+                    ? "📋 Queued for Trauma Counselling & Legal Aid Guidance"
+                    : "🧘 Guided Reset Delivered · Standard Monitoring Active";
+
+                  return (
+                    <div
+                      key={a.id || idx}
+                      className="p-4 rounded-2xl border border-slate-100 bg-white hover:border-[#0092B8]/40 hover:shadow-sm transition flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                    >
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="font-mono text-xs font-black text-[#0D2444] bg-slate-100 px-2 py-0.5 rounded-md">
+                            {a.reference_id || `LOG-${1000 + idx}`}
+                          </span>
+                          <span
+                            className="text-[11px] font-bold px-2.5 py-0.5 rounded-full"
+                            style={{
+                              backgroundColor: `${RISK_COLORS[a.risk_category] || "#F59E0B"}15`,
+                              color: RISK_COLORS[a.risk_category] || "#F59E0B"
+                            }}
+                          >
+                            {a.risk_category} · SVI {a.svi_score || 0}/100
+                          </span>
+                          <span className="text-xs font-semibold text-slate-700">
+                            {a.full_name || "Anonymous Complainant"} ({a.language || "English"})
+                          </span>
+                        </div>
+                        <p className="text-xs font-bold text-slate-700 flex items-center gap-1.5 mt-1">
+                          <span>{actionText}</span>
+                        </p>
+                        <p className="text-[11px] text-slate-400">
+                          Primary: {a.primary_concern || "Trauma distress"} · Logged: {a.created_date ? new Date(a.created_date).toLocaleString() : "Just now"}
+                        </p>
+                      </div>
+
+                      <div className="flex items-center gap-2 shrink-0">
+                        <button
+                          onClick={() => {
+                            setSelectedAssessment(a);
+                            setShowTriageLogsModal(false);
+                          }}
+                          className="px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-bold text-[#0092B8] hover:bg-[#0092B8] hover:text-white transition cursor-pointer"
+                        >
+                          View Details
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+
+              {assessments.length === 0 && (
+                <div className="py-12 text-center text-slate-400 text-sm">
+                  No triage logs found matching the filter criteria.
+                </div>
+              )}
+            </div>
+
+            {/* Modal Footer */}
+            <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between">
+              <div className="text-xs text-slate-500 font-medium">
+                Showing live triage activity synced with Ministry of Social Justice & Empowerment (14566).
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={handleDownloadAllReport}
+                  className="px-4 py-2 bg-[#0092B8] hover:bg-[#007F9E] text-white text-xs font-bold rounded-xl transition flex items-center gap-1.5 cursor-pointer"
+                >
+                  <Download className="w-3.5 h-3.5" /> Export Logs
+                </button>
+                <button
+                  onClick={() => setShowTriageLogsModal(false)}
+                  className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition cursor-pointer"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ================= MODAL: CRISIS SCHEDULE & CALENDAR ================= */}
+      {showCalendarModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="relative w-full max-w-4xl bg-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-100 max-h-[90vh] flex flex-col">
+            {/* Close button */}
+            <button
+              onClick={() => setShowCalendarModal(false)}
+              className="absolute top-5 right-5 text-slate-400 hover:text-slate-700 p-2 rounded-full hover:bg-slate-100 transition cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            {/* Modal Header */}
+            <div className="flex items-center justify-between gap-3 mb-5 pr-8">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-2xl bg-[#0092B8]/10 text-[#0092B8] flex items-center justify-center">
+                  <CalendarDays className="w-6 h-6 text-[#0092B8]" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-2xl font-black text-[#0D2444]">Crisis & Clinical Calendar</h3>
+                    <span className="text-xs font-bold text-[#0092B8] bg-[#0092B8]/10 px-2.5 py-0.5 rounded-full">
+                      November 2026
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-500">Scheduled psychiatric evaluations, NHAA hearing bridges, and de-escalation check-ins</p>
+                </div>
+              </div>
+
+              <button
+                onClick={() => setShowAddEventForm(!showAddEventForm)}
+                className="hidden sm:inline-flex items-center gap-1.5 bg-[#0D2444] hover:bg-[#1E3A5F] text-white text-xs font-bold px-4 py-2 rounded-xl transition shadow-sm cursor-pointer"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                <span>{showAddEventForm ? "Cancel" : "Add Appointment"}</span>
+              </button>
+            </div>
+
+            {/* Quick Add Event Form */}
+            {showAddEventForm && (
+              <div className="mb-5 p-4 rounded-2xl bg-slate-50 border border-slate-200/80 animate-in slide-in-from-top-2">
+                <p className="text-xs font-bold text-[#0D2444] mb-3">Schedule New Clinical / Crisis Follow-up Session</p>
+                <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                  <input
+                    type="text"
+                    placeholder="Session Title (e.g. Trauma Counselling)"
+                    value={newEventTitle}
+                    onChange={(e) => setNewEventTitle(e.target.value)}
+                    className="sm:col-span-2 px-3 py-2 rounded-xl border border-slate-200 text-xs bg-white text-slate-800 focus:outline-none focus:border-[#0092B8]"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Case Ref (e.g. NHAA-2026-4891)"
+                    value={newEventCase}
+                    onChange={(e) => setNewEventCase(e.target.value)}
+                    className="px-3 py-2 rounded-xl border border-slate-200 text-xs bg-white text-slate-800 focus:outline-none focus:border-[#0092B8]"
+                  />
+                  <div className="flex gap-2">
+                    <select
+                      value={newEventPriority}
+                      onChange={(e) => setNewEventPriority(e.target.value)}
+                      className="px-2 py-2 rounded-xl border border-slate-200 text-xs bg-white text-slate-800"
+                    >
+                      <option value="Critical">Critical</option>
+                      <option value="High">High</option>
+                      <option value="Moderate">Moderate</option>
+                      <option value="Low">Low</option>
+                    </select>
+                    <button
+                      onClick={() => {
+                        if (!newEventTitle.trim()) return;
+                        setCalendarEvents((prev) => [
+                          {
+                            id: Date.now(),
+                            day: selectedDate,
+                            time: newEventTime,
+                            duration: "45 mins",
+                            title: newEventTitle,
+                            caseRef: newEventCase || `NHAA-${Math.floor(1000 + Math.random() * 9000)}`,
+                            officer: newEventOfficer,
+                            priority: newEventPriority,
+                            type: "Clinical Session",
+                            status: "Scheduled"
+                          },
+                          ...prev
+                        ]);
+                        setNewEventTitle("");
+                        setNewEventCase("");
+                        setShowAddEventForm(false);
+                      }}
+                      className="bg-[#0092B8] hover:bg-[#007F9E] text-white text-xs font-bold px-4 py-2 rounded-xl transition cursor-pointer"
+                    >
+                      Save
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Calendar Layout: Month Grid on Left + Events List on Right */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1 overflow-y-auto pr-1">
+              {/* Left Column: Interactive Month Days Strip */}
+              <div className="lg:col-span-5 bg-slate-50 p-4 rounded-2xl border border-slate-200/60">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-xs font-bold text-[#0D2444] uppercase tracking-wider">Select Date · November 2026</span>
+                  <span className="text-[11px] font-bold text-[#0092B8]">Day {selectedDate} Active</span>
+                </div>
+
+                {/* Days of Week Header */}
+                <div className="grid grid-cols-7 gap-1 text-center text-[10px] font-bold text-slate-400 mb-2">
+                  <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+                </div>
+
+                {/* 30 Day Grid */}
+                <div className="grid grid-cols-7 gap-1 text-center text-xs font-semibold">
+                  {Array.from({ length: 30 }, (_, i) => i + 1).map((d) => {
+                    const isSelected = selectedDate === d;
+                    const hasEvent = calendarEvents.some((ev) => ev.day === d);
+                    return (
+                      <button
+                        key={d}
+                        onClick={() => setSelectedDate(d)}
+                        className={`h-9 rounded-xl flex flex-col items-center justify-center relative transition cursor-pointer ${
+                          isSelected
+                            ? "bg-[#0092B8] text-white font-black shadow-sm"
+                            : "hover:bg-white text-slate-700"
+                        }`}
+                      >
+                        <span>{d}</span>
+                        {hasEvent && (
+                          <span
+                            className={`w-1 h-1 rounded-full absolute bottom-1 ${
+                              isSelected ? "bg-white" : "bg-[#0092B8]"
+                            }`}
+                          />
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Calendar Legend */}
+                <div className="mt-4 pt-3 border-t border-slate-200/60 flex items-center justify-between text-[11px] text-slate-500 font-medium">
+                  <span className="flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-[#0092B8]" /> Has Scheduled Events
+                  </span>
+                  <span>14566 Crisis Line</span>
+                </div>
+              </div>
+
+              {/* Right Column: Scheduled Appointments List */}
+              <div className="lg:col-span-7 space-y-3">
+                <div className="flex items-center justify-between">
+                  <h4 className="text-xs font-bold text-[#0D2444] uppercase tracking-wider">
+                    Scheduled Sessions for Day {selectedDate}
+                  </h4>
+                  <span className="text-xs font-bold text-slate-500">
+                    {calendarEvents.filter((ev) => ev.day === selectedDate).length} Appointment(s)
+                  </span>
+                </div>
+
+                <div className="space-y-3 max-h-[50vh] overflow-y-auto pr-1">
+                  {calendarEvents
+                    .filter((ev) => ev.day === selectedDate)
+                    .map((ev) => (
+                      <div
+                        key={ev.id}
+                        className="p-4 rounded-2xl border border-slate-100 bg-white hover:border-[#0092B8]/30 hover:shadow-sm transition flex flex-col gap-2"
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <span className="inline-flex items-center gap-1 text-xs font-bold text-[#0092B8] bg-[#0092B8]/10 px-2.5 py-1 rounded-lg">
+                              <Clock className="w-3 h-3" /> {ev.time} ({ev.duration})
+                            </span>
+                            <span
+                              className="text-[10px] font-extrabold px-2 py-0.5 rounded-full"
+                              style={{
+                                backgroundColor: `${RISK_COLORS[ev.priority] || "#F59E0B"}15`,
+                                color: RISK_COLORS[ev.priority] || "#F59E0B"
+                              }}
+                            >
+                              {ev.priority} Priority
+                            </span>
+                          </div>
+
+                          <span className="text-xs font-mono font-bold text-slate-400">
+                            {ev.caseRef}
+                          </span>
+                        </div>
+
+                        <div>
+                          <p className="font-black text-sm text-[#0D2444]">{ev.title}</p>
+                          <p className="text-xs text-slate-500 mt-0.5">
+                            Assigned Officer: <span className="font-semibold text-slate-700">{ev.officer}</span> · Type: {ev.type}
+                          </p>
+                        </div>
+
+                        <div className="pt-2 border-t border-slate-100 flex items-center justify-between gap-2">
+                          <span className={`text-[11px] font-bold ${ev.status === "In Progress" ? "text-amber-600" : "text-slate-500"}`}>
+                            Status: {ev.status}
+                          </span>
+
+                          <div className="flex items-center gap-2">
+                            <a
+                              href="tel:14566"
+                              className="inline-flex items-center gap-1 text-xs font-bold text-[#0092B8] bg-slate-50 hover:bg-[#0092B8] hover:text-white px-3 py-1.5 rounded-xl border border-slate-200 transition"
+                            >
+                              <PhoneCall className="w-3 h-3" /> Connect 14566
+                            </a>
+                            <button
+                              onClick={() => {
+                                setCalendarEvents((prev) =>
+                                  prev.map((e) =>
+                                    e.id === ev.id
+                                      ? { ...e, status: e.status === "Completed" ? "Scheduled" : "Completed" }
+                                      : e
+                                  )
+                                );
+                              }}
+                              className={`text-xs font-bold px-3 py-1.5 rounded-xl border transition cursor-pointer ${
+                                ev.status === "Completed"
+                                  ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                                  : "border-slate-200 text-slate-600 hover:bg-slate-100"
+                              }`}
+                            >
+                              {ev.status === "Completed" ? "✓ Completed" : "Mark Done"}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+
+                  {calendarEvents.filter((ev) => ev.day === selectedDate).length === 0 && (
+                    <div className="p-8 text-center bg-slate-50 rounded-2xl border border-dashed border-slate-200">
+                      <CalendarDays className="w-8 h-8 text-slate-300 mx-auto mb-2" />
+                      <p className="text-xs font-bold text-slate-500">No appointments scheduled for Day {selectedDate}.</p>
+                      <button
+                        onClick={() => setShowAddEventForm(true)}
+                        className="mt-2 text-xs font-bold text-[#0092B8] hover:underline"
+                      >
+                        + Schedule an intake session on Day {selectedDate}
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Modal Footer */}
+            <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between">
+              <span className="text-xs text-slate-400 font-medium">
+                Integrated with NHAA 14566 National Helpline dispatch roster.
+              </span>
+              <button
+                onClick={() => setShowCalendarModal(false)}
+                className="px-5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition cursor-pointer"
+              >
+                Close Calendar
               </button>
             </div>
           </div>
