@@ -62,99 +62,104 @@ export default function Home() {
       <Chatbot />
       <EmergencyModal isOpen={emergencyOpen} onClose={() => setEmergencyOpen(false)} />
 
-      {/* Hero Section Container */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-10 pb-12">
-        <div className="bg-white rounded-[32px] sm:rounded-[40px] shadow-soft-lg border border-slate-100 p-6 sm:p-10 lg:p-14 relative overflow-hidden">
-          {/* Subtle Ambient Glows */}
-          <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-[#4E36E2]/5 blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-24 -left-24 w-96 h-96 rounded-full bg-[#FFA07A]/10 blur-3xl pointer-events-none" />
+      {/* Hero Section Container (Full-bleed doctor background image with dark gradient overlays) */}
+      <section
+        className="relative min-h-[640px] sm:min-h-[720px] lg:min-h-[780px] w-full overflow-hidden bg-cover bg-center flex flex-col justify-between"
+        style={{
+          backgroundImage: "url('/hero-doctor.jpg')",
+          backgroundColor: "#1E1B4B",
+        }}
+      >
+        {/* Dark subtle gradient overlay to make text pop while keeping doctor clear */}
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-950/60 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-slate-950/20 pointer-events-none" />
 
-          <div className="grid md:grid-cols-2 gap-10 lg:gap-14 items-center relative z-10">
-            {/* Left Column: Headline, Subtitle, CTA buttons, Stats */}
-            <div className="space-y-6 sm:space-y-7">
-              <div className="inline-flex items-center gap-2 bg-[#F4F6FB] border border-slate-200/80 text-[#4E36E2] px-4 py-1.5 rounded-full text-xs font-bold tracking-wide">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20 lg:py-24 relative z-10 w-full flex-1 flex flex-col justify-between">
+          <div className="grid md:grid-cols-12 gap-8 lg:gap-12 items-center flex-1">
+            
+            {/* Left Column (span 7): Badge, Title, Subtitle, Buttons, Metric Pill */}
+            <div className="md:col-span-7 lg:col-span-7 space-y-6 sm:space-y-7 text-left">
+              {/* Partner Badge */}
+              <div className="inline-flex items-center gap-2 bg-white/90 backdrop-blur-sm text-[#4E36E2] px-4 py-1.5 rounded-full text-xs font-bold shadow-sm">
                 <span className="w-2 h-2 rounded-full bg-[#4E36E2] animate-pulse" />
                 <span>MindPluze · NHAA 14566 Official Partner</span>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#1E1B4B] tracking-tight leading-[1.12]">
-                <span className="text-[#4E36E2]">AI-Powered</span> Trauma Support for NHAA Victims
+              {/* Headline */}
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.12]">
+                <span className="text-[#B8A5FE] block">AI-Powered</span>
+                <span>Trauma Support</span>
+                <span className="block">for NHAA Victims</span>
               </h1>
 
-              <p className="text-[#8E95B2] text-base sm:text-lg font-medium leading-relaxed max-w-xl">
+              {/* Subtitle */}
+              <p className="text-white/90 text-sm sm:text-base lg:text-lg font-medium leading-relaxed max-w-xl">
                 Immediate psychological assessment and crisis intervention for victims of caste-based atrocities. In official coordination with National Helpline Against Atrocities (14566).
               </p>
 
-              {/* Action Buttons */}
+              {/* Buttons */}
               <div className="flex flex-wrap items-center gap-3.5 pt-2">
                 <Link
                   to="/assessment"
-                  className="inline-flex items-center gap-2.5 bg-[#4E36E2] hover:bg-[#3C28B6] text-white font-bold px-7 py-3.5 rounded-full shadow-soft-purple transition-all hover:scale-[1.02] text-sm sm:text-base cursor-pointer"
+                  className="inline-flex items-center gap-2.5 bg-[#4E36E2] hover:bg-[#3C28B6] text-white font-bold px-7 py-3.5 rounded-full shadow-lg shadow-purple-950/40 transition-all hover:scale-[1.02] text-sm sm:text-base cursor-pointer"
                 >
                   <Stethoscope className="w-5 h-5" /> Start Assessment
                 </Link>
 
                 <button
                   onClick={openChatbot}
-                  className="inline-flex items-center gap-2.5 bg-[#F4F6FB] hover:bg-slate-100 text-[#1E1B4B] font-bold px-7 py-3.5 rounded-full border border-slate-200 transition-all hover:scale-[1.02] text-sm sm:text-base shadow-sm cursor-pointer"
+                  className="inline-flex items-center gap-2.5 bg-white/20 hover:bg-white/30 text-white font-bold px-7 py-3.5 rounded-full border border-white/25 backdrop-blur-md transition-all hover:scale-[1.02] text-sm sm:text-base shadow-sm cursor-pointer"
                 >
-                  <Bot className="w-5 h-5 text-[#FF8C68]" /> Talk to AI Companion
+                  <Bot className="w-5 h-5 text-[#FFA07A]" /> Talk to AI Companion
                 </button>
               </div>
 
-              {/* Infographic Metric Pills */}
-              <div className="pt-6 grid grid-cols-3 gap-3.5 border-t border-slate-100">
-                <div className="bg-[#F4F6FB] border border-slate-200/60 p-3.5 rounded-2xl text-center shadow-xs">
-                  <p className="text-2xl sm:text-3xl font-black text-[#4E36E2]">50K+</p>
-                  <p className="text-[11px] font-bold text-[#8E95B2] mt-0.5 uppercase tracking-wider">Screenings</p>
+              {/* Infographic Metric Card (Bottom Left) */}
+              <div className="pt-4">
+                <div className="inline-grid grid-cols-3 gap-6 bg-black/40 backdrop-blur-md border border-white/15 px-6 py-4 rounded-3xl shadow-xl">
+                  <div className="text-left">
+                    <p className="text-2xl sm:text-3xl font-black text-white">50K+</p>
+                    <p className="text-[10px] sm:text-[11px] font-bold text-slate-300 uppercase tracking-wider mt-0.5">Screenings</p>
+                  </div>
+                  <div className="text-left">
+                    <p className="text-2xl sm:text-3xl font-black text-[#B8A5FE]">98%</p>
+                    <p className="text-[10px] sm:text-[11px] font-bold text-slate-300 uppercase tracking-wider mt-0.5">Accuracy</p>
+                  </div>
+                  <div className="text-left">
+                    <p className="text-2xl sm:text-3xl font-black text-white">24/7</p>
+                    <p className="text-[10px] sm:text-[11px] font-bold text-slate-300 uppercase tracking-wider mt-0.5">Active Help</p>
+                  </div>
                 </div>
-                <div className="bg-[#F4F6FB] border border-slate-200/60 p-3.5 rounded-2xl text-center shadow-xs">
-                  <p className="text-2xl sm:text-3xl font-black text-[#FF8C68]">98%</p>
-                  <p className="text-[11px] font-bold text-[#8E95B2] mt-0.5 uppercase tracking-wider">Accuracy</p>
+              </div>
+            </div>
+
+            {/* Right Column (span 5): Floating Badges over doctor */}
+            <div className="md:col-span-5 lg:col-span-5 flex flex-col justify-end items-end h-full pt-16 md:pt-48">
+              <div className="flex flex-wrap gap-3.5 justify-end">
+                {/* Badge 1: 100% Confidential */}
+                <div className="bg-black/50 backdrop-blur-md rounded-2xl shadow-xl border border-white/15 px-4 py-3 flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-purple-500/20 text-[#B8A5FE] flex items-center justify-center shadow-xs">
+                    <ShieldCheck className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-black text-white">100% Confidential</p>
+                    <p className="text-[10px] text-slate-300 font-semibold">Zero-Identity Leakage</p>
+                  </div>
                 </div>
-                <div className="bg-[#F4F6FB] border border-slate-200/60 p-3.5 rounded-2xl text-center shadow-xs">
-                  <p className="text-2xl sm:text-3xl font-black text-[#4E36E2]">24/7</p>
-                  <p className="text-[11px] font-bold text-[#8E95B2] mt-0.5 uppercase tracking-wider">Active Help</p>
+
+                {/* Badge 2: Instant SVI Results */}
+                <div className="bg-black/50 backdrop-blur-md rounded-2xl shadow-xl border border-white/15 px-4 py-3 flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-orange-500/20 text-[#FFA07A] flex items-center justify-center shadow-xs">
+                    <Zap className="w-5 h-5 fill-[#FFA07A]" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-black text-white">Instant SVI Results</p>
+                    <p className="text-[10px] text-slate-300 font-semibold">Automated Triage Score</p>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Right Column: Hero Visual with Overlays */}
-            <div className="relative mx-auto w-full max-w-md lg:max-w-none">
-              <div className="relative rounded-[28px] overflow-hidden shadow-soft-lg border border-slate-100 bg-[#F4F6FB]">
-                <img
-                  src="/hero-doctor.jpg"
-                  onError={(e) => {
-                    e.target.src = "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&auto=format&fit=crop&q=80";
-                  }}
-                  alt="Medical professional with smartphone supporting trauma victims"
-                  className="w-full h-[360px] sm:h-[420px] lg:h-[460px] object-cover object-center"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent" />
-              </div>
-
-              {/* Floating Badge 1: 100% Confidential */}
-              <div className="absolute top-5 left-5 sm:-left-4 bg-white/95 backdrop-blur rounded-2xl shadow-soft border border-slate-100 px-4 py-3 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-purple-50 text-[#4E36E2] flex items-center justify-center shadow-xs">
-                  <ShieldCheck className="w-5 h-5" />
-                </div>
-                <div>
-                  <p className="text-xs font-black text-[#1E1B4B]">100% Confidential</p>
-                  <p className="text-[10px] text-[#8E95B2] font-semibold">Zero-Identity Leakage</p>
-                </div>
-              </div>
-
-              {/* Floating Badge 2: Instant SVI Results */}
-              <div className="absolute bottom-6 right-5 sm:-right-4 bg-white/95 backdrop-blur rounded-2xl shadow-soft border border-slate-100 px-4 py-3 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-orange-50 text-[#FF8C68] flex items-center justify-center shadow-xs">
-                  <Zap className="w-5 h-5 fill-[#FF8C68]" />
-                </div>
-                <div>
-                  <p className="text-xs font-black text-[#1E1B4B]">Instant SVI Results</p>
-                  <p className="text-[10px] text-[#8E95B2] font-semibold">Automated Triage Score</p>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
