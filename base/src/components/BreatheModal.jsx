@@ -41,10 +41,10 @@ export default function BreatheModal({ isOpen, onClose }) {
 
   const scaleClass =
     phase === "Inhale"
-      ? "scale-125 bg-[#D9F6EF] text-[#0E9F9A] border-2 border-[#0E9F9A]"
+      ? "scale-125 bg-purple-50 text-[#4E36E2] border-2 border-[#4E36E2]"
       : phase === "Hold"
-      ? "scale-125 bg-[#FFF0C2] text-[#9A7000] border-2 border-[#D9A600]"
-      : "scale-90 bg-[#E8F3FC] text-[#081C35] border-2 border-[#081C35]";
+      ? "scale-125 bg-orange-50 text-[#EA580C] border-2 border-[#FFA07A]"
+      : "scale-90 bg-[#F4F6FB] text-[#1E1B4B] border-2 border-[#1E1B4B]";
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
@@ -57,11 +57,11 @@ export default function BreatheModal({ isOpen, onClose }) {
           <X className="w-5 h-5" />
         </button>
 
-        <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-[#E8F3FC] text-[#0E9F9A] mb-3">
+        <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-purple-50 text-[#4E36E2] mb-3">
           <Wind className="w-6 h-6" />
         </div>
 
-        <h3 className="text-2xl font-bold text-[#081C35]">4-7-8 Calm Breathing</h3>
+        <h3 className="text-2xl font-bold text-[#1E1B4B]">4-7-8 Calm Breathing</h3>
         <p className="text-sm text-slate-500 mt-1">
           Ground yourself to reduce immediate stress and regulate heart rate.
         </p>
@@ -83,7 +83,7 @@ export default function BreatheModal({ isOpen, onClose }) {
         <div className="mt-6 flex items-center justify-center gap-3">
           <button
             onClick={() => setIsActive(!isActive)}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#0E9F9A] hover:bg-[#0C8783] text-white font-medium text-sm transition shadow"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#4E36E2] hover:bg-[#3C28B6] text-white font-medium text-sm transition shadow"
           >
             {isActive ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
             {isActive ? "Pause" : "Resume"}

@@ -24,12 +24,12 @@ export default function EmergencyModal({ isOpen, onClose }) {
         </button>
 
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-12 h-12 rounded-2xl bg-[#FCE1E0] text-[#C4453D] flex items-center justify-center">
+          <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center">
             <ShieldAlert className="w-7 h-7" />
           </div>
           <div>
-            <h3 className="text-2xl font-bold text-[#081C35]">Emergency Crisis Support</h3>
-            <p className="text-xs text-[#C4453D] font-semibold flex items-center gap-1 mt-0.5">
+            <h3 className="text-2xl font-bold text-[#1E1B4B]">Emergency Crisis Support</h3>
+            <p className="text-xs text-rose-600 font-semibold flex items-center gap-1 mt-0.5">
               <AlertTriangle className="w-3.5 h-3.5" /> 24/7 Toll-Free Immediate Helplines
             </p>
           </div>
@@ -44,14 +44,14 @@ export default function EmergencyModal({ isOpen, onClose }) {
             <a
               key={h.num}
               href={`tel:${h.num.replace(/\s+/g, '')}`}
-              className="flex items-center justify-between p-4 rounded-2xl border border-slate-200 hover:border-[#C4453D] hover:shadow-md transition group bg-[#E8F3FC]/40 hover:bg-white"
+              className="flex items-center justify-between p-4 rounded-2xl border border-slate-200 hover:border-[#4E36E2] hover:shadow-md transition group bg-[#F4F6FB] hover:bg-white"
             >
               <div>
-                <p className="font-bold text-[#081C35] group-hover:text-[#C4453D] transition">{h.name}</p>
+                <p className="font-bold text-[#1E1B4B] group-hover:text-[#4E36E2] transition">{h.name}</p>
                 <p className="text-xs text-slate-500 mt-0.5">{h.desc}</p>
               </div>
               <div className="flex items-center gap-2">
-                <span className="font-extrabold text-base text-[#C4453D] bg-[#FCE1E0] px-3 py-1.5 rounded-xl group-hover:bg-[#C4453D] group-hover:text-white transition">
+                <span className="font-extrabold text-base text-rose-600 bg-rose-50 px-3 py-1.5 rounded-xl group-hover:bg-[#4E36E2] group-hover:text-white transition">
                   📞 {h.num}
                 </span>
               </div>

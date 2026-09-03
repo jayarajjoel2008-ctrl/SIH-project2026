@@ -105,21 +105,21 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-[#081C35] via-[#0D2B52] to-[#081C35] flex flex-col justify-between relative overflow-hidden py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen w-full bg-gradient-to-br from-[#1E1B4B] via-[#2A236E] to-[#1E1B4B] flex flex-col justify-between relative overflow-hidden py-8 px-4 sm:px-6 lg:px-8">
       {/* Background Decorative Glow */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#0E9F9A]/15 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#3B82F6]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#4E36E2]/25 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#FFA07A]/15 rounded-full blur-3xl pointer-events-none" />
 
       {/* Top Header / Portal Branding */}
       <div className="max-w-4xl mx-auto w-full flex items-center justify-between z-10 mb-6">
         <Link to="/home" className="flex items-center gap-3 group">
-          <div className="w-11 h-11 rounded-2xl bg-white/10 border border-white/20 backdrop-blur flex items-center justify-center text-[#0E9F9A] shadow-lg group-hover:scale-105 transition">
+          <div className="w-11 h-11 rounded-2xl bg-white/10 border border-white/20 backdrop-blur flex items-center justify-center text-[#FFA07A] shadow-lg group-hover:scale-105 transition">
             <Brain className="w-6 h-6" />
           </div>
           <div>
             <div className="flex items-center gap-2">
               <span className="font-black text-xl text-white tracking-tight">MindPluze</span>
-              <span className="text-[10px] font-bold uppercase tracking-wider bg-[#0E9F9A]/20 text-[#0E9F9A] border border-[#0E9F9A]/30 px-2 py-0.5 rounded-full">
+              <span className="text-[10px] font-bold uppercase tracking-wider bg-[#4E36E2]/30 text-[#FFA07A] border border-[#4E36E2]/40 px-2 py-0.5 rounded-full">
                 NHAA 14566
               </span>
             </div>
@@ -128,8 +128,8 @@ export default function Login() {
         </Link>
 
         {/* Quick Help Hotline Badge */}
-        <div className="hidden sm:flex items-center gap-2 bg-rose-500/10 border border-rose-500/30 text-rose-300 px-3.5 py-1.5 rounded-full text-xs font-semibold">
-          <Phone className="w-3.5 h-3.5 text-rose-400 animate-pulse" />
+        <div className="hidden sm:flex items-center gap-2 bg-orange-500/15 border border-orange-500/30 text-orange-200 px-3.5 py-1.5 rounded-full text-xs font-semibold">
+          <Phone className="w-3.5 h-3.5 text-[#FFA07A] animate-pulse" />
           <span>24/7 Helpline: <strong>14566</strong></span>
         </div>
       </div>
@@ -143,7 +143,7 @@ export default function Login() {
             onClick={() => handleTabChange("user")}
             className={`flex-1 py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2.5 cursor-pointer ${
               activeTab === "user"
-                ? "bg-[#0E9F9A] text-white shadow-lg shadow-teal-950/30 scale-[1.01]"
+                ? "bg-[#4E36E2] text-white shadow-lg shadow-purple-950/30 scale-[1.01]"
                 : "text-slate-300 hover:text-white hover:bg-white/5"
             }`}
           >
@@ -156,11 +156,11 @@ export default function Login() {
             onClick={() => handleTabChange("admin")}
             className={`flex-1 py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2.5 cursor-pointer ${
               activeTab === "admin"
-                ? "bg-white text-[#081C35] shadow-lg shadow-black/20 scale-[1.01]"
+                ? "bg-white text-[#1E1B4B] shadow-lg shadow-black/20 scale-[1.01]"
                 : "text-slate-300 hover:text-white hover:bg-white/5"
             }`}
           >
-            <Shield className="w-4 h-4 text-[#0E9F9A]" />
+            <Shield className="w-4 h-4 text-[#4E36E2]" />
             <span>Helpline Officer / Admin</span>
           </button>
         </div>
@@ -171,18 +171,18 @@ export default function Login() {
           {activeTab === "user" ? (
             <div className="mb-6">
               <div className="flex items-center justify-between gap-2">
-                <div className="inline-flex items-center gap-2 text-[#0E9F9A] bg-[#0E9F9A]/10 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+                <div className="inline-flex items-center gap-2 text-[#4E36E2] bg-purple-50 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
                   <HeartHandshake className="w-3.5 h-3.5" /> Citizen & Complainant Portal
                 </div>
                 <button
                   type="button"
                   onClick={() => handleDemoFill("user")}
-                  className="text-xs font-semibold text-[#0E9F9A] hover:underline flex items-center gap-1 cursor-pointer"
+                  className="text-xs font-semibold text-[#4E36E2] hover:underline flex items-center gap-1 cursor-pointer"
                 >
-                  <Sparkles className="w-3 h-3" /> Fill Demo User
+                  <Sparkles className="w-3 h-3 text-[#FFA07A]" /> Fill Demo User
                 </button>
               </div>
-              <h2 className="text-2xl font-black text-[#081C35] mt-2 tracking-tight">
+              <h2 className="text-2xl font-black text-[#1E1B4B] mt-2 tracking-tight">
                 Welcome to Confidential Care
               </h2>
               <p className="text-sm text-slate-500 mt-1">
@@ -192,18 +192,18 @@ export default function Login() {
           ) : (
             <div className="mb-6">
               <div className="flex items-center justify-between gap-2">
-                <div className="inline-flex items-center gap-2 text-indigo-700 bg-indigo-50 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
-                  <ShieldCheck className="w-3.5 h-3.5 text-indigo-600" /> Authorized Officer Portal
+                <div className="inline-flex items-center gap-2 text-[#4E36E2] bg-purple-50 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#4E36E2]" /> Authorized Officer Portal
                 </div>
                 <button
                   type="button"
                   onClick={() => handleDemoFill("admin")}
-                  className="text-xs font-semibold text-indigo-600 hover:underline flex items-center gap-1 cursor-pointer"
+                  className="text-xs font-semibold text-[#4E36E2] hover:underline flex items-center gap-1 cursor-pointer"
                 >
-                  <Sparkles className="w-3 h-3" /> Fill Demo Admin
+                  <Sparkles className="w-3 h-3 text-[#FFA07A]" /> Fill Demo Admin
                 </button>
               </div>
-              <h2 className="text-2xl font-black text-[#081C35] mt-2 tracking-tight">
+              <h2 className="text-2xl font-black text-[#1E1B4B] mt-2 tracking-tight">
                 Helpline & Clinical Admin
               </h2>
               <p className="text-sm text-slate-500 mt-1">
@@ -235,7 +235,7 @@ export default function Login() {
                   placeholder={activeTab === "user" ? "citizen@example.com" : "officer@mindpluze.gov.in"}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0E9F9A] focus:ring-2 focus:ring-[#0E9F9A]/20 transition text-sm font-medium"
+                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#4E36E2] focus:ring-2 focus:ring-[#4E36E2]/20 transition text-sm font-medium"
                 />
               </div>
             </div>
@@ -247,7 +247,7 @@ export default function Login() {
                 </label>
                 <Link
                   to="/forgot-password"
-                  className="text-xs text-[#0E9F9A] hover:underline font-semibold"
+                  className="text-xs text-[#4E36E2] hover:underline font-semibold"
                 >
                   Forgot password?
                 </Link>
@@ -261,7 +261,7 @@ export default function Login() {
                   placeholder="••••••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0E9F9A] focus:ring-2 focus:ring-[#0E9F9A]/20 transition text-sm font-medium"
+                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#4E36E2] focus:ring-2 focus:ring-[#4E36E2]/20 transition text-sm font-medium"
                 />
               </div>
             </div>
@@ -271,8 +271,8 @@ export default function Login() {
               disabled={loading || guestLoading}
               className={`w-full mt-2 text-white font-bold py-3.5 rounded-xl shadow-lg flex items-center justify-center gap-2 text-base transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-70 cursor-pointer ${
                 activeTab === "user"
-                  ? "bg-[#0E9F9A] hover:bg-[#0C8783] shadow-teal-900/20"
-                  : "bg-[#081C35] hover:bg-[#0D2B52] shadow-slate-900/20"
+                  ? "bg-[#4E36E2] hover:bg-[#3C28B6] shadow-purple-900/20"
+                  : "bg-[#1E1B4B] hover:bg-[#2A236E] shadow-slate-900/20"
               }`}
             >
               {loading ? (
@@ -305,9 +305,9 @@ export default function Login() {
                 className="w-full bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 font-bold py-3 rounded-xl flex items-center justify-center gap-2 text-sm transition cursor-pointer hover:border-slate-300"
               >
                 {guestLoading ? (
-                  <Loader2 className="w-4 h-4 animate-spin text-[#0E9F9A]" />
+                  <Loader2 className="w-4 h-4 animate-spin text-[#4E36E2]" />
                 ) : (
-                  <Stethoscope className="w-4 h-4 text-[#0E9F9A]" />
+                  <Stethoscope className="w-4 h-4 text-[#4E36E2]" />
                 )}
                 <span>Continue as Anonymous Citizen (No Sign-In Required)</span>
               </button>
@@ -320,11 +320,11 @@ export default function Login() {
               <>
                 <div>
                   New here?{" "}
-                  <Link to="/register" className="text-[#0E9F9A] font-bold hover:underline">
+                  <Link to="/register" className="text-[#4E36E2] font-bold hover:underline">
                     Create free account
                   </Link>
                 </div>
-                <Link to="/breathe" className="inline-flex items-center gap-1 text-[#0E9F9A] font-semibold hover:underline">
+                <Link to="/breathe" className="inline-flex items-center gap-1 text-[#4E36E2] font-semibold hover:underline">
                   <Wind className="w-3.5 h-3.5" /> Guided Breathing
                 </Link>
               </>
@@ -349,7 +349,7 @@ export default function Login() {
             className="inline-flex items-center gap-2 text-sm font-semibold text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 px-4 py-2 rounded-full backdrop-blur border border-white/10 transition"
           >
             <span>Explore Public Features & Guidelines</span>
-            <ArrowRight className="w-4 h-4 text-[#0E9F9A]" />
+            <ArrowRight className="w-4 h-4 text-[#FFA07A]" />
           </Link>
         </div>
       </div>

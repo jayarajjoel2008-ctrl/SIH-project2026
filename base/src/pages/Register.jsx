@@ -176,7 +176,7 @@ export default function Register() {
               onClick={() => setRole("user")}
               className={`py-2 px-3 rounded-lg text-xs font-bold border transition flex items-center justify-center gap-1.5 cursor-pointer ${
                 role === "user"
-                  ? "bg-[#0E9F9A] text-white border-[#0E9F9A]"
+                  ? "bg-[#4E36E2] text-white border-[#4E36E2]"
                   : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100"
               }`}
             >
@@ -187,7 +187,7 @@ export default function Register() {
               onClick={() => setRole("admin")}
               className={`py-2 px-3 rounded-lg text-xs font-bold border transition flex items-center justify-center gap-1.5 cursor-pointer ${
                 role === "admin"
-                  ? "bg-[#081C35] text-white border-[#081C35]"
+                  ? "bg-[#1E1B4B] text-white border-[#1E1B4B]"
                   : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100"
               }`}
             >

@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, Loader2, AlertTriangle, CheckCircle2, HeartPulse, Scale, Stethoscope, ShieldAlert, ShieldCheck, Phone, Download } from "lucide-react";
 import { base44 } from "@/api/base44Client";
+import { useAuth } from "@/lib/AuthContext";
 import SiteNav from "@/components/SiteNav";
 import Chatbot from "@/components/Chatbot";
 
-const RISK_COLORS = { Low: "#0E9F9A", Moderate: "#D9A600", High: "#E8786D", Critical: "#C4453D" };
+const RISK_COLORS = { Low: "#4E36E2", Moderate: "#FFA07A", High: "#FF8C68", Critical: "#EF4444" };
 const recIcons = {
   counselling: HeartPulse, "legal aid": Scale, "medical assistance": Stethoscope,
   "police intervention": ShieldAlert, "witness protection": ShieldCheck, "emergency support": Phone,
@@ -13,8 +14,12 @@ const recIcons = {
 
 export default function AssessmentDetail() {
   const { id } = useParams();
+  const { user } = useAuth();
   const [assessment, setAssessment] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const backUrl = user?.role === "admin" ? "/dashboard" : "/home";
+  const backText = user?.role === "admin" ? "Back to Dashboard" : "Back to Home";
 
   useEffect(() => {
     (async () => {
@@ -31,27 +36,27 @@ export default function AssessmentDetail() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-[#0E9F9A] animate-spin" />
+      <div className="min-h-screen flex items-center justify-center bg-[#EEF2F8]">
+        <Loader2 className="w-8 h-8 text-[#4E36E2] animate-spin" />
       </div>
     );
   }
 
   if (!assessment) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-white to-[#E8F3FC]">
+      <div className="min-h-screen bg-gradient-to-b from-white to-[#EEF2F8]">
         <SiteNav />
         <div className="max-w-3xl mx-auto px-4 py-20 text-center">
           <p className="text-slate-500">Assessment not found.</p>
-          <Link to="/dashboard" className="mt-4 inline-flex items-center gap-2 text-[#0E9F9A] font-semibold hover:underline">
-            <ArrowLeft className="w-4 h-4" /> Back to Dashboard
+          <Link to={backUrl} className="mt-4 inline-flex items-center gap-2 text-[#4E36E2] font-semibold hover:underline">
+            <ArrowLeft className="w-4 h-4" /> {backText}
           </Link>
         </div>
       </div>
     );
   }
 
-  const rs = RISK_COLORS[assessment.risk_category] || "#D9A600";
+  const rs = RISK_COLORS[assessment.risk_category] || "#FFA07A";
   const circumference = 2 * Math.PI * 70;
   const offset = circumference - ((assessment.svi_score || 0) / 100) * circumference;
 
@@ -97,20 +102,21 @@ export default function AssessmentDetail() {
     link.href = url;
     link.download = `MindPluze_${a.reference_id}_report.txt`;
     link.click();
+    document.body.removeChild(link);
     URL.revokeObjectURL(url);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-[#E8F3FC]">
+    <div className="min-h-screen bg-gradient-to-b from-white to-[#EEF2F8]">
       <SiteNav />
       <Chatbot />
 
       <div className="max-w-3xl mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-6">
-          <Link to="/dashboard" className="inline-flex items-center gap-2 text-sm font-semibold text-[#0E9F9A] hover:underline">
-            <ArrowLeft className="w-4 h-4" /> Back to Dashboard
+          <Link to={backUrl} className="inline-flex items-center gap-2 text-sm font-semibold text-[#4E36E2] hover:underline">
+            <ArrowLeft className="w-4 h-4" /> {backText}
           </Link>
-          <button onClick={downloadReport} className="inline-flex items-center gap-2 text-sm font-semibold text-white bg-[#0E9F9A] hover:bg-[#081C35] px-4 py-2 rounded-lg transition">
+          <button onClick={downloadReport} className="inline-flex items-center gap-2 text-sm font-semibold text-white bg-[#4E36E2] hover:bg-[#1E1B4B] px-4 py-2 rounded-lg transition">
             <Download className="w-4 h-4" /> Download Report
           </button>
         </div>
@@ -126,7 +132,7 @@ export default function AssessmentDetail() {
               {assessment.risk_category} Risk
             </span>
           </div>
-          <h1 className="mt-3 text-xl font-bold text-[#081C35]">{assessment.full_name || "Anonymous Complainant"}</h1>
+          <h1 className="mt-3 text-xl font-bold text-[#1E1B4B]">{assessment.full_name || "Anonymous Complainant"}</h1>
           <p className="text-sm text-slate-500">{assessment.primary_concern || "No primary concern specified"} · {assessment.language}</p>
         </div>
 
@@ -140,12 +146,12 @@ export default function AssessmentDetail() {
                 <circle cx="80" cy="80" r="70" fill="none" stroke={rs} strokeWidth="12" strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={offset} />
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="text-3xl font-bold text-[#081C35]">{assessment.svi_score}</span>
+                <span className="text-3xl font-bold text-[#1E1B4B]">{assessment.svi_score}</span>
                 <span className="text-xs text-slate-400">/ 100</span>
               </div>
             </div>
             <div className="flex-1">
-              <p className="text-sm text-slate-600">Self-reported stress: <span className="font-semibold text-[#081C35]">{assessment.self_reported_stress}/10</span></p>
+              <p className="text-sm text-slate-600">Self-reported stress: <span className="font-semibold text-[#1E1B4B]">{assessment.self_reported_stress}/10</span></p>
               <p className="text-sm text-slate-600 mt-1">Input mode: <span className="font-medium">{assessment.input_mode}</span></p>
               <p className="text-sm text-slate-600 mt-1">Date: <span className="font-medium">{assessment.created_date ? new Date(assessment.created_date).toLocaleString() : "—"}</span></p>
             </div>
@@ -195,8 +201,8 @@ export default function AssessmentDetail() {
               {assessment.recommendations.map((r) => {
                 const Icon = recIcons[String(r).toLowerCase().trim()] || CheckCircle2;
                 return (
-                  <div key={r} className="flex items-center gap-3 bg-[#E8F3FC] rounded-xl px-4 py-3">
-                    <div className="w-9 h-9 rounded-lg bg-[#0E9F9A]/10 flex items-center justify-center"><Icon className="w-5 h-5 text-[#0E9F9A]" /></div>
+                  <div key={r} className="flex items-center gap-3 bg-[#F4F6FB] rounded-xl px-4 py-3">
+                    <div className="w-9 h-9 rounded-lg bg-purple-50 flex items-center justify-center"><Icon className="w-5 h-5 text-[#4E36E2]" /></div>
                     <span className="text-sm font-medium text-slate-700 capitalize">{r}</span>
                   </div>
                 );
@@ -215,11 +221,11 @@ export default function AssessmentDetail() {
 
         {/* Emergency for critical */}
         {assessment.risk_category === "Critical" && (
-          <div className="rounded-2xl bg-[#FCE1E0] p-5 text-[#081C35] mt-5">
-            <div className="flex items-center gap-2 font-semibold"><AlertTriangle className="w-5 h-5" /> Immediate Support Available</div>
+          <div className="rounded-2xl bg-[#FFE8DF] p-5 text-[#1E1B4B] mt-5">
+            <div className="flex items-center gap-2 font-semibold"><AlertTriangle className="w-5 h-5 text-[#EA580C]" /> Immediate Support Available</div>
             <div className="mt-3 flex flex-wrap gap-2">
               {[["NHAA", "14566"], ["Police", "100"], ["Medical", "108"]].map(([l, n]) => (
-                <a key={n} href={`tel:${n}`} className="bg-[#081C35] text-white font-semibold px-4 py-2 rounded-lg text-sm">{l}: {n}</a>
+                <a key={n} href={`tel:${n}`} className="bg-[#1E1B4B] text-white font-semibold px-4 py-2 rounded-lg text-sm">{l}: {n}</a>
               ))}
             </div>
           </div>

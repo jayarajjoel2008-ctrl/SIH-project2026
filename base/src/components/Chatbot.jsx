@@ -45,21 +45,21 @@ export default function Chatbot() {
       {/* Floating button */}
       <button
         onClick={() => setOpen((o) => !o)}
-        className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-[#081C35] text-[#0E9F9A] shadow-xl shadow-slate-900/30 flex items-center justify-center hover:scale-105 transition cursor-pointer border border-[#0E9F9A]/30"
+        className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-[#4E36E2] text-white shadow-xl shadow-purple-950/25 flex items-center justify-center hover:scale-105 transition cursor-pointer border border-white/20"
         aria-label="AI Support Chatbot"
       >
-        {open ? <X className="w-6 h-6 text-white" /> : <Bot className="w-6 h-6 text-[#0E9F9A]" />}
+        {open ? <X className="w-6 h-6 text-white" /> : <Bot className="w-6 h-6 text-white" />}
       </button>
 
       {open && (
         <div className="fixed bottom-24 right-6 z-50 w-[calc(100vw-2.5rem)] sm:w-96 h-[28rem] bg-white rounded-3xl shadow-2xl border border-slate-100 flex flex-col overflow-hidden animate-in slide-in-from-bottom-2">
-          <div className="px-4 py-3.5 bg-[#081C35] text-white flex items-center justify-between border-b border-[#0E9F9A]/30">
+          <div className="px-4 py-3.5 bg-[#1E1B4B] text-white flex items-center justify-between border-b border-[#4E36E2]/40">
             <div className="flex items-center gap-2">
-              <Bot className="w-5 h-5 text-[#0E9F9A]" />
+              <Bot className="w-5 h-5 text-[#FFA07A]" />
               <div>
                 <p className="font-semibold text-sm leading-tight text-white">MindPluze AI Assistant</p>
-                <p className="text-[11px] opacity-90 flex items-center gap-1 text-[#D9F6EF]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#0E9F9A]" /> Online · 24/7 Support
+                <p className="text-[11px] opacity-90 flex items-center gap-1 text-orange-200">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#FFA07A]" /> Online · 24/7 Support
                 </p>
               </div>
             </div>
@@ -70,11 +70,11 @@ export default function Chatbot() {
               <X className="w-4 h-4" />
             </button>
           </div>
-          <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3 bg-slate-50">
+          <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3 bg-[#F4F6FB]">
             {messages.map((m, i) => (
               <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
                 <div className={`max-w-[80%] px-3 py-2 rounded-2xl text-sm ${
-                  m.role === "user" ? "bg-[#0E9F9A] text-white rounded-br-sm" : "bg-white border border-slate-200 text-slate-700 rounded-bl-sm"
+                  m.role === "user" ? "bg-[#4E36E2] text-white rounded-br-sm shadow-sm" : "bg-white border border-slate-200 text-slate-700 rounded-bl-sm shadow-sm"
                 }`}>
                   {m.content}
                 </div>
@@ -83,7 +83,7 @@ export default function Chatbot() {
             {loading && (
               <div className="flex justify-start">
                 <div className="bg-white border border-slate-200 px-3 py-2 rounded-2xl rounded-bl-sm flex items-center gap-1.5 text-slate-400">
-                  <Loader2 className="w-4 h-4 animate-spin" /> typing...
+                  <Loader2 className="w-4 h-4 animate-spin text-[#4E36E2]" /> typing...
                 </div>
               </div>
             )}
@@ -94,9 +94,9 @@ export default function Chatbot() {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && send()}
               placeholder="Type how you feel..."
-              className="flex-1 text-sm px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#0E9F9A]/30"
+              className="flex-1 text-sm px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#4E36E2]/30"
             />
-            <button onClick={send} disabled={loading} className="w-10 h-10 rounded-lg bg-[#0E9F9A] text-white flex items-center justify-center disabled:opacity-50 hover:bg-[#081C35] transition">
+            <button onClick={send} disabled={loading} className="w-10 h-10 rounded-lg bg-[#4E36E2] text-white flex items-center justify-center disabled:opacity-50 hover:bg-[#3C28B6] transition">
               <Send className="w-4 h-4" />
             </button>
           </div>

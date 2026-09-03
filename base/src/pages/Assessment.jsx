@@ -8,10 +8,10 @@ const LANGUAGES = ["English", "हिंदी (Hindi)", "తెలుగు (Te
 const CONCERNS = ["Work", "Stress", "Anxiety", "Past trauma", "Depression", "Relationship issues", "Other"];
 
 const riskStyles = {
-  Low: { color: "#0E9F9A", bg: "bg-[#D9F6EF]", text: "text-[#0E9F9A]", label: "Low Risk" },
-  Moderate: { color: "#D9A600", bg: "bg-[#FFF0C2]", text: "text-[#9A7000]", label: "Moderate Risk" },
-  High: { color: "#E8786D", bg: "bg-[#FCE1E0]", text: "text-[#C4453D]", label: "High Risk" },
-  Critical: { color: "#C4453D", bg: "bg-[#FCE1E0]", text: "text-[#9A2A22]", label: "Critical Risk" },
+  Low: { color: "#4E36E2", bg: "bg-purple-50", text: "text-[#4E36E2]", label: "Low Risk" },
+  Moderate: { color: "#FFA07A", bg: "bg-orange-50", text: "text-[#EA580C]", label: "Moderate Risk" },
+  High: { color: "#FF8C68", bg: "bg-rose-50", text: "text-rose-600", label: "High Risk" },
+  Critical: { color: "#EF4444", bg: "bg-red-50", text: "text-red-700", label: "Critical Risk" },
 };
 
 const recIcons = {
@@ -130,16 +130,16 @@ export default function Assessment() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
+    <div className="min-h-screen bg-[#EEF2F8]">
       <SiteNav />
       <Chatbot />
 
       <div className="max-w-4xl mx-auto px-4 py-12">
         <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 bg-[#E8F3FC] border border-[#0E9F9A]/30 text-[#0E9F9A] px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-3">
+          <div className="inline-flex items-center gap-2 bg-purple-50 border border-[#4E36E2]/30 text-[#4E36E2] px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-3">
             NHAA 14566 Clinical Screening Engine
           </div>
-          <h1 className="text-3xl sm:text-4xl font-black text-[#081C35] tracking-tight">
+          <h1 className="text-3xl sm:text-4xl font-black text-[#1E1B4B] tracking-tight">
             Stress & Trauma Assessment
           </h1>
           <p className="text-slate-600 mt-2 text-sm sm:text-base max-w-xl mx-auto">
@@ -147,7 +147,7 @@ export default function Assessment() {
           </p>
         </div>
 
-        {/* Infographic Connected Stepper (Matching Slide Template Business Process style) */}
+        {/* Infographic Connected Stepper */}
         <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm mb-8">
           <div className="grid grid-cols-4 gap-2 relative">
             {[
@@ -163,9 +163,9 @@ export default function Assessment() {
                   <div
                     className={`w-10 h-10 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center font-black text-sm transition-all duration-200 shadow-sm mb-2 ${
                       isDone
-                        ? "bg-[#0E9F9A] text-white"
+                        ? "bg-[#4E36E2] text-white"
                         : isCurrent
-                        ? "bg-[#081C35] text-[#0E9F9A] ring-4 ring-[#0E9F9A]/20"
+                        ? "bg-[#1E1B4B] text-[#FFA07A] ring-4 ring-[#4E36E2]/20"
                         : "bg-slate-100 text-slate-400"
                     }`}
                   >
@@ -173,7 +173,7 @@ export default function Assessment() {
                   </div>
                   <span
                     className={`text-xs font-bold transition-colors ${
-                      isCurrent ? "text-[#081C35]" : isDone ? "text-[#0E9F9A]" : "text-slate-400"
+                      isCurrent ? "text-[#1E1B4B]" : isDone ? "text-[#4E36E2]" : "text-slate-400"
                     }`}
                   >
                     {s.name}
@@ -195,26 +195,26 @@ export default function Assessment() {
         {step === 1 && (
           <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 sm:p-8">
             <div className="flex items-center gap-2 mb-4">
-              <ShieldCheck className="w-6 h-6 text-[#0E9F9A]" />
-              <h2 className="text-xl font-semibold text-[#081C35]">Informed Consent</h2>
+              <ShieldCheck className="w-6 h-6 text-[#4E36E2]" />
+              <h2 className="text-xl font-semibold text-[#1E1B4B]">Informed Consent</h2>
             </div>
             <div className="space-y-3 text-sm text-slate-600">
               <p>This module uses AI (NLP, speech analytics and Emotion AI) to assess stress, trauma and vulnerability from your voice or text. Your responses are analyzed to generate a Stress Vulnerability Index and support recommendations.</p>
               <ul className="space-y-2">
-                <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-[#0E9F9A] mt-0.5 shrink-0" /> Your data is kept confidential and stored securely.</li>
-                <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-[#0E9F9A] mt-0.5 shrink-0" /> Participation is voluntary. You may decline or stop anytime.</li>
-                <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-[#0E9F9A] mt-0.5 shrink-0" /> This is a screening tool, not a medical diagnosis.</li>
-                <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-[#0E9F9A] mt-0.5 shrink-0" /> Ethical AI standards are maintained throughout.</li>
+                <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-[#4E36E2] mt-0.5 shrink-0" /> Your data is kept confidential and stored securely.</li>
+                <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-[#4E36E2] mt-0.5 shrink-0" /> Participation is voluntary. You may decline or stop anytime.</li>
+                <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-[#4E36E2] mt-0.5 shrink-0" /> This is a screening tool, not a medical diagnosis.</li>
+                <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-[#4E36E2] mt-0.5 shrink-0" /> Ethical AI standards are maintained throughout.</li>
               </ul>
             </div>
-            <label className="mt-5 flex items-start gap-2.5 cursor-pointer bg-[#E8F3FC] rounded-xl p-4">
-              <input type="checkbox" checked={form.consent_given} onChange={(e) => update("consent_given", e.target.checked)} className="mt-0.5 w-5 h-5 accent-[#0E9F9A]" />
+            <label className="mt-5 flex items-start gap-2.5 cursor-pointer bg-[#F4F6FB] rounded-xl p-4">
+              <input type="checkbox" checked={form.consent_given} onChange={(e) => update("consent_given", e.target.checked)} className="mt-0.5 w-5 h-5 accent-[#4E36E2]" />
               <span className="text-sm text-slate-700">I have read and understood the above. I give informed consent for AI-based analysis of my responses.</span>
             </label>
             <button
               disabled={!form.consent_given}
               onClick={() => setStep(2)}
-              className="mt-5 w-full bg-[#0E9F9A] hover:bg-[#081C35] disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2 transition"
+              className="mt-5 w-full bg-[#4E36E2] hover:bg-[#3C28B6] disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2 transition"
             >
               Continue <ArrowRight className="w-4 h-4" />
             </button>
@@ -224,7 +224,7 @@ export default function Assessment() {
         {/* STEP 2: Details */}
         {step === 2 && (
           <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 sm:p-8">
-            <h2 className="text-xl font-semibold text-[#081C35] mb-5">Complainant Details</h2>
+            <h2 className="text-xl font-semibold text-[#1E1B4B] mb-5">Complainant Details</h2>
             <div className="grid sm:grid-cols-2 gap-4">
               <Field label="Full Name (optional)"><input value={form.full_name} onChange={(e) => update("full_name", e.target.value)} className="input" placeholder="Name" /></Field>
               <Field label="Age"><input type="number" value={form.age} onChange={(e) => update("age", e.target.value)} className="input" placeholder="Age" /></Field>
@@ -246,16 +246,16 @@ export default function Assessment() {
               </Field>
             </div>
             <div className="mt-6">
-              <label className="text-sm font-medium text-slate-700">Self-reported stress level: <span className="font-bold text-[#0E9F9A]">{form.self_reported_stress}/10</span></label>
-              <input type="range" min={1} max={10} value={form.self_reported_stress} onChange={(e) => update("self_reported_stress", Number(e.target.value))} className="w-full mt-2 accent-[#0E9F9A]" />
+              <label className="text-sm font-medium text-slate-700">Self-reported stress level: <span className="font-bold text-[#4E36E2]">{form.self_reported_stress}/10</span></label>
+              <input type="range" min={1} max={10} value={form.self_reported_stress} onChange={(e) => update("self_reported_stress", Number(e.target.value))} className="w-full mt-2 accent-[#4E36E2]" />
               <div className="flex justify-between text-xs text-slate-400"><span>Low (1)</span><span>High (10)</span></div>
             </div>
             <div className="mt-6">
               <label className="text-sm font-medium text-slate-700 mb-2 block">Input Method</label>
               <div className="grid grid-cols-2 gap-3">
                 {[["Text", "Type your experience"], ["Voice", "Speak your experience"]].map(([m, d]) => (
-                  <button key={m} onClick={() => update("input_mode", m)} className={`p-4 rounded-xl border-2 text-left transition ${form.input_mode === m ? "border-[#0E9F9A] bg-[#0E9F9A]/5" : "border-slate-200 hover:border-slate-300"}`}>
-                    <div className="flex items-center gap-2 font-semibold text-slate-700">{m === "Voice" ? <Mic className="w-4 h-4" /> : <FileText className="w-4 h-4" />} {m}</div>
+                  <button key={m} onClick={() => update("input_mode", m)} className={`p-4 rounded-xl border-2 text-left transition ${form.input_mode === m ? "border-[#4E36E2] bg-[#4E36E2]/5" : "border-slate-200 hover:border-slate-300"}`}>
+                    <div className="flex items-center gap-2 font-semibold text-slate-700">{m === "Voice" ? <Mic className="w-4 h-4 text-[#4E36E2]" /> : <FileText className="w-4 h-4 text-[#4E36E2]" />} {m}</div>
                     <p className="text-xs text-slate-500 mt-1">{d}</p>
                   </button>
                 ))}
@@ -263,7 +263,7 @@ export default function Assessment() {
             </div>
             <div className="mt-6 flex gap-3">
               <button onClick={() => setStep(1)} className="px-5 py-3 rounded-xl border border-slate-200 text-slate-600 font-semibold hover:bg-slate-50">Back</button>
-              <button onClick={() => setStep(3)} className="flex-1 bg-[#0E9F9A] hover:bg-[#081C35] text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2 transition">
+              <button onClick={() => setStep(3)} className="flex-1 bg-[#4E36E2] hover:bg-[#3C28B6] text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2 transition">
                 Continue <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -273,19 +273,19 @@ export default function Assessment() {
         {/* STEP 3: Input */}
         {step === 3 && (
           <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 sm:p-8">
-            <h2 className="text-xl font-semibold text-[#081C35] mb-1">{form.input_mode === "Voice" ? "Voice Assessment" : "Text Assessment"}</h2>
+            <h2 className="text-xl font-semibold text-[#1E1B4B] mb-1">{form.input_mode === "Voice" ? "Voice Assessment" : "Text Assessment"}</h2>
             <p className="text-sm text-slate-500 mb-5">Express your experience in {form.language}. Speak or type freely — there is no right or wrong.</p>
 
             {form.input_mode === "Voice" ? (
               <div className="text-center py-6">
-                <div className={`w-24 h-24 mx-auto rounded-full flex items-center justify-center ${recording ? "bg-red-50 animate-pulse" : "bg-[#0E9F9A]/10"}`}>
-                  <Mic className={`w-10 h-10 ${recording ? "text-red-500" : "text-[#0E9F9A]"}`} />
+                <div className={`w-24 h-24 mx-auto rounded-full flex items-center justify-center ${recording ? "bg-red-50 animate-pulse" : "bg-[#4E36E2]/10"}`}>
+                  <Mic className={`w-10 h-10 ${recording ? "text-red-500" : "text-[#4E36E2]"}`} />
                 </div>
                 <p className="mt-4 text-sm font-medium text-slate-600">
                   {recording ? "Listening... speak now" : transcribing ? "Transcribing your speech..." : "Press to start recording"}
                 </p>
                 {!recording && !transcribing && (
-                  <button onClick={startRecording} className="mt-4 bg-[#0E9F9A] hover:bg-[#081C35] text-white font-semibold px-6 py-2.5 rounded-xl inline-flex items-center gap-2 transition">
+                  <button onClick={startRecording} className="mt-4 bg-[#4E36E2] hover:bg-[#3C28B6] text-white font-semibold px-6 py-2.5 rounded-xl inline-flex items-center gap-2 transition shadow">
                     <Mic className="w-4 h-4" /> Start Recording
                   </button>
                 )}
@@ -294,7 +294,7 @@ export default function Assessment() {
                     <Square className="w-4 h-4" /> Stop Recording
                   </button>
                 )}
-                {transcribing && <Loader2 className="w-5 h-5 text-[#0E9F9A] animate-spin mx-auto mt-4" />}
+                {transcribing && <Loader2 className="w-5 h-5 text-[#4E36E2] animate-spin mx-auto mt-4" />}
               </div>
             ) : null}
 
@@ -316,7 +316,7 @@ export default function Assessment() {
 
             <div className="mt-6 flex gap-3">
               <button onClick={() => setStep(2)} className="px-5 py-3 rounded-xl border border-slate-200 text-slate-600 font-semibold hover:bg-slate-50">Back</button>
-              <button onClick={runAnalysis} disabled={!narrative.trim()} className="flex-1 bg-[#0E9F9A] hover:bg-[#081C35] disabled:opacity-40 text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2 transition">
+              <button onClick={runAnalysis} disabled={!narrative.trim()} className="flex-1 bg-[#4E36E2] hover:bg-[#3C28B6] disabled:opacity-40 text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2 transition shadow">
                 Analyze with AI <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -326,8 +326,8 @@ export default function Assessment() {
         {/* STEP 4: Analyzing */}
         {step === 4 && (
           <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-10 text-center">
-            <Loader2 className="w-12 h-12 text-[#0E9F9A] animate-spin mx-auto" />
-            <h2 className="mt-4 text-xl font-semibold text-[#081C35]">Analyzing your responses...</h2>
+            <Loader2 className="w-12 h-12 text-[#4E36E2] animate-spin mx-auto" />
+            <h2 className="mt-4 text-xl font-semibold text-[#1E1B4B]">Analyzing your responses...</h2>
             <p className="text-sm text-slate-500 mt-2">AI is assessing stress, trauma and vulnerability indicators using NLP and speech analytics.</p>
           </div>
         )}
@@ -338,7 +338,7 @@ export default function Assessment() {
         )}
       </div>
 
-      <style>{`.input{width:100%;padding:0.625rem 0.75rem;border:1px solid #e2e8f0;border-radius:0.6rem;font-size:0.875rem;outline:none}.input:focus{box-shadow:0 0 0 2px rgba(14,159,154,.25);border-color:#0E9F9A}`}</style>
+      <style>{`.input{width:100%;padding:0.625rem 0.75rem;border:1px solid #e2e8f0;border-radius:0.6rem;font-size:0.875rem;outline:none}.input:focus{box-shadow:0 0 0 2px rgba(78,54,226,.25);border-color:#4E36E2}`}</style>
     </div>
   );
 }
@@ -362,10 +362,10 @@ function ResultsView({ result, savedId, onReset }) {
     <div className="space-y-5">
       {/* Success banner */}
       <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 text-center">
-        <div className="w-12 h-12 rounded-full bg-[#0E9F9A]/10 flex items-center justify-center mx-auto">
-          <CheckCircle2 className="w-7 h-7 text-[#0E9F9A]" />
+        <div className="w-12 h-12 rounded-full bg-purple-50 flex items-center justify-center mx-auto">
+          <CheckCircle2 className="w-7 h-7 text-[#4E36E2]" />
         </div>
-        <h2 className="mt-3 text-xl font-semibold text-[#081C35]">Assessment Complete</h2>
+        <h2 className="mt-3 text-xl font-semibold text-[#1E1B4B]">Assessment Complete</h2>
         <p className="text-sm text-slate-500 mt-1">AI analysis complete. A counselor will follow up based on your risk level.</p>
         {savedId && <p className="mt-2 text-xs text-slate-400">Reference ID saved to dashboard.</p>}
       </div>
@@ -380,7 +380,7 @@ function ResultsView({ result, savedId, onReset }) {
               <circle cx="80" cy="80" r="70" fill="none" stroke={rs.color} strokeWidth="12" strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={offset} />
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="text-4xl font-bold text-[#081C35]">{svi_score}</span>
+              <span className="text-4xl font-bold text-[#1E1B4B]">{svi_score}</span>
               <span className="text-xs text-slate-400">out of 100</span>
             </div>
           </div>
@@ -441,8 +441,8 @@ function ResultsView({ result, savedId, onReset }) {
             {recommendations.map((r) => {
               const Icon = recIcons[String(r).toLowerCase().trim()] || CheckCircle2;
               return (
-                <div key={r} className="flex items-center gap-3 bg-[#E8F3FC] rounded-xl px-4 py-3">
-                  <div className="w-9 h-9 rounded-lg bg-[#0E9F9A]/10 flex items-center justify-center"><Icon className="w-5 h-5 text-[#0E9F9A]" /></div>
+                <div key={r} className="flex items-center gap-3 bg-[#F4F6FB] rounded-xl px-4 py-3">
+                  <div className="w-9 h-9 rounded-lg bg-purple-50 flex items-center justify-center"><Icon className="w-5 h-5 text-[#4E36E2]" /></div>
                   <span className="text-sm font-medium text-slate-700 capitalize">{r}</span>
                 </div>
               );
@@ -453,18 +453,18 @@ function ResultsView({ result, savedId, onReset }) {
 
       {/* Emergency banner for critical */}
       {risk_category === "Critical" && (
-        <div className="rounded-2xl bg-[#FCE1E0] p-5 text-[#081C35]">
-          <div className="flex items-center gap-2 font-semibold"><AlertTriangle className="w-5 h-5" /> Immediate Support Available</div>
+        <div className="rounded-2xl bg-[#FFE8DF] p-5 text-[#1E1B4B]">
+          <div className="flex items-center gap-2 font-semibold"><AlertTriangle className="w-5 h-5 text-[#EA580C]" /> Immediate Support Available</div>
           <div className="mt-3 flex flex-wrap gap-2">
             {[["NHAA", "14566"], ["Police", "100"], ["Medical", "108"]].map(([l, n]) => (
-              <a key={n} href={`tel:${n}`} className="bg-[#081C35] text-white font-semibold px-4 py-2 rounded-lg text-sm">{l}: {n}</a>
+              <a key={n} href={`tel:${n}`} className="bg-[#1E1B4B] text-white font-semibold px-4 py-2 rounded-lg text-sm">{l}: {n}</a>
             ))}
           </div>
         </div>
       )}
 
-      <button onClick={onReset} className="w-full bg-white border-2 border-[#0E9F9A] text-[#081C35] font-semibold py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-[#0E9F9A]/5 transition">
-        <RotateCcw className="w-4 h-4" /> New Assessment
+      <button onClick={onReset} className="w-full bg-white border-2 border-[#4E36E2] text-[#1E1B4B] font-semibold py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-purple-50 transition">
+        <RotateCcw className="w-4 h-4 text-[#4E36E2]" /> New Assessment
       </button>
     </div>
   );
