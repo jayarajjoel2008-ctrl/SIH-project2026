@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, Loader2, AlertTriangle, CheckCircle2, HeartPulse, Scale, Stethoscope, ShieldAlert, ShieldCheck, Phone, Download } from "lucide-react";
 import { base44 } from "@/api/base44Client";
+import { useAuth } from "@/lib/AuthContext";
 import SiteNav from "@/components/SiteNav";
 import Chatbot from "@/components/Chatbot";
 
@@ -13,8 +14,12 @@ const recIcons = {
 
 export default function AssessmentDetail() {
   const { id } = useParams();
+  const { user } = useAuth();
   const [assessment, setAssessment] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const backUrl = user?.role === "admin" ? "/dashboard" : "/home";
+  const backText = user?.role === "admin" ? "Back to Dashboard" : "Back to Home";
 
   useEffect(() => {
     (async () => {
@@ -43,8 +48,8 @@ export default function AssessmentDetail() {
         <SiteNav />
         <div className="max-w-3xl mx-auto px-4 py-20 text-center">
           <p className="text-slate-500">Assessment not found.</p>
-          <Link to="/dashboard" className="mt-4 inline-flex items-center gap-2 text-[#0E9F9A] font-semibold hover:underline">
-            <ArrowLeft className="w-4 h-4" /> Back to Dashboard
+          <Link to={backUrl} className="mt-4 inline-flex items-center gap-2 text-[#0E9F9A] font-semibold hover:underline">
+            <ArrowLeft className="w-4 h-4" /> {backText}
           </Link>
         </div>
       </div>
@@ -97,6 +102,7 @@ export default function AssessmentDetail() {
     link.href = url;
     link.download = `MindPluze_${a.reference_id}_report.txt`;
     link.click();
+    document.body.removeChild(link);
     URL.revokeObjectURL(url);
   };
 
@@ -107,8 +113,8 @@ export default function AssessmentDetail() {
 
       <div className="max-w-3xl mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-6">
-          <Link to="/dashboard" className="inline-flex items-center gap-2 text-sm font-semibold text-[#0E9F9A] hover:underline">
-            <ArrowLeft className="w-4 h-4" /> Back to Dashboard
+          <Link to={backUrl} className="inline-flex items-center gap-2 text-sm font-semibold text-[#0E9F9A] hover:underline">
+            <ArrowLeft className="w-4 h-4" /> {backText}
           </Link>
           <button onClick={downloadReport} className="inline-flex items-center gap-2 text-sm font-semibold text-white bg-[#0E9F9A] hover:bg-[#081C35] px-4 py-2 rounded-lg transition">
             <Download className="w-4 h-4" /> Download Report

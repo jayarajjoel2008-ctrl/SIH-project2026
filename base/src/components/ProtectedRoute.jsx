@@ -9,8 +9,8 @@ const DefaultFallback = () => (
   </div>
 );
 
-export default function ProtectedRoute({ fallback = <DefaultFallback />, unauthenticatedElement }) {
-  const { isAuthenticated, isLoadingAuth, authChecked, authError, checkUserAuth } = useAuth();
+export default function ProtectedRoute({ fallback = <DefaultFallback />, unauthenticatedElement, requireAdmin = false }) {
+  const { isAuthenticated, user, isLoadingAuth, authChecked, authError, checkUserAuth } = useAuth();
   const location = useLocation();
 
   useEffect(() => {
@@ -30,6 +30,11 @@ export default function ProtectedRoute({ fallback = <DefaultFallback />, unauthe
   if (!isAuthenticated) {
     const returnPath = location.pathname + location.search;
     return unauthenticatedElement || <Navigate to={`/login?returnTo=${encodeURIComponent(returnPath)}`} replace />;
+  }
+
+  // If route is restricted to admins only, prevent citizen / regular user access
+  if (requireAdmin && user?.role !== 'admin') {
+    return <Navigate to="/home" replace />;
   }
 
   return <Outlet />;

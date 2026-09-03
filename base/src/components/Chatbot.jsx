@@ -5,7 +5,10 @@ import { base44 } from "@/api/base44Client";
 export default function Chatbot() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { role: "assistant", content: "Hello, I'm here to support you. You are not alone. How are you feeling today?" },
+    {
+      role: "assistant",
+      content: "Hello, I am your MindPluze AI Companion. You are in a safe, confidential space. How can I assist you today?"
+    },
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -21,9 +24,10 @@ export default function Chatbot() {
     return () => window.removeEventListener("open-chatbot", handleOpen);
   }, []);
 
-  const send = async () => {
-    if (!input.trim() || loading) return;
-    const userMsg = { role: "user", content: input.trim() };
+  const send = async (customText = null) => {
+    const textToSend = customText || input.trim();
+    if (!textToSend || loading) return;
+    const userMsg = { role: "user", content: textToSend };
     setMessages((m) => [...m, userMsg]);
     setInput("");
     setLoading(true);
@@ -34,7 +38,13 @@ export default function Chatbot() {
       });
       setMessages((m) => [...m, { role: "assistant", content: res.data.reply }]);
     } catch {
-      setMessages((m) => [...m, { role: "assistant", content: "I'm having trouble responding right now. Please call 14566 for support." }]);
+      setMessages((m) => [
+        ...m,
+        {
+          role: "assistant",
+          content: "I am having temporary difficulty connecting. For emergency support, please dial toll-free National Helpline 14566."
+        }
+      ]);
     } finally {
       setLoading(false);
     }
@@ -42,61 +52,104 @@ export default function Chatbot() {
 
   return (
     <>
-      {/* Floating button */}
+      {/* Floating Trigger Button */}
       <button
         onClick={() => setOpen((o) => !o)}
-        className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-[#081C35] text-[#0E9F9A] shadow-xl shadow-slate-900/30 flex items-center justify-center hover:scale-105 transition cursor-pointer border border-[#0E9F9A]/30"
+        className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-gradient-to-br from-[#FFA217] via-[#FF8C00] to-[#E67E00] text-slate-950 shadow-xl shadow-amber-500/30 flex items-center justify-center hover:scale-105 active:scale-95 transition-all cursor-pointer border border-amber-300/40 group"
         aria-label="AI Support Chatbot"
       >
-        {open ? <X className="w-6 h-6 text-white" /> : <Bot className="w-6 h-6 text-[#0E9F9A]" />}
+        {open ? <X className="w-6 h-6 text-slate-950" /> : <Bot className="w-7 h-7 text-slate-950 group-hover:rotate-12 transition-transform" />}
       </button>
 
+      {/* Floating Chat Modal */}
       {open && (
-        <div className="fixed bottom-24 right-6 z-50 w-[calc(100vw-2.5rem)] sm:w-96 h-[28rem] bg-white rounded-3xl shadow-2xl border border-slate-100 flex flex-col overflow-hidden animate-in slide-in-from-bottom-2">
-          <div className="px-4 py-3.5 bg-[#081C35] text-white flex items-center justify-between border-b border-[#0E9F9A]/30">
-            <div className="flex items-center gap-2">
-              <Bot className="w-5 h-5 text-[#0E9F9A]" />
+        <div className="fixed bottom-24 right-6 z-50 w-[calc(100vw-2.5rem)] sm:w-[26rem] h-[32rem] bg-white rounded-3xl shadow-2xl border border-slate-100 flex flex-col overflow-hidden animate-in zoom-in-95 slide-in-from-bottom-3 duration-200">
+          
+          {/* Header */}
+          <div className="px-5 py-4 bg-[#0A1118] text-white flex items-center justify-between border-b border-white/10">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-full bg-[#FFA217] text-slate-950 flex items-center justify-center shadow-md font-bold">
+                <Bot className="w-5 h-5" />
+              </div>
               <div>
-                <p className="font-semibold text-sm leading-tight text-white">MindPluze AI Assistant</p>
-                <p className="text-[11px] opacity-90 flex items-center gap-1 text-[#D9F6EF]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#0E9F9A]" /> Online · 24/7 Support
+                <p className="font-black text-sm leading-tight text-white flex items-center gap-1.5">
+                  MindPluze AI Companion
+                </p>
+                <p className="text-[10px] text-[#00B4D8] flex items-center gap-1 font-semibold mt-0.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  Online · 24/7 Crisis Triage
                 </p>
               </div>
             </div>
             <button
               onClick={() => setOpen(false)}
-              className="text-white/80 hover:text-white p-1 rounded-lg"
+              className="text-slate-400 hover:text-white p-1.5 rounded-full hover:bg-white/10 transition cursor-pointer"
             >
               <X className="w-4 h-4" />
             </button>
           </div>
-          <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3 bg-slate-50">
+
+          {/* Quick Starter Chips */}
+          <div className="bg-slate-100/80 px-4 py-2 flex items-center gap-1.5 overflow-x-auto border-b border-slate-200/60 text-[11px] font-bold">
+            <button
+              onClick={() => send("I am feeling anxious and overwhelmed.")}
+              className="bg-white hover:bg-[#FFA217] hover:text-slate-950 text-slate-700 px-3 py-1 rounded-full border border-slate-200 transition shrink-0 cursor-pointer"
+            >
+              Calm panic
+            </button>
+            <button
+              onClick={() => send("How do I contact Helpline 14566?")}
+              className="bg-white hover:bg-[#FFA217] hover:text-slate-950 text-slate-700 px-3 py-1 rounded-full border border-slate-200 transition shrink-0 cursor-pointer"
+            >
+              Helpline 14566
+            </button>
+            <button
+              onClick={() => send("Tell me about SC/ST legal rights.")}
+              className="bg-white hover:bg-[#FFA217] hover:text-slate-950 text-slate-700 px-3 py-1 rounded-full border border-slate-200 transition shrink-0 cursor-pointer"
+            >
+              Legal Aid
+            </button>
+          </div>
+
+          {/* Message List */}
+          <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3.5 bg-slate-50/80">
             {messages.map((m, i) => (
               <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
-                <div className={`max-w-[80%] px-3 py-2 rounded-2xl text-sm ${
-                  m.role === "user" ? "bg-[#0E9F9A] text-white rounded-br-sm" : "bg-white border border-slate-200 text-slate-700 rounded-bl-sm"
-                }`}>
+                <div
+                  className={`max-w-[82%] px-4 py-2.5 rounded-2xl text-xs leading-relaxed font-medium ${
+                    m.role === "user"
+                      ? "bg-[#00B4D8] text-white rounded-br-none shadow-md shadow-cyan-500/20"
+                      : "bg-white border border-slate-200/80 text-slate-800 rounded-bl-none shadow-xs"
+                  }`}
+                >
                   {m.content}
                 </div>
               </div>
             ))}
             {loading && (
               <div className="flex justify-start">
-                <div className="bg-white border border-slate-200 px-3 py-2 rounded-2xl rounded-bl-sm flex items-center gap-1.5 text-slate-400">
-                  <Loader2 className="w-4 h-4 animate-spin" /> typing...
+                <div className="bg-white border border-slate-200/80 px-4 py-2.5 rounded-2xl rounded-bl-none flex items-center gap-2 text-xs text-slate-400 font-medium">
+                  <Loader2 className="w-3.5 h-3.5 text-[#00B4D8] animate-spin" />
+                  AI is typing...
                 </div>
               </div>
             )}
           </div>
-          <div className="p-3 border-t border-slate-200 bg-white flex gap-2">
+
+          {/* Input Area */}
+          <div className="p-3 border-t border-slate-100 bg-white flex items-center gap-2">
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && send()}
-              placeholder="Type how you feel..."
-              className="flex-1 text-sm px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#0E9F9A]/30"
+              placeholder="Type your message or concern..."
+              className="flex-1 text-xs px-3.5 py-2.5 rounded-full border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#00B4D8]/30 font-medium text-slate-800"
             />
-            <button onClick={send} disabled={loading} className="w-10 h-10 rounded-lg bg-[#0E9F9A] text-white flex items-center justify-center disabled:opacity-50 hover:bg-[#081C35] transition">
+            <button
+              onClick={() => send()}
+              disabled={loading || !input.trim()}
+              className="w-10 h-10 rounded-full bg-[#FFA217] hover:bg-[#FF8C00] text-slate-950 flex items-center justify-center disabled:opacity-40 transition shadow-md shadow-amber-500/20 cursor-pointer"
+            >
               <Send className="w-4 h-4" />
             </button>
           </div>

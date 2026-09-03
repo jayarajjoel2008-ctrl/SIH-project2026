@@ -85,8 +85,8 @@ export const AuthProvider = ({ children }) => {
     window.location.href = "/";
   };
 
-  const isAdmin = user?.role === "admin";
-  const isUser = user?.role === "user" || !user?.role;
+  const isAdmin = user?.role === "admin" || (typeof user?.email === "string" && user.email.toLowerCase().includes("admin"));
+  const isUser = !isAdmin;
 
   return (
     <AuthContext.Provider value={{ 

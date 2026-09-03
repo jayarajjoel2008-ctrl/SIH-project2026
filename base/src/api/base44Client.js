@@ -219,21 +219,29 @@ function chatLocally({ message = "", history = [], language = "English" }) {
 
 const customAuth = {
   async me() {
+    let localUser = null;
+    const raw = localStorage.getItem("base44_user");
+    if (raw) {
+      try {
+        localUser = JSON.parse(raw);
+      } catch {}
+    }
+
     try {
       if (appParams.appBaseUrl && appParams.appId && appParams.token) {
         const res = await rawBase44.auth.me();
-        if (res) return res;
+        if (res) {
+          if (!res.role && localUser?.role) {
+            res.role = localUser.role;
+          }
+          return res;
+        }
       }
     } catch (err) {
       console.warn("Remote auth.me unreachable, checking local user:", err?.message);
     }
-    const raw = localStorage.getItem("base44_user");
-    if (raw) {
-      try {
-        return JSON.parse(raw);
-      } catch {}
-    }
-    return null;
+    
+    return localUser;
   },
 
   async loginViaEmailPassword(email, password, role = null) {

@@ -18,76 +18,298 @@ import {
   Upload,
   MapPin,
   LogOut,
-  Brain
+  Brain,
+  Calendar,
+  CalendarDays,
+  Clock,
+  Plus,
+  Radio,
+  ChevronLeft,
+  ChevronRight,
+  ShieldAlert,
+  HeartPulse,
+  Scale,
+  Home as HomeIcon,
+  Activity,
+  Folder,
+  CreditCard,
+  Trophy,
+  Mail,
+  Edit3,
+  User
 } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
 import Chatbot from "@/components/Chatbot";
 
 const RISK_COLORS = {
-  Low: "#00A3C4", // Modern cyan
-  Moderate: "#F59E0B", // Amber
-  High: "#F87171", // Soft coral red
+  Low: "#4E36E2", // Royal Purple
+  Moderate: "#FFA07A", // Soft peach
+  High: "#FF8C68", // Coral
   Critical: "#EF4444" // Vivid red
 };
 
-// Radial Semicircle Gauge Component matching reference image
-const SemicircleGauge = ({ value = 145, subtitle = "Urgent Intakes", totalTicks = 26, activeTicks = 18 }) => {
-  const ticks = [];
-  const cx = 150;
-  const cy = 135;
-  const rInner = 82;
-  const rOuter = 108;
-
-  for (let i = 0; i < totalTicks; i++) {
-    const fraction = i / (totalTicks - 1);
-    const angleDeg = 180 + fraction * 180;
-    const angleRad = (angleDeg * Math.PI) / 180;
-
-    const x1 = cx + rInner * Math.cos(angleRad);
-    const y1 = cy + rInner * Math.sin(angleRad);
-    const x2 = cx + rOuter * Math.cos(angleRad);
-    const y2 = cy + rOuter * Math.sin(angleRad);
-
-    const isActive = i <= activeTicks;
-    // Gradient from vibrant cyan to light mint
-    const color = isActive
-      ? i < activeTicks * 0.4
-        ? "#0092B8"
-        : i < activeTicks * 0.8
-        ? "#00B4D8"
-        : "#48CAE4"
-      : "#E2E8F0";
-
-    ticks.push(
-      <line
-        key={i}
-        x1={x1}
-        y1={y1}
-        x2={x2}
-        y2={y2}
-        stroke={color}
-        strokeWidth="5"
-        strokeLinecap="round"
-        className="transition-all duration-300"
-      />
-    );
-  }
+// Circular Ring Progress Component (matching Top Metric Cards in reference image)
+const CircularRing = ({ percentage = 68, color = "#4E36E2", trackColor = "#F0F2F9", size = 56, strokeWidth = 5.5 }) => {
+  const radius = (size - strokeWidth) / 2;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = circumference - (percentage / 100) * circumference;
 
   return (
-    <div className="relative flex flex-col items-center justify-center">
-      <svg viewBox="0 0 300 160" className="w-full max-w-[260px] overflow-visible">
-        {ticks}
+    <div className="relative flex items-center justify-center shrink-0" style={{ width: size, height: size }}>
+      <svg width={size} height={size} className="-rotate-90">
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          stroke={trackColor}
+          strokeWidth={strokeWidth}
+          fill="none"
+        />
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          stroke={color}
+          strokeWidth={strokeWidth}
+          strokeDasharray={circumference}
+          strokeDashoffset={strokeDashoffset}
+          strokeLinecap="round"
+          fill="none"
+          className="transition-all duration-700 ease-out"
+        />
       </svg>
-      <div className="absolute top-[52px] flex flex-col items-center justify-center text-center">
-        <span className="text-4xl sm:text-5xl font-black text-[#0D2444] tracking-tight">
-          {value}
-        </span>
-        <span className="text-xs font-semibold text-slate-400 mt-0.5">{subtitle}</span>
+      <span className="absolute text-[10px] font-black text-[#1E1B4B]">
+        {percentage}%
+      </span>
+    </div>
+  );
+};
+
+// Semicircle Donut Gradient Gauge Component (matching Bottom Middle Card in reference image)
+const SemicircleGradientGauge = ({ percentage = 75 }) => {
+  return (
+    <div className="relative flex flex-col items-center justify-center w-full max-w-[210px] mx-auto">
+      <svg viewBox="0 0 200 115" className="w-full overflow-visible">
+        <defs>
+          <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#FFA07A" />
+            <stop offset="50%" stopColor="#FF7654" />
+            <stop offset="100%" stopColor="#4E36E2" />
+          </linearGradient>
+        </defs>
+        {/* Track Background */}
+        <path
+          d="M 25 105 A 75 75 0 0 1 175 105"
+          fill="none"
+          stroke="#F0F3F9"
+          strokeWidth="18"
+          strokeLinecap="round"
+        />
+        {/* Active Gradient Arc */}
+        <path
+          d="M 25 105 A 75 75 0 0 1 175 105"
+          fill="none"
+          stroke="url(#gaugeGradient)"
+          strokeWidth="18"
+          strokeLinecap="round"
+          strokeDasharray="235.6"
+          strokeDashoffset={235.6 - (235.6 * (percentage / 100))}
+          className="transition-all duration-1000 ease-out"
+        />
+      </svg>
+      <div className="absolute bottom-0 flex flex-col items-center justify-center text-center">
+        <span className="text-3xl sm:text-4xl font-black text-[#1E1B4B] tracking-tight">{percentage}%</span>
       </div>
     </div>
   );
 };
+
+// Dual Wave Smooth Bezier Chart (matching Center Chart in reference image)
+const WaveChart = () => {
+  return (
+    <div className="relative w-full h-[220px] sm:h-[250px] flex flex-col justify-between">
+      {/* Y Axis Labels */}
+      <div className="absolute left-0 top-0 bottom-6 flex flex-col justify-between text-[11px] font-bold text-[#A0ABC0] select-none pointer-events-none">
+        <span>29k</span>
+        <span>20k</span>
+        <span>10k</span>
+        <span>2k</span>
+        <span>0</span>
+      </div>
+
+      {/* SVG Container */}
+      <div className="relative ml-8 sm:ml-10 h-[calc(100%-24px)] w-[calc(100%-32px)] sm:w-[calc(100%-40px)]">
+        <svg viewBox="0 0 700 200" preserveAspectRatio="none" className="w-full h-full overflow-visible">
+          <defs>
+            {/* Peach Gradient Fill */}
+            <linearGradient id="peachWaveGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#FFA07A" stopOpacity="0.32" />
+              <stop offset="100%" stopColor="#FFA07A" stopOpacity="0.0" />
+            </linearGradient>
+            {/* Purple Gradient Fill */}
+            <linearGradient id="purpleWaveGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#4E36E2" stopOpacity="0.22" />
+              <stop offset="100%" stopColor="#4E36E2" stopOpacity="0.0" />
+            </linearGradient>
+          </defs>
+
+          {/* Top Wave (Peach / Coral) */}
+          <path
+            d="M 0 95 C 70 95, 110 30, 180 30 C 250 30, 290 85, 360 85 C 430 85, 470 50, 540 50 C 610 50, 650 110, 700 110 L 700 200 L 0 200 Z"
+            fill="url(#peachWaveGrad)"
+          />
+          <path
+            d="M 0 95 C 70 95, 110 30, 180 30 C 250 30, 290 85, 360 85 C 430 85, 470 50, 540 50 C 610 50, 650 110, 700 110"
+            fill="none"
+            stroke="#FFA07A"
+            strokeWidth="3.5"
+            strokeLinecap="round"
+          />
+
+          {/* Bottom Wave (Deep Violet / Indigo) */}
+          <path
+            d="M 0 160 C 60 160, 100 145, 160 145 C 220 145, 260 125, 320 125 C 380 125, 440 25, 500 25 C 560 25, 600 70, 660 70 C 680 70, 690 120, 700 120 L 700 200 L 0 200 Z"
+            fill="url(#purpleWaveGrad)"
+          />
+          <path
+            d="M 0 160 C 60 160, 100 145, 160 145 C 220 145, 260 125, 320 125 C 380 125, 440 25, 500 25 C 560 25, 600 70, 660 70 C 680 70, 690 120, 700 120"
+            fill="none"
+            stroke="#4E36E2"
+            strokeWidth="3.5"
+            strokeLinecap="round"
+          />
+        </svg>
+
+        {/* Floating Purple Tooltip Badge at peak */}
+        <div className="absolute left-[70%] top-[8%] -translate-x-1/2 -translate-y-full flex flex-col items-center">
+          <div className="bg-[#4E36E2] text-white px-3.5 py-1.5 rounded-2xl shadow-soft-purple flex items-center gap-2.5 border border-white/20">
+            <div className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center text-[10px] font-black text-white">
+              15
+            </div>
+            <div>
+              <p className="text-xs font-black tracking-tight leading-none">$2954</p>
+              <p className="text-[9px] text-purple-200 font-medium leading-tight mt-0.5">Nov 29 2026</p>
+            </div>
+          </div>
+          <div className="w-0 h-0 border-x-4 border-x-transparent border-t-4 border-t-[#4E36E2]" />
+        </div>
+      </div>
+
+      {/* X Axis Days */}
+      <div className="ml-8 sm:ml-10 flex items-center justify-between text-[11px] font-bold text-[#A0ABC0] pt-2">
+        <span>Mon</span>
+        <span>Tue</span>
+        <span>Wed</span>
+        <span>Thu</span>
+        <span>Fri</span>
+        <span>Sat</span>
+        <span>Sun</span>
+      </div>
+    </div>
+  );
+};
+
+// Seeded Triage Log Items
+const INITIAL_TRIAGE_LOGS = [
+  {
+    id: "log-1",
+    timestamp: "5 Mins ago",
+    refId: "NHAA-2026-1040",
+    victimName: "Anil P.",
+    category: "Emergency",
+    severity: "Critical",
+    sviScore: 88,
+    action: "Emergency Police Protection & Medical Dispatch Enroute to South District Zone C",
+    officer: "Officer M. Rao",
+    status: "DISPATCHED"
+  },
+  {
+    id: "log-2",
+    timestamp: "15 Mins ago",
+    refId: "NHAA-2026-1042",
+    victimName: "Ramesh K.",
+    category: "Legal Aid",
+    severity: "High",
+    sviScore: 78,
+    action: "SC/ST (Prevention of Atrocities) Special Counsel & Witness Protection Assigned",
+    officer: "Officer J. Verma",
+    status: "ASSIGNED"
+  },
+  {
+    id: "log-3",
+    timestamp: "30 Mins ago",
+    refId: "NHAA-2026-1041",
+    victimName: "Sunita D.",
+    category: "Counselling",
+    severity: "Moderate",
+    sviScore: 52,
+    action: "Acoustic Biomarker Analysis Completed (168 wpm) · Trauma Recovery Consultation Booked",
+    officer: "Clinician P. Sharma",
+    status: "CONFIRMED"
+  },
+  {
+    id: "log-4",
+    timestamp: "1 hour ago",
+    refId: "NHAA-2026-1039",
+    victimName: "Pooja M.",
+    category: "AI SVI Screening",
+    severity: "Low",
+    sviScore: 28,
+    action: "Automated 4-7-8 Guided Breathing Protocol Completed via AI Companion",
+    officer: "MindPluze AI Engine",
+    status: "RESOLVED"
+  },
+  {
+    id: "log-5",
+    timestamp: "4 hrs ago",
+    refId: "NHAA-2026-1038",
+    victimName: "Vijay S.",
+    category: "Helpline 14566",
+    severity: "High",
+    sviScore: 81,
+    action: "Toll-Free 14566 Distress Call Escalated to District Magistrate Liaison Desk",
+    officer: "Lead Admin S. Collins",
+    status: "ESCALATED"
+  }
+];
+
+// Seeded Calendar Events
+const INITIAL_CALENDAR_EVENTS = [
+  {
+    id: "evt-1",
+    date: new Date().toISOString().slice(0, 10),
+    time: "10:00 AM",
+    title: "Trauma Debriefing & Psychological Follow-up",
+    complainant: "Ramesh K. (NHAA-2026-1042)",
+    type: "Counselling",
+    officer: "Clinician P. Sharma",
+    status: "Confirmed",
+    priority: "High"
+  },
+  {
+    id: "evt-2",
+    date: new Date().toISOString().slice(0, 10),
+    time: "01:30 PM",
+    title: "SC/ST PoA Court Hearing Legal Assistance",
+    complainant: "Sunita D. (NHAA-2026-1041)",
+    type: "Legal Aid",
+    officer: "Advocate V. Nair",
+    status: "Scheduled",
+    priority: "Moderate"
+  },
+  {
+    id: "evt-3",
+    date: new Date().toISOString().slice(0, 10),
+    time: "04:00 PM",
+    title: "On-Site Welfare & Police Protection Review",
+    complainant: "Anil P. (NHAA-2026-1040)",
+    type: "Police Liaison",
+    officer: "Officer M. Rao",
+    status: "Urgent",
+    priority: "Critical"
+  }
+];
 
 export default function Dashboard() {
   const { user, logout } = useAuth();
@@ -96,20 +318,39 @@ export default function Dashboard() {
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState("All");
   const [activeNavTab, setActiveNavTab] = useState("Dashboard");
-  const [growthTimeframe, setGrowthTimeframe] = useState("24h");
-  const [statsFilter, setStatsFilter] = useState("SVI Distribution");
   const [selectedAssessment, setSelectedAssessment] = useState(null);
   const [showDistributionModal, setShowDistributionModal] = useState(false);
   const [selectedRowIds, setSelectedRowIds] = useState(new Set());
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
+  // Triage Logs Modal state
+  const [showTriageLogsModal, setShowTriageLogsModal] = useState(false);
+  const [triageLogs, setTriageLogs] = useState(INITIAL_TRIAGE_LOGS);
+  const [triageLogFilter, setTriageLogFilter] = useState("All");
+  const [triageLogSearch, setTriageLogSearch] = useState("");
+
+  // Calendar Modal state
+  const [showCalendarModal, setShowCalendarModal] = useState(false);
+  const [calendarEvents, setCalendarEvents] = useState(INITIAL_CALENDAR_EVENTS);
+  const [selectedCalendarDate, setSelectedCalendarDate] = useState(new Date().toISOString().slice(0, 10));
+  const [calendarFilter, setCalendarFilter] = useState("All");
+  const [showNewEventForm, setShowNewEventForm] = useState(false);
+  const [newEvent, setNewEvent] = useState({
+    title: "",
+    complainant: "",
+    time: "10:00 AM",
+    date: new Date().toISOString().slice(0, 10),
+    type: "Counselling",
+    officer: "Clinician P. Sharma",
+    priority: "Moderate"
+  });
+
   const fetchAssessments = async () => {
     try {
-      setLoading(true);
-      const data = await base44.entities.Assessment.list("-created_date", 200);
+      const data = await base44.entities.Assessment.list("-created_date", 100);
       setAssessments(data || []);
     } catch (e) {
-      console.error("Failed to load assessments:", e);
+      console.error(e);
     } finally {
       setLoading(false);
     }
@@ -119,55 +360,38 @@ export default function Dashboard() {
     fetchAssessments();
   }, []);
 
-  // Metrics computation
-  const counts = { Low: 0, Moderate: 0, High: 0, Critical: 0 };
-  assessments.forEach((a) => {
-    if (counts[a.risk_category] !== undefined) counts[a.risk_category]++;
-  });
-  const total = assessments.length;
-  const critical = counts.Critical;
-
-  // Indicator counts
-  const indicatorCounts = {};
-  assessments.forEach((a) => {
-    if (Array.isArray(a.detected_indicators)) {
-      a.detected_indicators.forEach((ind) => {
-        indicatorCounts[ind] = (indicatorCounts[ind] || 0) + 1;
-      });
-    }
-  });
-  const topIndicators = Object.entries(indicatorCounts)
-    .sort((a, b) => b[1] - a[1])
-    .map(([name, count]) => ({ name, count }));
-
-  // Filtered rows
   const filtered = assessments.filter((a) => {
-    const matchFilter = filter === "All" || a.risk_category === filter;
     const q = query.toLowerCase();
-    const matchQuery =
-      !q ||
-      (a.reference_id || "").toLowerCase().includes(q) ||
-      (a.full_name || "").toLowerCase().includes(q) ||
-      (a.primary_concern || "").toLowerCase().includes(q) ||
-      (a.language || "").toLowerCase().includes(q);
-    return matchFilter && matchQuery;
+    const matchQ =
+      !query ||
+      (a.reference_id && a.reference_id.toLowerCase().includes(q)) ||
+      (a.full_name && a.full_name.toLowerCase().includes(q)) ||
+      (a.primary_concern && a.primary_concern.toLowerCase().includes(q)) ||
+      (a.language && a.language.toLowerCase().includes(q));
+    const matchF = filter === "All" || a.risk_category === filter;
+    return matchQ && matchF;
   });
 
-  // Actions
-  const handleDelete = async (id, e) => {
+  const stats = {
+    total: assessments.length || 1200,
+    critical: assessments.filter((a) => a.risk_category === "Critical").length,
+    high: assessments.filter((a) => a.risk_category === "High").length,
+    moderate: assessments.filter((a) => a.risk_category === "Moderate").length,
+    low: assessments.filter((a) => a.risk_category === "Low").length,
+    avgSvi: assessments.length
+      ? Math.round(assessments.reduce((sum, a) => sum + (a.svi_score || 0), 0) / assessments.length)
+      : 68
+  };
+
+  const handleDeleteRecord = async (id, e) => {
     if (e) e.stopPropagation();
+    if (!window.confirm("Delete this assessment permanently?")) return;
     try {
       await base44.entities.Assessment.delete(id);
       setAssessments((prev) => prev.filter((item) => item.id !== id));
-      if (selectedAssessment?.id === id) {
-        setSelectedAssessment(null);
-      }
-      setDeleteConfirmId(null);
-      selectedRowIds.delete(id);
-      setSelectedRowIds(new Set(selectedRowIds));
+      if (selectedAssessment?.id === id) setSelectedAssessment(null);
     } catch (err) {
-      console.error("Failed to delete record:", err);
-      alert("Failed to delete record: " + err.message);
+      console.error(err);
     }
   };
 
@@ -319,823 +543,721 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-[#F3F5F9]">
-        <Loader2 className="w-10 h-10 text-[#0092B8] animate-spin mb-3" />
-        <p className="text-sm font-bold text-[#0D2444]">Loading Executive Dashboard...</p>
+      <div className="min-h-screen flex flex-col items-center justify-center bg-[#EEF2F8]">
+        <Loader2 className="w-10 h-10 text-[#4E36E2] animate-spin mb-3" />
+        <p className="text-sm font-bold text-[#1E1B4B]">Loading Executive Dashboard...</p>
       </div>
     );
   }
 
-  // Weekly bar data
-  const weeklyBars = [
-    { day: "Mon", pct: "9.9%", height: 35, active: false },
-    { day: "Tue", pct: "19%", height: 50, active: false },
-    { day: "Wed", pct: "31%", height: 68, active: false },
-    { day: "Thu", pct: "34%", height: 75, active: false },
-    { day: "Fri", pct: "90%", height: 95, active: true },
-    { day: "Sat", pct: "78%", height: 80, active: false },
-    { day: "Sun", pct: "50%", height: 58, active: false }
-  ];
-
   return (
-    <div className="min-h-screen bg-[#EBEFF4] text-slate-800 p-3 sm:p-6 lg:p-8 font-sans">
+    <div className="min-h-screen bg-[#EEF2F8] text-[#1E1B4B] p-3 sm:p-5 lg:p-7 font-sans selection:bg-[#4E36E2] selection:text-white">
       <Chatbot />
 
-      {/* Outer Executive White Canvas Frame */}
-      <div className="max-w-[1400px] mx-auto bg-white rounded-[2rem] sm:rounded-[2.5rem] shadow-xl border border-slate-200/70 p-5 sm:p-8 lg:p-10 transition-all">
+      {/* Main Container Wrapper Frame */}
+      <div className="max-w-[1440px] mx-auto bg-[#F4F6FB] rounded-[28px] sm:rounded-[36px] shadow-soft-lg border border-white/80 p-3 sm:p-6 lg:p-7 transition-all flex flex-col lg:flex-row gap-6">
         
-        {/* ================= TOP NAVIGATION BAR ================= */}
-        <header className="flex flex-col md:flex-row items-center justify-between gap-4 pb-7 mb-7 border-b border-slate-100">
-          {/* Left Brand */}
-          <div className="flex items-center gap-3 self-start md:self-auto">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#0092B8] to-[#0D2444] flex items-center justify-center text-white shadow-md shadow-cyan-900/10">
-              <Brain className="w-5 h-5" />
-            </div>
-            <div>
-              <span className="text-2xl font-black text-[#0D2444] tracking-tight">MindPluze</span>
-              <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#0092B8] ml-2 bg-[#0092B8]/10 px-2 py-0.5 rounded-full">
-                NHAA 14566
-              </span>
-            </div>
-          </div>
-
-          {/* Center Navigation Pills */}
-          <nav className="flex items-center gap-1 bg-slate-50 p-1.5 rounded-full border border-slate-200/60 overflow-x-auto max-w-full">
-            {["Dashboard", "Analytics", "Assessments", "Triage Logs", "Calendar"].map((tab) => (
-              <button
-                key={tab}
-                onClick={() => {
-                  setActiveNavTab(tab);
-                  if (tab === "Assessments") {
-                    document.getElementById("cases-table")?.scrollIntoView({ behavior: "smooth" });
-                  } else if (tab === "Analytics") {
-                    setShowDistributionModal(true);
-                  }
-                }}
-                className={`px-4 py-2 rounded-full text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${
-                  activeNavTab === tab
-                    ? "bg-[#0D2444] text-white shadow-sm"
-                    : "text-slate-600 hover:text-[#0D2444] hover:bg-white"
-                }`}
-              >
-                {tab}
-              </button>
-            ))}
-          </nav>
-
-          {/* Right Controls & Officer Profile */}
-          <div className="flex items-center gap-3 self-end md:self-auto">
-            {/* Notification Bell */}
-            <button
-              onClick={() => alert("All 14566 crisis channels operational.")}
-              className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 transition relative cursor-pointer"
-              title="Notifications"
+        {/* ================= LEFT FLOATING ICON DOCK ================= */}
+        <aside className="hidden lg:flex flex-col items-center justify-between py-2 px-1">
+          <div className="flex flex-col items-center gap-6">
+            {/* Active Home Tab */}
+            <Link
+              to="/home"
+              title="Home Portal"
+              className="w-11 h-11 rounded-2xl bg-white shadow-soft-circle border border-slate-100 flex items-center justify-center text-[#4E36E2] hover:scale-105 transition-all cursor-pointer"
             >
-              <Bell className="w-4 h-4" />
-              <span className="absolute top-2 right-2 w-2 h-2 bg-[#0092B8] rounded-full ring-2 ring-white" />
-            </button>
+              <HomeIcon className="w-5 h-5 stroke-[2.2]" />
+            </Link>
 
-            {/* Settings Gear */}
+            {/* Activity / Heartbeat */}
             <button
               onClick={() => setShowDistributionModal(true)}
-              className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 transition cursor-pointer"
-              title="Settings & Metrics"
+              title="SVI Analytics Breakdown"
+              className="w-10 h-10 rounded-full flex items-center justify-center text-[#8E95B2] hover:text-[#4E36E2] hover:bg-white hover:shadow-soft-circle transition-all cursor-pointer"
             >
-              <Settings className="w-4 h-4" />
+              <Activity className="w-5 h-5" />
             </button>
 
-            {/* Officer Profile Menu */}
-            <div className="relative">
-              <button
-                onClick={() => setShowProfileMenu(!showProfileMenu)}
-                className="flex items-center gap-2.5 pl-1.5 pr-3 py-1 rounded-full border border-slate-200 hover:bg-slate-50 transition cursor-pointer"
-              >
-                <div className="w-8 h-8 rounded-full bg-[#0D2444] text-[#00E5FF] flex items-center justify-center font-bold text-xs">
-                  SC
-                </div>
-                <div className="text-left hidden sm:block">
-                  <p className="text-xs font-bold text-[#0D2444] leading-tight">Sarah Collins</p>
-                  <p className="text-[10px] font-medium text-slate-400">NHAA Case Officer</p>
-                </div>
-                <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
-              </button>
+            {/* Database / Assessments Table */}
+            <button
+              onClick={() => document.getElementById("cases-table")?.scrollIntoView({ behavior: "smooth" })}
+              title="Case Database Table"
+              className="w-10 h-10 rounded-full flex items-center justify-center text-[#8E95B2] hover:text-[#4E36E2] hover:bg-white hover:shadow-soft-circle transition-all cursor-pointer"
+            >
+              <Folder className="w-5 h-5" />
+            </button>
 
-              {/* Profile Dropdown */}
-              {showProfileMenu && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-50 animate-in fade-in zoom-in-95 duration-150">
-                  <div className="px-4 py-2 border-b border-slate-100">
-                    <p className="text-xs font-bold text-[#0D2444]">{user?.email || "officer.admin@mindpluze.gov.in"}</p>
-                    <p className="text-[10px] text-[#0092B8] font-semibold">Lead Clinical Admin</p>
-                  </div>
-                  <Link
-                    to="/home"
-                    className="w-full text-left px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 flex items-center gap-2"
-                  >
-                    <Brain className="w-3.5 h-3.5 text-[#0092B8]" /> View Citizen Home
-                  </Link>
-                  <button
-                    onClick={() => logout("/")}
-                    className="w-full text-left px-4 py-2 text-xs font-semibold text-rose-600 hover:bg-rose-50 flex items-center gap-2 cursor-pointer"
-                  >
-                    <LogOut className="w-3.5 h-3.5" /> Log Out
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-        </header>
+            {/* Triage Card with Notification Dot */}
+            <button
+              onClick={() => setShowTriageLogsModal(true)}
+              title="Live Triage Logs"
+              className="w-10 h-10 rounded-full flex items-center justify-center text-[#8E95B2] hover:text-[#4E36E2] hover:bg-white hover:shadow-soft-circle relative transition-all cursor-pointer"
+            >
+              <CreditCard className="w-5 h-5" />
+              <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full ring-2 ring-white" />
+            </button>
 
-        {/* ================= PAGE TITLE & ACTION TOOLBAR ================= */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-7">
-          <div>
-            <h1 className="text-3xl sm:text-4xl font-black text-[#0D2444] tracking-tight">
-              Clinical Triage Overview
-            </h1>
-            <p className="text-xs sm:text-sm font-medium text-slate-400 mt-0.5">
-              Live SVI predictive stress monitoring, victim vulnerability triage and helpline dispatch status.
-            </p>
-          </div>
+            {/* Trophy / Performance */}
+            <button
+              onClick={() => setShowDistributionModal(true)}
+              title="Performance & Distribution"
+              className="w-10 h-10 rounded-full flex items-center justify-center text-[#8E95B2] hover:text-[#4E36E2] hover:bg-white hover:shadow-soft-circle transition-all cursor-pointer"
+            >
+              <Trophy className="w-5 h-5" />
+            </button>
 
-          {/* Action Toolbar */}
-          <div className="flex items-center gap-2.5 flex-wrap">
-            {/* View dropdown */}
-            <div className="relative">
-              <button
-                onClick={() => setShowDistributionModal(true)}
-                className="bg-white border border-slate-200/90 text-slate-700 font-bold px-4 py-2.5 rounded-2xl text-xs flex items-center gap-2 shadow-sm hover:bg-slate-50 transition cursor-pointer"
-              >
-                <span>Default View</span>
-                <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
-              </button>
-            </div>
-
-            {/* Export button */}
+            {/* Document Notes */}
             <button
               onClick={handleDownloadAllReport}
-              className="bg-white border border-slate-200/90 text-slate-700 font-bold px-4 py-2.5 rounded-2xl text-xs flex items-center gap-2 shadow-sm hover:bg-slate-50 transition cursor-pointer"
+              title="Export Full Summary"
+              className="w-10 h-10 rounded-full flex items-center justify-center text-[#8E95B2] hover:text-[#4E36E2] hover:bg-white hover:shadow-soft-circle transition-all cursor-pointer"
             >
-              <Upload className="w-3.5 h-3.5 text-slate-500" />
-              <span>Export</span>
-            </button>
-
-            {/* Primary Filter button */}
-            <button
-              onClick={() => {
-                document.getElementById("cases-table")?.scrollIntoView({ behavior: "smooth" });
-              }}
-              className="bg-[#0092B8] hover:bg-[#007F9E] text-white font-bold px-5 py-2.5 rounded-2xl text-xs flex items-center gap-2 shadow-md shadow-cyan-900/15 transition hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
-            >
-              <Filter className="w-3.5 h-3.5" />
-              <span>Filter Cases</span>
+              <FileText className="w-5 h-5" />
             </button>
           </div>
-        </div>
 
-        {/* ================= TOP 3-COLUMN METRICS ROW ================= */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
-          
-          {/* Column 1: Stacked Dark Card + White Card */}
-          <div className="space-y-4 flex flex-col justify-between">
-            {/* Dark Navy Card (Total Sales style) */}
-            <div className="bg-[#0D2444] text-white rounded-3xl p-6 shadow-sm flex flex-col justify-between relative overflow-hidden flex-1">
-              <div className="flex items-center justify-between text-slate-300 text-sm font-semibold mb-2">
-                <span>Total Logged Cases</span>
-                <button
-                  onClick={() => setShowDistributionModal(true)}
-                  className="hover:text-white p-1"
-                >
-                  <MoreHorizontal className="w-4 h-4" />
-                </button>
-              </div>
+          {/* Bottom Logout */}
+          <button
+            onClick={() => logout("/")}
+            title="Log Out"
+            className="w-10 h-10 rounded-full flex items-center justify-center text-rose-400 hover:text-rose-600 hover:bg-rose-50 transition-all cursor-pointer"
+          >
+            <LogOut className="w-5 h-5" />
+          </button>
+        </aside>
 
-              <div className="flex items-baseline gap-3 my-2">
-                <span className="text-3xl sm:text-4xl font-black tracking-tight">
-                  {total + 1420}
-                </span>
-                <span className="inline-flex items-center text-xs font-bold text-[#00E5FF] bg-white/10 px-2.5 py-0.5 rounded-full">
-                  +22% vs last month
-                </span>
-              </div>
-            </div>
+        {/* ================= MAIN CONTENT AREA ================= */}
+        <div className="flex-1 flex flex-col gap-6">
 
-            {/* White Card (Total Purchase style) */}
-            <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm flex flex-col justify-between flex-1">
-              <div className="flex items-center justify-between text-slate-500 text-sm font-semibold mb-2">
-                <span>Critical Risk Escalations</span>
-                <button
-                  onClick={() => setFilter("Critical")}
-                  className="hover:text-slate-700 p-1"
-                >
-                  <MoreHorizontal className="w-4 h-4" />
-                </button>
-              </div>
-
-              <div className="flex items-baseline gap-3 my-2">
-                <span className="text-3xl sm:text-4xl font-black text-[#0D2444] tracking-tight">
-                  {critical + 380}
-                </span>
-                <span className="inline-flex items-center text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-0.5 rounded-full">
-                  +8% vs last month
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Column 2: User Growth Card */}
-          <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-sm font-bold text-[#0D2444]">Victim Intake & SVI Trends</span>
-                <button
-                  onClick={() => setShowDistributionModal(true)}
-                  className="text-slate-400 hover:text-slate-700 p-1"
-                >
-                  <MoreHorizontal className="w-4 h-4" />
-                </button>
-              </div>
-
-              {/* Time Range Pills */}
-              <div className="flex items-center gap-1.5 bg-slate-50 p-1 rounded-full border border-slate-200/60 w-fit mb-5">
-                {["24h", "32h", "A Week", "Month"].map((tf) => (
-                  <button
-                    key={tf}
-                    onClick={() => setGrowthTimeframe(tf)}
-                    className={`px-3 py-1 rounded-full text-[11px] font-bold transition cursor-pointer ${
-                      growthTimeframe === tf
-                        ? "bg-[#0D2444] text-white shadow-sm"
-                        : "text-slate-500 hover:text-slate-800"
-                    }`}
-                  >
-                    {tf}
-                  </button>
-                ))}
-              </div>
-
-              <div className="flex items-baseline gap-2 mb-4">
-                <span className="text-3xl sm:text-4xl font-black text-[#0D2444] tracking-tight">
-                  205,890
-                </span>
-                <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
-                  +22%
-                </span>
-              </div>
-
-              {/* Gradient Progress Bar */}
-              <div className="w-full bg-slate-100 h-7 rounded-2xl overflow-hidden p-1 flex items-center">
-                <div className="h-full bg-gradient-to-r from-[#0092B8] via-[#00B4D8] to-[#2DD4BF] rounded-xl w-[72%] shadow-sm transition-all duration-700" />
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between text-xs font-medium text-slate-400 mt-4 pt-3 border-t border-slate-100">
-              <span>Checking totally</span>
-              <span className="font-bold text-[#0D2444]">+210 today</span>
-            </div>
-          </div>
-
-          {/* Column 3: Semicircle Radial Volume Gauge */}
-          <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm flex flex-col justify-between">
-            <div className="flex items-center justify-between mb-1">
-              <span className="text-sm font-bold text-[#0D2444]">Clinical Triage Volume</span>
-              <button
-                onClick={() => setShowDistributionModal(true)}
-                className="text-slate-400 hover:text-slate-700 p-1"
-              >
-                <MoreHorizontal className="w-4 h-4" />
-              </button>
-            </div>
-
-            {/* Semicircle Gauge Graphic */}
-            <div className="my-2">
-              <SemicircleGauge value={145} subtitle="New Complainants" />
-            </div>
-
-            <div className="text-center text-xs font-medium text-slate-400 pt-2 border-t border-slate-100">
-              <span>Triage processing speed has increased </span>
-              <span className="font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full inline-block ml-1">
-                +25%
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* ================= BOTTOM 2-COLUMN ROW ================= */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 mb-8">
-          
-          {/* Left: Statistics & Weekly Bars (7 cols) */}
-          <div className="lg:col-span-7 bg-white border border-slate-100 rounded-3xl p-6 sm:p-7 shadow-sm flex flex-col justify-between">
-            {/* Header */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
-              <span className="text-base font-bold text-[#0D2444]">Statistics</span>
-
-              {/* Pills */}
-              <div className="flex items-center gap-1.5 flex-wrap">
-                {["SVI Distribution", "Voice Insights"].map((item) => (
-                  <button
-                    key={item}
-                    onClick={() => setStatsFilter(item)}
-                    className={`px-3 py-1.5 rounded-full text-xs font-bold transition cursor-pointer ${
-                      statsFilter === item
-                        ? "bg-[#0D2444] text-white shadow-sm"
-                        : "bg-slate-50 text-slate-600 border border-slate-200/60 hover:bg-slate-100"
-                    }`}
-                  >
-                    {item}
-                  </button>
-                ))}
-
-                <button className="px-3 py-1.5 rounded-full text-xs font-bold bg-slate-50 text-slate-600 border border-slate-200/60 flex items-center gap-1">
-                  <span>Weekly</span>
-                  <ChevronDown className="w-3 h-3 text-slate-400" />
-                </button>
-              </div>
-            </div>
-
-            {/* Main Stats + Column Chart */}
-            <div className="grid grid-cols-1 sm:grid-cols-12 gap-6 items-end">
-              {/* Left Score */}
-              <div className="sm:col-span-4 space-y-2">
-                <span className="text-4xl sm:text-5xl font-black text-[#0D2444] tracking-tight block">
-                  +76%
-                </span>
-                <p className="text-xs font-semibold text-slate-400 leading-relaxed">
-                  Helpline crisis de-escalation index increases every week.
+          {/* ================= TOP HEADER (Title + Centered Search) ================= */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            {/* Title */}
+            <div className="flex items-center gap-3">
+              <div className="w-1 h-8 rounded-full bg-[#4E36E2]" />
+              <div>
+                <h1 className="text-2xl font-black text-[#1E1B4B] tracking-tight flex items-center gap-2">
+                  Dashboard
+                </h1>
+                <p className="text-xs font-semibold text-[#8E95B2]">
+                  Payments updates · AI-Predictive Stress & SVI Real-Time
                 </p>
-                <div className="pt-2">
-                  <span className="inline-flex items-center gap-1.5 text-[11px] font-bold text-[#0092B8] bg-[#0092B8]/10 px-3 py-1 rounded-full">
-                    <CheckCircle2 className="w-3.5 h-3.5" /> 88% Resolution Rate
-                  </span>
+              </div>
+            </div>
+
+            {/* Centered Pill Search Input */}
+            <div className="w-full sm:w-80 relative">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8E95B2]" />
+              <input
+                type="text"
+                placeholder="Search..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                className="w-full bg-white rounded-full pl-10 pr-4 py-2.5 text-xs font-medium text-[#1E1B4B] placeholder-[#8E95B2] shadow-soft-circle border border-slate-100 focus:outline-none focus:ring-2 focus:ring-[#4E36E2]/20 transition-all"
+              />
+            </div>
+          </div>
+
+          {/* ================= MAIN DASHBOARD GRID ================= */}
+          <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
+            
+            {/* LEFT / CENTER COLUMN (Metrics + Chart + Bottom Cards) -> 8 Cols */}
+            <div className="xl:col-span-8 flex flex-col gap-6">
+              
+              {/* TOP METRICS ROW (White Card with 3 Metrics & Circular Rings) */}
+              <div className="bg-white rounded-3xl p-6 sm:p-7 shadow-soft border border-white/60">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 divide-y sm:divide-y-0 sm:divide-x divide-slate-100">
+                  
+                  {/* Metric 1: Total Income / Total Assessments */}
+                  <div className="flex items-center justify-between pr-0 sm:pr-4 pt-4 sm:pt-0">
+                    <div>
+                      <span className="text-xs font-bold text-[#8E95B2]">Total Income</span>
+                      <p className="text-2xl sm:text-3xl font-black text-[#1E1B4B] mt-1 tracking-tight">
+                        $1200
+                      </p>
+                      <span className="text-[10px] font-semibold text-[#8E95B2] mt-0.5 block">
+                        During last month
+                      </span>
+                    </div>
+                    <CircularRing percentage={68} color="#4E36E2" />
+                  </div>
+
+                  {/* Metric 2: Total Expense / High Vulnerability */}
+                  <div className="flex items-center justify-between px-0 sm:px-4 pt-4 sm:pt-0">
+                    <div>
+                      <span className="text-xs font-bold text-[#8E95B2]">Total Expense</span>
+                      <p className="text-2xl sm:text-3xl font-black text-[#1E1B4B] mt-1 tracking-tight">
+                        4.500K
+                      </p>
+                      <span className="text-[10px] font-semibold text-[#8E95B2] mt-0.5 block">
+                        During 2 months
+                      </span>
+                    </div>
+                    <CircularRing percentage={35} color="#FFA07A" />
+                  </div>
+
+                  {/* Metric 3: Total Bonus / Resolved */}
+                  <div className="flex items-center justify-between pl-0 sm:pl-4 pt-4 sm:pt-0">
+                    <div>
+                      <span className="text-xs font-bold text-[#8E95B2]">Total Bonus</span>
+                      <p className="text-2xl sm:text-3xl font-black text-[#1E1B4B] mt-1 tracking-tight">
+                        6.100k
+                      </p>
+                      <span className="text-[10px] font-semibold text-[#8E95B2] mt-0.5 block">
+                        During 6 months
+                      </span>
+                    </div>
+                    <CircularRing percentage={70} color="#FFB396" />
+                  </div>
+
                 </div>
               </div>
 
-              {/* Right Weekly Columns */}
-              <div className="sm:col-span-8 flex items-end justify-between gap-2 pt-6">
-                {weeklyBars.map((b) => (
-                  <div key={b.day} className="flex-1 flex flex-col items-center gap-2">
-                    {/* Floating Pill Badge */}
-                    <span
-                      className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md ${
-                        b.active
-                          ? "bg-emerald-100 text-emerald-700"
-                          : "bg-slate-100 text-slate-500"
+              {/* CENTER SMOOTH WAVE CHART */}
+              <div className="bg-white rounded-3xl p-6 sm:p-7 shadow-soft border border-white/60">
+                <WaveChart />
+              </div>
+
+              {/* BOTTOM ROW (Order Capsule Bars + Earnings Semicircle Gauge) */}
+              <div className="grid grid-cols-1 sm:grid-cols-12 gap-6">
+                
+                {/* Bottom Left Card: Order / Intake Volume -> 5 Cols */}
+                <div className="sm:col-span-5 bg-white rounded-3xl p-6 shadow-soft border border-white/60 flex flex-col justify-between">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="text-sm font-black text-[#1E1B4B]">Order</h4>
+                      <p className="text-2xl font-black text-[#1E1B4B] mt-1 tracking-tight">4,76k</p>
+                    </div>
+                    <button
+                      onClick={() => setShowDistributionModal(true)}
+                      className="w-8 h-8 rounded-full bg-[#F4F6FB] flex items-center justify-center text-[#8E95B2] hover:text-[#4E36E2] transition cursor-pointer"
+                    >
+                      <MoreHorizontal className="w-4 h-4" />
+                    </button>
+                  </div>
+
+                  {/* Capsule Bars in alternating Peach / Light Lavender */}
+                  <div className="flex items-end justify-between h-24 pt-4 px-1">
+                    {[
+                      { h: "35%", c: "#FFA07A" },
+                      { h: "55%", c: "#FFA07A" },
+                      { h: "85%", c: "#FFA07A" },
+                      { h: "70%", c: "#FFA07A" },
+                      { h: "45%", c: "#FFA07A" }
+                    ].map((bar, idx) => (
+                      <div key={idx} className="flex flex-col items-center">
+                        <div className="w-3.5 h-20 bg-[#F4F6FB] rounded-full flex flex-col justify-end overflow-hidden p-0.5">
+                          <div
+                            className="w-full rounded-full transition-all duration-700"
+                            style={{ height: bar.h, backgroundColor: bar.c }}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Bottom Middle Card: Earnings / SVI Donut Gauge -> 7 Cols */}
+                <div className="sm:col-span-7 bg-white rounded-3xl p-6 shadow-soft border border-white/60 flex flex-col justify-between">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="text-sm font-black text-[#1E1B4B]">Earnings</h4>
+                      <p className="text-xs font-semibold text-[#8E95B2]">Total Expense</p>
+                    </div>
+                    <button
+                      onClick={() => setShowDistributionModal(true)}
+                      className="w-8 h-8 rounded-full bg-[#F4F6FB] flex items-center justify-center text-[#8E95B2] hover:text-[#4E36E2] transition cursor-pointer"
+                    >
+                      <MoreHorizontal className="w-4 h-4" />
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 items-center gap-4 mt-2">
+                    <div>
+                      <p className="text-2xl sm:text-3xl font-black text-[#1E1B4B] tracking-tight">
+                        $5078.78
+                      </p>
+                      <p className="text-[11px] font-semibold text-[#8E95B2] mt-1 leading-relaxed">
+                        Profile is 45% More than last Month
+                      </p>
+                    </div>
+
+                    <div className="flex justify-center sm:justify-end">
+                      <SemicircleGradientGauge percentage={75} />
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+            {/* RIGHT COLUMN (Profile + Recent Activities + Quick Transactions) -> 4 Cols */}
+            <div className="xl:col-span-4 flex flex-col gap-6">
+
+              {/* CARD 1: User Profile & 3 Circular Action Buttons */}
+              <div className="bg-white rounded-3xl p-6 shadow-soft border border-white/60 flex flex-col items-center text-center">
+                {/* Avatar with Green Active Dot */}
+                <div className="relative mb-3">
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-[#FFA07A] via-[#FF8C68] to-[#4E36E2] p-0.5 shadow-md">
+                    <div className="w-full h-full rounded-full bg-[#1E1B4B] text-white flex items-center justify-center font-black text-xl">
+                      G
+                    </div>
+                  </div>
+                  <span className="absolute bottom-1 right-1 w-3.5 h-3.5 bg-emerald-500 rounded-full ring-2 ring-white" />
+                </div>
+
+                <div className="flex items-center gap-1.5">
+                  <h3 className="text-base font-black text-[#1E1B4B]">Ghulam</h3>
+                  <ChevronDown className="w-4 h-4 text-[#8E95B2]" />
+                </div>
+                <p className="text-xs font-semibold text-[#8E95B2] mt-0.5">Product Designer</p>
+
+                {/* Row of 3 Soft 3D Circular Buttons */}
+                <div className="flex items-center justify-center gap-4 mt-5">
+                  {/* Chat */}
+                  <button
+                    onClick={() => window.dispatchEvent(new CustomEvent("open-chatbot"))}
+                    className="w-10 h-10 rounded-full bg-white shadow-soft-circle border border-slate-100 flex items-center justify-center text-[#1E1B4B] hover:text-[#4E36E2] hover:scale-105 transition cursor-pointer"
+                    title="AI Chatbot"
+                  >
+                    <Mail className="w-4 h-4" />
+                  </button>
+
+                  {/* Calendar */}
+                  <button
+                    onClick={() => setShowCalendarModal(true)}
+                    className="w-10 h-10 rounded-full bg-white shadow-soft-circle border border-slate-100 flex items-center justify-center text-[#1E1B4B] hover:text-[#4E36E2] hover:scale-105 transition cursor-pointer"
+                    title="Calendar Schedules"
+                  >
+                    <Calendar className="w-4 h-4" />
+                  </button>
+
+                  {/* Bell */}
+                  <button
+                    onClick={() => setShowTriageLogsModal(true)}
+                    className="w-10 h-10 rounded-full bg-white shadow-soft-circle border border-slate-100 flex items-center justify-center text-[#1E1B4B] hover:text-[#4E36E2] hover:scale-105 transition relative cursor-pointer"
+                    title="Notifications"
+                  >
+                    <Bell className="w-4 h-4" />
+                    <span className="absolute top-2 right-2 w-1.5 h-1.5 bg-[#4E36E2] rounded-full" />
+                  </button>
+                </div>
+              </div>
+
+              {/* CARD 2: Recent Activities */}
+              <div className="bg-white rounded-3xl p-6 shadow-soft border border-white/60">
+                <div className="flex items-center justify-between mb-4">
+                  <h4 className="text-sm font-black text-[#1E1B4B]">Recent Activities</h4>
+                  <span className="text-[11px] font-bold text-[#8E95B2]">02 Mar 2026</span>
+                </div>
+
+                <div className="space-y-4">
+                  {[
+                    {
+                      name: "Mike Loke",
+                      role: "Backend Developer",
+                      time: "5 Mins ago",
+                      avatarBg: "bg-amber-100 text-amber-800"
+                    },
+                    {
+                      name: "Sarah Hosten",
+                      role: "Senior Quality Assurance",
+                      time: "15 Mins ago",
+                      avatarBg: "bg-purple-100 text-purple-800"
+                    },
+                    {
+                      name: "Dena Thompson",
+                      role: "Business Development",
+                      time: "30 Mins ago",
+                      avatarBg: "bg-rose-100 text-rose-800"
+                    },
+                    {
+                      name: "William Tiet",
+                      role: "Project Manager",
+                      time: "1 hour ago",
+                      avatarBg: "bg-blue-100 text-blue-800"
+                    }
+                  ].map((act, i) => (
+                    <div key={i} className="flex items-center justify-between gap-3 group">
+                      <div className="flex items-center gap-3">
+                        <div className={`w-9 h-9 rounded-full ${act.avatarBg} flex items-center justify-center font-bold text-xs shrink-0 shadow-sm`}>
+                          {act.name.charAt(0)}
+                        </div>
+                        <div>
+                          <p className="text-xs font-black text-[#1E1B4B] group-hover:text-[#4E36E2] transition">
+                            {act.name}
+                          </p>
+                          <p className="text-[10px] font-semibold text-[#8E95B2]">{act.role}</p>
+                        </div>
+                      </div>
+                      <span className="text-[10px] font-semibold text-[#8E95B2] whitespace-nowrap">
+                        {act.time}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* CARD 3: Quick Transactions / Quick Actions */}
+              <div className="bg-white rounded-3xl p-6 shadow-soft border border-white/60">
+                <div className="flex items-center justify-between mb-3">
+                  <div>
+                    <h4 className="text-sm font-black text-[#1E1B4B]">Quick Transactions</h4>
+                    <p className="text-[10px] font-semibold text-[#8E95B2]">List of your beneficiary</p>
+                  </div>
+                  <button
+                    onClick={() => setShowDistributionModal(true)}
+                    className="w-8 h-8 rounded-full bg-[#F4F6FB] flex items-center justify-center text-[#8E95B2] hover:text-[#4E36E2] transition cursor-pointer"
+                  >
+                    <Edit3 className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+
+                {/* Pill amount input row */}
+                <div className="bg-[#F4F6FB] rounded-full p-1 flex items-center justify-between mb-4">
+                  <button className="bg-[#4E36E2] text-white text-xs font-black px-4 py-2 rounded-full shadow-soft-purple hover:bg-[#3C28B6] transition">
+                    Amount
+                  </button>
+                  <span className="text-xs font-black text-[#1E1B4B] pr-4">$570</span>
+                </div>
+
+                {/* Teammate Avatars with + button */}
+                <div className="flex items-center gap-2 pt-1">
+                  <button
+                    onClick={() => setShowCalendarModal(true)}
+                    className="w-8 h-8 rounded-full bg-[#4E36E2] text-white flex items-center justify-center text-sm font-bold shadow-soft-purple hover:scale-105 transition cursor-pointer"
+                  >
+                    +
+                  </button>
+                  {["#FFA07A", "#6C5CE7", "#FF7654", "#20BF6B"].map((col, idx) => (
+                    <div
+                      key={idx}
+                      className="w-8 h-8 rounded-full border-2 border-white shadow-sm flex items-center justify-center text-[10px] font-black text-white"
+                      style={{ backgroundColor: col }}
+                    >
+                      {String.fromCharCode(65 + idx)}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          {/* ================= CASES DATABASE TABLE SECTION ================= */}
+          <div id="cases-table" className="bg-white rounded-3xl p-6 sm:p-8 shadow-soft border border-white/60 mt-2">
+            
+            {/* Table Header Controls */}
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-6 border-b border-slate-100">
+              <div>
+                <h3 className="text-lg font-black text-[#1E1B4B]">Case Assessment Database</h3>
+                <p className="text-xs font-semibold text-[#8E95B2] mt-0.5">
+                  Showing {filtered.length} of {assessments.length} logged complaints
+                </p>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-2.5">
+                {/* Risk Filter Pills */}
+                <div className="flex items-center gap-1 bg-[#F4F6FB] p-1 rounded-full">
+                  {["All", "Critical", "High", "Moderate", "Low"].map((lvl) => (
+                    <button
+                      key={lvl}
+                      onClick={() => setFilter(lvl)}
+                      className={`px-3 py-1 rounded-full text-xs font-bold transition-all cursor-pointer ${
+                        filter === lvl
+                          ? "bg-[#4E36E2] text-white shadow-soft-purple"
+                          : "text-[#8E95B2] hover:text-[#1E1B4B]"
                       }`}
                     >
-                      {b.pct}
-                    </span>
-
-                    {/* Column Bar */}
-                    <div className="w-full max-w-[36px] bg-slate-100 rounded-2xl h-36 flex items-end p-1">
-                      <div
-                        className={`w-full rounded-xl transition-all duration-500 ${
-                          b.active
-                            ? "bg-gradient-to-t from-[#0092B8] to-[#2DD4BF] shadow-md shadow-cyan-900/20"
-                            : "bg-[#0092B8]/20"
-                        }`}
-                        style={{ height: `${b.height}%` }}
-                      />
-                    </div>
-
-                    {/* Day label */}
-                    <span className="text-xs font-bold text-slate-400 mt-1">{b.day}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Right: Regional Map & Live Officer Dispatch (5 cols) */}
-          <div className="lg:col-span-5 bg-white border border-slate-100 rounded-3xl p-6 shadow-sm relative overflow-hidden flex flex-col justify-between">
-            {/* Header */}
-            <div className="flex items-center justify-between mb-4 z-10">
-              <span className="text-base font-bold text-[#0D2444]">Live Officer Dispatch</span>
-              <button
-                onClick={() => setShowDistributionModal(true)}
-                className="text-slate-400 hover:text-slate-700 p-1"
-              >
-                <MoreHorizontal className="w-4 h-4" />
-              </button>
-            </div>
-
-            {/* Illustrated Soft Map Graphic Canvas */}
-            <div className="relative rounded-2xl bg-gradient-to-br from-[#E8F4F8] via-[#EDF8FA] to-[#E3F2F7] p-4 my-2 border border-slate-200/50 overflow-hidden">
-              {/* Subtle Map Country Pin */}
-              <div className="absolute top-3 right-6 flex items-center justify-center w-8 h-8 rounded-full bg-white shadow-md border border-slate-100 z-10">
-                <span className="text-sm">🇮🇳</span>
-              </div>
-
-              {/* Dispatch Feed List */}
-              <div className="space-y-2.5 relative z-10">
-                {/* Item 1 */}
-                <div className="bg-white/90 backdrop-blur rounded-2xl p-2.5 flex items-center justify-between gap-2 shadow-sm border border-white/80 hover:bg-white transition">
-                  <div className="flex items-center gap-2.5 min-w-0">
-                    <div className="w-8 h-8 rounded-full bg-[#0092B8] text-white flex items-center justify-center font-bold text-xs shrink-0">
-                      JV
-                    </div>
-                    <div className="min-w-0">
-                      <p className="text-xs font-bold text-[#0D2444] truncate">Officer J. Verma</p>
-                      <p className="text-[10px] text-slate-500 truncate">Police & Legal Aid Dispatched</p>
-                    </div>
-                  </div>
-                  <button className="bg-[#0092B8] hover:bg-[#007F9E] text-white text-[11px] font-bold px-3 py-1.5 rounded-xl shadow-sm shrink-0 flex items-center gap-1">
-                    <MapPin className="w-3 h-3" /> Zone East
-                  </button>
+                      {lvl}
+                    </button>
+                  ))}
                 </div>
 
-                {/* Item 2 */}
-                <div className="bg-white/90 backdrop-blur rounded-2xl p-2.5 flex items-center justify-between gap-2 shadow-sm border border-white/80 hover:bg-white transition">
-                  <div className="flex items-center gap-2.5 min-w-0">
-                    <div className="w-8 h-8 rounded-full bg-[#0D2444] text-white flex items-center justify-center font-bold text-xs shrink-0">
-                      PS
-                    </div>
-                    <div className="min-w-0">
-                      <p className="text-xs font-bold text-[#0D2444] truncate">Clinician P. Sharma</p>
-                      <p className="text-[10px] text-slate-500 truncate">Psychological Triage Active</p>
-                    </div>
-                  </div>
-                  <button className="bg-[#0092B8] hover:bg-[#007F9E] text-white text-[11px] font-bold px-3 py-1.5 rounded-xl shadow-sm shrink-0 flex items-center gap-1">
-                    <MapPin className="w-3 h-3" /> Zone Central
-                  </button>
-                </div>
-
-                {/* Item 3 */}
-                <div className="bg-white/90 backdrop-blur rounded-2xl p-2.5 flex items-center justify-between gap-2 shadow-sm border border-white/80 hover:bg-white transition">
-                  <div className="flex items-center gap-2.5 min-w-0">
-                    <div className="w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shrink-0">
-                      MR
-                    </div>
-                    <div className="min-w-0">
-                      <p className="text-xs font-bold text-[#0D2444] truncate">Officer M. Rao</p>
-                      <p className="text-[10px] text-slate-500 truncate">Emergency Medical Enroute</p>
-                    </div>
-                  </div>
-                  <button className="bg-[#0092B8] hover:bg-[#007F9E] text-white text-[11px] font-bold px-3 py-1.5 rounded-xl shadow-sm shrink-0 flex items-center gap-1">
-                    <MapPin className="w-3 h-3" /> Zone South
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between text-xs text-slate-400 pt-2">
-              <span>National Helpline 14566 Live Dispatch</span>
-              <span className="font-bold text-[#0092B8]">24/7 Active</span>
-            </div>
-          </div>
-        </div>
-
-        {/* ================= DETAILED CASE MANAGEMENT & ASSESSMENT TABLE ================= */}
-        <section id="cases-table" className="pt-4 border-t border-slate-100">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-5">
-            <div>
-              <h2 className="text-xl font-extrabold text-[#0D2444] flex items-center gap-2">
-                <FileText className="w-5 h-5 text-[#0092B8]" />
-                Complainant Assessment Database ({filtered.length})
-              </h2>
-              <p className="text-xs text-slate-400 mt-0.5">
-                Full encrypted repository of victim narratives, speech biomarkers, and triage classifications.
-              </p>
-            </div>
-
-            {/* Search & Filter */}
-            <div className="flex items-center gap-3 flex-wrap">
-              {/* Search Bar */}
-              <div className="flex items-center gap-2 bg-slate-50 border border-slate-200/80 rounded-2xl px-3.5 py-2 w-full sm:w-72">
-                <Search className="w-4 h-4 text-slate-400" />
-                <input
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Search name, ID, concern..."
-                  className="bg-transparent text-xs font-medium outline-none w-full text-slate-800 placeholder-slate-400"
-                />
-                {query && (
-                  <button onClick={() => setQuery("")} className="text-slate-400 hover:text-slate-600">
-                    <X className="w-3.5 h-3.5" />
+                {/* Batch Actions */}
+                {selectedRowIds.size > 0 && (
+                  <button
+                    onClick={handleDeleteSelected}
+                    className="bg-red-50 text-red-600 hover:bg-red-100 text-xs font-bold px-3.5 py-1.5 rounded-full flex items-center gap-1.5 transition cursor-pointer"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" /> Delete ({selectedRowIds.size})
                   </button>
                 )}
-              </div>
 
-              {/* Risk Level Pills */}
-              <div className="flex items-center gap-1 bg-slate-50 p-1 rounded-2xl border border-slate-200/60">
-                {["All", "Critical", "High", "Moderate", "Low"].map((f) => (
-                  <button
-                    key={f}
-                    onClick={() => setFilter(f)}
-                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer ${
-                      filter === f
-                        ? "bg-[#0D2444] text-white shadow-sm"
-                        : "text-slate-600 hover:text-slate-900"
-                    }`}
-                  >
-                    {f}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Table Container */}
-          <div className="bg-white border border-slate-100 rounded-3xl overflow-hidden shadow-sm">
-            {selectedRowIds.size > 0 && (
-              <div className="bg-[#0D2444] text-white px-6 py-3 flex items-center justify-between text-xs font-bold">
-                <span>{selectedRowIds.size} record(s) selected</span>
+                {/* Export CSV */}
                 <button
-                  onClick={handleDeleteSelected}
-                  className="bg-rose-500 hover:bg-rose-600 text-white px-3 py-1.5 rounded-xl flex items-center gap-1.5 transition cursor-pointer"
+                  onClick={handleDownloadAllReport}
+                  className="bg-[#F4F6FB] hover:bg-slate-100 text-[#1E1B4B] text-xs font-bold px-3.5 py-1.5 rounded-full flex items-center gap-1.5 border border-slate-200/60 transition cursor-pointer"
                 >
-                  <Trash2 className="w-3.5 h-3.5" /> Delete Selected
+                  <Download className="w-3.5 h-3.5 text-[#4E36E2]" /> Export CSV
                 </button>
               </div>
-            )}
+            </div>
 
-            {filtered.length === 0 ? (
-              <div className="p-12 text-center text-slate-400 text-sm">
-                No assessments found matching query.
-              </div>
-            ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm text-left">
-                  <thead className="bg-slate-50/80 text-slate-400 text-[11px] uppercase tracking-wider font-bold border-b border-slate-100">
+            {/* Table Container */}
+            <div className="overflow-x-auto pt-4">
+              <table className="w-full text-left text-xs">
+                <thead>
+                  <tr className="border-b border-slate-100 text-[#8E95B2] font-black uppercase tracking-wider text-[10px]">
+                    <th className="py-3 px-3 w-10">
+                      <input
+                        type="checkbox"
+                        checked={filtered.length > 0 && selectedRowIds.size === filtered.length}
+                        onChange={toggleSelectAll}
+                        className="rounded accent-[#4E36E2] cursor-pointer"
+                      />
+                    </th>
+                    <th className="py-3 px-3">Reference ID</th>
+                    <th className="py-3 px-3">Complainant</th>
+                    <th className="py-3 px-3">Primary Concern</th>
+                    <th className="py-3 px-3">SVI Score</th>
+                    <th className="py-3 px-3">Risk Tier</th>
+                    <th className="py-3 px-3">Date</th>
+                    <th className="py-3 px-3 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-50 font-medium">
+                  {filtered.length === 0 ? (
                     <tr>
-                      <th className="px-5 py-4 w-10">
-                        <input
-                          type="checkbox"
-                          checked={selectedRowIds.size === filtered.length && filtered.length > 0}
-                          onChange={toggleSelectAll}
-                          className="rounded border-slate-300 text-[#0092B8] focus:ring-[#0092B8] cursor-pointer"
-                        />
-                      </th>
-                      <th className="px-4 py-4 font-bold text-[#0D2444]">Reference ID</th>
-                      <th className="px-4 py-4 font-bold text-[#0D2444]">Complainant</th>
-                      <th className="px-4 py-4 font-bold text-[#0D2444]">Concern</th>
-                      <th className="px-4 py-4 font-bold text-[#0D2444]">Language</th>
-                      <th className="px-4 py-4 font-bold text-[#0D2444]">SVI Score</th>
-                      <th className="px-4 py-4 font-bold text-[#0D2444]">Risk Category</th>
-                      <th className="px-4 py-4 font-bold text-[#0D2444]">Date</th>
-                      <th className="px-5 py-4 font-bold text-[#0D2444] text-right">Action</th>
+                      <td colSpan={8} className="py-8 text-center text-[#8E95B2] font-semibold">
+                        No assessment records found matching your filters.
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-100">
-                    {filtered.map((a) => (
-                      <tr
-                        key={a.id}
-                        className="hover:bg-slate-50/70 transition cursor-pointer group"
-                        onClick={() => setSelectedAssessment(a)}
-                      >
-                        <td className="px-5 py-4" onClick={(e) => e.stopPropagation()}>
-                          <input
-                            type="checkbox"
-                            checked={selectedRowIds.has(a.id)}
-                            onChange={(e) => toggleRowSelect(a.id, e)}
-                            className="rounded border-slate-300 text-[#0092B8] focus:ring-[#0092B8] cursor-pointer"
-                          />
-                        </td>
-                        <td className="px-4 py-4 font-mono text-xs font-bold text-[#0092B8]">
-                          {a.reference_id}
-                        </td>
-                        <td className="px-4 py-4 font-bold text-[#0D2444]">
-                          {a.full_name || "Anonymous Complainant"}
-                        </td>
-                        <td className="px-4 py-4 text-slate-600 text-xs font-medium">
-                          {a.primary_concern || "General distress"}
-                        </td>
-                        <td className="px-4 py-4 text-slate-600 text-xs">
-                          {a.language || "English"}
-                        </td>
-                        <td className="px-4 py-4 font-black text-[#0D2444]">
-                          {a.svi_score}/100
-                        </td>
-                        <td className="px-4 py-4">
-                          <span
-                            className={`px-3 py-1 rounded-full text-xs font-bold inline-block ${
-                              a.risk_category === "Critical"
-                                ? "bg-red-50 text-red-600 border border-red-200"
-                                : a.risk_category === "High"
-                                ? "bg-rose-50 text-rose-600 border border-rose-200"
-                                : a.risk_category === "Moderate"
-                                ? "bg-amber-50 text-amber-600 border border-amber-200"
-                                : "bg-cyan-50 text-[#0092B8] border border-cyan-200"
-                            }`}
-                          >
-                            {a.risk_category}
-                          </span>
-                        </td>
-                        <td className="px-4 py-4 text-xs text-slate-400 whitespace-nowrap">
-                          {a.created_date ? new Date(a.created_date).toLocaleDateString() : "—"}
-                        </td>
-                        <td className="px-5 py-4 text-right whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
-                          <div className="inline-flex items-center gap-1.5">
-                            <button
-                              onClick={() => setSelectedAssessment(a)}
-                              className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-[#0092B8] hover:text-white text-[#0D2444] text-xs font-bold transition cursor-pointer"
+                  ) : (
+                    filtered.map((item) => {
+                      const isSelected = selectedRowIds.has(item.id);
+                      return (
+                        <tr
+                          key={item.id}
+                          onClick={() => setSelectedAssessment(item)}
+                          className={`hover:bg-[#F4F6FB]/80 transition cursor-pointer ${
+                            isSelected ? "bg-purple-50/50" : ""
+                          }`}
+                        >
+                          <td className="py-3.5 px-3" onClick={(e) => toggleRowSelect(item.id, e)}>
+                            <input
+                              type="checkbox"
+                              checked={isSelected}
+                              onChange={() => {}}
+                              className="rounded accent-[#4E36E2] cursor-pointer"
+                            />
+                          </td>
+                          <td className="py-3.5 px-3 font-black text-[#1E1B4B]">
+                            {item.reference_id || item.id?.slice(0, 8)}
+                          </td>
+                          <td className="py-3.5 px-3 text-[#1E1B4B] font-bold">
+                            {item.full_name || "Anonymous"}
+                          </td>
+                          <td className="py-3.5 px-3 text-[#8E95B2]">
+                            {item.primary_concern || "General Distress"}
+                          </td>
+                          <td className="py-3.5 px-3 font-black text-[#1E1B4B]">
+                            <span className="inline-flex items-center gap-1.5">
+                              <span
+                                className="w-2 h-2 rounded-full"
+                                style={{ backgroundColor: RISK_COLORS[item.risk_category] || "#4E36E2" }}
+                              />
+                              {item.svi_score || 0}/100
+                            </span>
+                          </td>
+                          <td className="py-3.5 px-3">
+                            <span
+                              className="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider"
+                              style={{
+                                backgroundColor:
+                                  item.risk_category === "Critical"
+                                    ? "#FEE2E2"
+                                    : item.risk_category === "High"
+                                    ? "#FFEDD5"
+                                    : item.risk_category === "Moderate"
+                                    ? "#FEF3C7"
+                                    : "#EEF0FD",
+                                color:
+                                  item.risk_category === "Critical"
+                                    ? "#DC2626"
+                                    : item.risk_category === "High"
+                                    ? "#EA580C"
+                                    : item.risk_category === "Moderate"
+                                    ? "#D97706"
+                                    : "#4E36E2"
+                              }}
                             >
-                              <Eye className="w-3.5 h-3.5 inline mr-1" /> View
-                            </button>
-                            <button
-                              onClick={(e) => handleDownloadSingle(a, e)}
-                              className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition cursor-pointer"
-                              title="Download Report"
-                            >
-                              <Download className="w-3.5 h-3.5 inline mr-1" /> Report
-                            </button>
-                            <button
-                              onClick={(e) => handleDelete(a.id, e)}
-                              className="px-2.5 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-600 hover:text-white text-rose-600 text-xs font-bold transition cursor-pointer"
-                              title="Delete Record"
-                            >
-                              <Trash2 className="w-3.5 h-3.5" />
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
+                              {item.risk_category || "Moderate"}
+                            </span>
+                          </td>
+                          <td className="py-3.5 px-3 text-[#8E95B2] font-semibold text-[11px]">
+                            {item.created_date ? new Date(item.created_date).toLocaleDateString() : "Today"}
+                          </td>
+                          <td className="py-3.5 px-3 text-right">
+                            <div className="flex items-center justify-end gap-1.5" onClick={(e) => e.stopPropagation()}>
+                              <button
+                                onClick={(e) => handleDownloadSingle(item, e)}
+                                className="w-7 h-7 rounded-full bg-[#F4F6FB] flex items-center justify-center text-[#8E95B2] hover:text-[#4E36E2] transition"
+                                title="Download Report"
+                              >
+                                <Download className="w-3.5 h-3.5" />
+                              </button>
+                              <button
+                                onClick={(e) => handleDeleteRecord(item.id, e)}
+                                className="w-7 h-7 rounded-full bg-[#F4F6FB] flex items-center justify-center text-[#8E95B2] hover:text-red-600 transition"
+                                title="Delete"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  )}
+                </tbody>
+              </table>
+            </div>
+
           </div>
-        </section>
+
+        </div>
 
       </div>
 
-      {/* ================= MODAL: RECORD DETAILS ================= */}
+      {/* ================= DETAIL MODAL ================= */}
       {selectedAssessment && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="relative w-full max-w-2xl bg-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-100 max-h-[90vh] overflow-y-auto">
-            <button
-              onClick={() => setSelectedAssessment(null)}
-              className="absolute top-5 right-5 text-slate-400 hover:text-slate-700 p-2 rounded-full hover:bg-slate-100 transition cursor-pointer"
-            >
-              <X className="w-5 h-5" />
-            </button>
-
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-2xl bg-[#0092B8]/10 text-[#0092B8] flex items-center justify-center font-bold text-lg">
-                <Brain className="w-6 h-6" />
-              </div>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 animate-in fade-in duration-150">
+          <div className="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-slate-100 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-100">
               <div>
-                <div className="flex items-center gap-2">
-                  <h3 className="text-2xl font-black text-[#0D2444]">
-                    {selectedAssessment.full_name || "Anonymous Complainant"}
-                  </h3>
-                  <span className="font-mono text-xs font-bold text-[#0092B8] bg-[#0092B8]/10 px-2.5 py-0.5 rounded-full">
-                    {selectedAssessment.reference_id}
-                  </span>
+                <span className="text-xs font-bold text-[#8E95B2]">Case Reference</span>
+                <h3 className="text-xl font-black text-[#1E1B4B]">
+                  {selectedAssessment.reference_id || selectedAssessment.id}
+                </h3>
+              </div>
+              <button
+                onClick={() => setSelectedAssessment(null)}
+                className="w-8 h-8 rounded-full bg-[#F4F6FB] flex items-center justify-center text-[#8E95B2] hover:text-[#1E1B4B]"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div className="py-5 space-y-4 text-xs">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-[#F4F6FB] p-4 rounded-2xl">
+                <div>
+                  <span className="text-[#8E95B2] font-semibold">Complainant</span>
+                  <p className="font-bold text-[#1E1B4B] mt-0.5">{selectedAssessment.full_name || "Anonymous"}</p>
                 </div>
-                <p className="text-xs text-slate-400">
-                  Assessment ID: {selectedAssessment.id} · Recorded: {new Date(selectedAssessment.created_date || Date.now()).toLocaleString()}
+                <div>
+                  <span className="text-[#8E95B2] font-semibold">Age / Gender</span>
+                  <p className="font-bold text-[#1E1B4B] mt-0.5">
+                    {selectedAssessment.age || "—"} / {selectedAssessment.gender || "—"}
+                  </p>
+                </div>
+                <div>
+                  <span className="text-[#8E95B2] font-semibold">Language</span>
+                  <p className="font-bold text-[#1E1B4B] mt-0.5">{selectedAssessment.language || "English"}</p>
+                </div>
+                <div>
+                  <span className="text-[#8E95B2] font-semibold">SVI Score</span>
+                  <p className="font-black text-[#4E36E2] mt-0.5">{selectedAssessment.svi_score || 0}/100</p>
+                </div>
+              </div>
+
+              <div>
+                <h4 className="font-black text-[#1E1B4B] mb-1">Clinical Narrative</h4>
+                <p className="text-slate-600 bg-slate-50 p-3.5 rounded-xl border border-slate-100 leading-relaxed">
+                  {selectedAssessment.narrative || "No extended narrative provided."}
+                </p>
+              </div>
+
+              <div>
+                <h4 className="font-black text-[#1E1B4B] mb-1">AI Diagnostic Summary</h4>
+                <p className="text-slate-600 bg-purple-50/50 p-3.5 rounded-xl border border-purple-100 leading-relaxed">
+                  {selectedAssessment.summary || "Acute distress markers detected."}
                 </p>
               </div>
             </div>
 
-            {/* Metric Highlights */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 text-center">
-                <p className="text-[11px] font-bold text-slate-400 uppercase">SVI Index</p>
-                <p className="text-2xl font-black text-[#0D2444] mt-1">{selectedAssessment.svi_score}/100</p>
-              </div>
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 text-center">
-                <p className="text-[11px] font-bold text-slate-400 uppercase">Risk Level</p>
-                <p className="text-base font-black text-rose-600 mt-2">{selectedAssessment.risk_category}</p>
-              </div>
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 text-center">
-                <p className="text-[11px] font-bold text-slate-400 uppercase">Self Stress</p>
-                <p className="text-2xl font-black text-[#0D2444] mt-1">{selectedAssessment.self_reported_stress || 5}/10</p>
-              </div>
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 text-center">
-                <p className="text-[11px] font-bold text-slate-400 uppercase">Language</p>
-                <p className="text-base font-black text-[#0D2444] mt-2">{selectedAssessment.language || "English"}</p>
-              </div>
-            </div>
-
-            {/* Narrative & Clinical Summary */}
-            <div className="space-y-4 mb-6">
-              <div>
-                <h4 className="text-xs font-bold text-[#0D2444] uppercase tracking-wider mb-1.5">
-                  Complainant Narrative
-                </h4>
-                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 text-sm text-slate-700 leading-relaxed">
-                  {selectedAssessment.narrative || "No narrative text."}
-                </div>
-              </div>
-
-              <div>
-                <h4 className="text-xs font-bold text-[#0D2444] uppercase tracking-wider mb-1.5">
-                  AI Clinical Summary & Recommendations
-                </h4>
-                <div className="p-4 rounded-2xl bg-[#0092B8]/5 border border-[#0092B8]/15 text-sm text-slate-700 leading-relaxed">
-                  {selectedAssessment.summary}
-                </div>
-              </div>
-            </div>
-
-            {/* Actions */}
-            <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
+            <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
               <button
                 onClick={(e) => handleDownloadSingle(selectedAssessment, e)}
-                className="bg-[#0092B8] hover:bg-[#007F9E] text-white text-xs font-bold px-5 py-2.5 rounded-xl shadow-md transition flex items-center gap-2 cursor-pointer"
+                className="bg-[#4E36E2] text-white font-bold px-5 py-2.5 rounded-full shadow-soft-purple hover:bg-[#3C28B6] transition flex items-center gap-2 text-xs"
               >
-                <Download className="w-4 h-4" /> Download Report
-              </button>
-
-              <button
-                onClick={() => setSelectedAssessment(null)}
-                className="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-5 py-2.5 rounded-xl transition cursor-pointer"
-              >
-                Close
+                <Download className="w-3.5 h-3.5" /> Download Report
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* ================= MODAL: DISTRIBUTION BREAKDOWN ================= */}
-      {showDistributionModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="relative w-full max-w-2xl bg-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-100 max-h-[85vh] overflow-y-auto">
-            <button
-              onClick={() => setShowDistributionModal(false)}
-              className="absolute top-5 right-5 text-slate-400 hover:text-slate-700 p-2 rounded-full hover:bg-slate-100 transition cursor-pointer"
-            >
-              <X className="w-5 h-5" />
-            </button>
-
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-2xl bg-[#0092B8]/10 text-[#0092B8] flex items-center justify-center">
-                <BarChart3 className="w-6 h-6" />
-              </div>
+      {/* ================= TRIAGE LOGS MODAL ================= */}
+      {showTriageLogsModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 animate-in fade-in duration-150">
+          <div className="bg-white rounded-3xl max-w-3xl w-full p-6 sm:p-8 shadow-2xl border border-slate-100 max-h-[88vh] overflow-y-auto">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-100">
               <div>
-                <h3 className="text-2xl font-black text-[#0D2444]">Clinical SVI Breakdown</h3>
-                <p className="text-xs text-slate-500">Comprehensive screening statistics across all complainant data</p>
+                <h3 className="text-xl font-black text-[#1E1B4B]">National Triage Dispatch Logs</h3>
+                <p className="text-xs font-semibold text-[#8E95B2]">Live incident responses & officer dispatches</p>
               </div>
-            </div>
-
-            {/* Risk Category Distribution */}
-            <div className="mb-6">
-              <h4 className="text-xs font-bold text-[#0D2444] uppercase tracking-wide mb-3">
-                Risk Classification Breakdown
-              </h4>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                {Object.entries(counts).map(([cat, count]) => {
-                  const pct = total ? Math.round((count / total) * 100) : 0;
-                  return (
-                    <div
-                      key={cat}
-                      className="p-4 rounded-2xl border border-slate-100 text-center"
-                      style={{ backgroundColor: `${RISK_COLORS[cat]}10` }}
-                    >
-                      <p className="text-xs font-bold" style={{ color: RISK_COLORS[cat] }}>
-                        {cat} Risk
-                      </p>
-                      <p className="text-2xl font-black text-[#0D2444] mt-1">{count}</p>
-                      <p className="text-[11px] text-slate-500">{pct}% of total</p>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Top Detected Psychological Indicators */}
-            <div className="mb-6">
-              <h4 className="text-xs font-bold text-[#0D2444] uppercase tracking-wide mb-3">
-                Trauma & Vulnerability Indicator Frequencies
-              </h4>
-              <div className="space-y-2.5">
-                {topIndicators.map(({ name, count }) => {
-                  const pct = total ? Math.round((count / total) * 100) : 0;
-                  return (
-                    <div key={name} className="space-y-1">
-                      <div className="flex justify-between text-xs font-bold text-[#0D2444]">
-                        <span className="capitalize">{name}</span>
-                        <span>{count} cases ({pct}%)</span>
-                      </div>
-                      <div className="w-full h-2.5 rounded-full bg-slate-100 overflow-hidden">
-                        <div
-                          className="h-full bg-gradient-to-r from-[#0092B8] to-[#EF4444] rounded-full transition-all duration-500"
-                          style={{ width: `${Math.min(100, pct)}%` }}
-                        />
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Modal Actions */}
-            <div className="pt-4 border-t border-slate-100 flex justify-end gap-2">
               <button
-                onClick={handleDownloadAllReport}
-                className="bg-[#0092B8] hover:bg-[#007F9E] text-white text-xs font-bold px-5 py-2.5 rounded-xl shadow-sm transition flex items-center gap-2 cursor-pointer"
+                onClick={() => setShowTriageLogsModal(false)}
+                className="w-8 h-8 rounded-full bg-[#F4F6FB] flex items-center justify-center text-[#8E95B2] hover:text-[#1E1B4B]"
               >
-                <Download className="w-4 h-4" /> Export Complete CSV
+                <X className="w-4 h-4" />
               </button>
-              <button
-                onClick={() => setShowDistributionModal(false)}
-                className="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition cursor-pointer"
-              >
-                Close
-              </button>
+            </div>
+
+            <div className="py-4 space-y-3">
+              {triageLogs.map((log) => (
+                <div key={log.id} className="p-4 rounded-2xl bg-[#F4F6FB] border border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="font-black text-[#1E1B4B]">{log.refId}</span>
+                      <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-purple-100 text-[#4E36E2]">
+                        {log.category}
+                      </span>
+                    </div>
+                    <p className="text-slate-600 mt-1">{log.action}</p>
+                  </div>
+                  <span className="text-[10px] font-bold text-[#8E95B2] shrink-0">{log.timestamp}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       )}
+
+      {/* ================= CALENDAR MODAL ================= */}
+      {showCalendarModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 animate-in fade-in duration-150">
+          <div className="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-slate-100 max-h-[88vh] overflow-y-auto">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+              <div>
+                <h3 className="text-xl font-black text-[#1E1B4B]">Clinical Schedules & Calendar</h3>
+                <p className="text-xs font-semibold text-[#8E95B2]">Debriefings, hearings & follow-up reviews</p>
+              </div>
+              <button
+                onClick={() => setShowCalendarModal(false)}
+                className="w-8 h-8 rounded-full bg-[#F4F6FB] flex items-center justify-center text-[#8E95B2] hover:text-[#1E1B4B]"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div className="py-4 space-y-3">
+              {calendarEvents.map((evt) => (
+                <div key={evt.id} className="p-4 rounded-2xl bg-[#F4F6FB] border border-slate-100 flex items-center justify-between text-xs">
+                  <div>
+                    <span className="font-black text-[#1E1B4B]">{evt.title}</span>
+                    <p className="text-[11px] text-[#8E95B2] mt-0.5">{evt.complainant} · {evt.officer}</p>
+                  </div>
+                  <span className="font-black text-[#4E36E2] bg-purple-50 px-2.5 py-1 rounded-full">{evt.time}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
