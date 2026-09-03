@@ -34,11 +34,15 @@ const AuthenticatedApp = () => {
   // Render the main app routes
   return (
     <Routes>
-      {/* Public Pages */}
-      <Route path="/" element={<Home />} />
+      {/* Primary Landing / Authentication Portal */}
+      <Route path="/" element={<Login />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/auth" element={<Login />} />
+
+      {/* Main Public & Application Pages */}
+      <Route path="/home" element={<Home />} />
       <Route path="/breathe" element={<Breathe />} />
       <Route path="/assessment" element={<Assessment />} />
-      <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password" element={<ResetPassword />} />

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Brain, Bot, ShieldCheck, Zap, CheckCircle2, Phone, AlertCircle, Stethoscope, ArrowRight, Activity, Users, Lock, HeartHandshake } from "lucide-react";
+import { Brain, Bot, ShieldCheck, Zap, Phone, AlertCircle, Stethoscope, ArrowRight, Activity, Lock, HeartHandshake } from "lucide-react";
 import SiteNav from "@/components/SiteNav";
 import Chatbot from "@/components/Chatbot";
 import EmergencyModal from "@/components/EmergencyModal";
@@ -205,7 +205,7 @@ export default function Home() {
             <div className="hidden lg:block absolute top-10 left-12 right-12 h-1 bg-gradient-to-r from-[#0E9F9A] via-[#00A896] to-[#081C35] rounded-full z-0" />
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
-              {steps.map((s, idx) => (
+              {steps.map((s) => (
                 <div
                   key={s.n}
                   className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm hover:shadow-lg transition-all duration-200 flex flex-col items-center text-center"

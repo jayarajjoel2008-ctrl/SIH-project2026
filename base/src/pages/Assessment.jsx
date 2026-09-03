@@ -49,7 +49,7 @@ export default function Assessment() {
       mediaRef.current = recorder;
       recorder.start();
       setRecording(true);
-    } catch (e) {
+    } catch {
       setError("Microphone access denied. Please use text input instead.");
     }
   };
@@ -70,7 +70,7 @@ export default function Assessment() {
       const text = typeof tRes === "string" ? tRes : tRes?.transcript || String(tRes);
       setNarrative(text || "");
       if (!text) setError("No speech detected. Please try again or type your concerns.");
-    } catch (e) {
+    } catch {
       setError("Could not transcribe audio. Please type your concerns instead.");
     } finally {
       setTranscribing(false);
@@ -155,7 +155,7 @@ export default function Assessment() {
               { n: "02", name: "Details", id: 2 },
               { n: "03", name: "Input", id: 3 },
               { n: "04", name: "Results", id: 5 }
-            ].map((s, idx) => {
+            ].map((s) => {
               const isCurrent = (step === s.id) || (step === 4 && s.id === 3);
               const isDone = (step > s.id) || (step === 5 && s.id < 5);
               return (
@@ -334,7 +334,7 @@ export default function Assessment() {
 
         {/* STEP 5: Results */}
         {step === 5 && result && (
-          <ResultsView result={result} savedId={savedId} form={form} onReset={reset} />
+          <ResultsView result={result} savedId={savedId} onReset={reset} />
         )}
       </div>
 
@@ -352,7 +352,7 @@ function Field({ label, children }) {
   );
 }
 
-function ResultsView({ result, savedId, form, onReset }) {
+function ResultsView({ result, savedId, onReset }) {
   const { svi_score, risk_category, detected_indicators, recommendations, summary, voice_features } = result;
   const rs = riskStyles[risk_category] || riskStyles.Moderate;
   const circumference = 2 * Math.PI * 70;

@@ -33,7 +33,7 @@ export default function Chatbot() {
         history: messages.map((m) => ({ role: m.role, content: m.content })),
       });
       setMessages((m) => [...m, { role: "assistant", content: res.data.reply }]);
-    } catch (e) {
+    } catch {
       setMessages((m) => [...m, { role: "assistant", content: "I'm having trouble responding right now. Please call 14566 for support." }]);
     } finally {
       setLoading(false);

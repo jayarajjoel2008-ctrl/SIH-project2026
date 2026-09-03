@@ -61,33 +61,46 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const logout = (shouldRedirect = true) => {
+  const loginWithRole = async (email, password, role = "user") => {
+    const loggedInUser = await base44.auth.loginViaEmailPassword(email, password, role);
+    setUser(loggedInUser);
+    setIsAuthenticated(true);
+    return loggedInUser;
+  };
+
+  const loginGuest = async () => {
+    const guestUser = await base44.auth.loginAsGuest();
+    setUser(guestUser);
+    setIsAuthenticated(true);
+    return guestUser;
+  };
+
+  const logout = (redirectUrl = "/") => {
     setUser(null);
     setIsAuthenticated(false);
-    
-    if (shouldRedirect) {
-      // Use the SDK's logout method which handles token cleanup and redirect
-      base44.auth.logout(window.location.href);
-    } else {
-      // Just remove the token without redirect
-      base44.auth.logout();
-    }
+    base44.auth.logout(redirectUrl);
   };
 
   const navigateToLogin = () => {
-    // Use the SDK's redirectToLogin method
-    base44.auth.redirectToLogin(window.location.href);
+    window.location.href = "/";
   };
+
+  const isAdmin = user?.role === "admin";
+  const isUser = user?.role === "user" || !user?.role;
 
   return (
     <AuthContext.Provider value={{ 
       user, 
       isAuthenticated, 
-      isLoadingAuth,
+      isLoadingAuth, 
       isLoadingPublicSettings,
       authError,
       appPublicSettings,
       authChecked,
+      isAdmin,
+      isUser,
+      loginWithRole,
+      loginGuest,
       logout,
       navigateToLogin,
       checkUserAuth,

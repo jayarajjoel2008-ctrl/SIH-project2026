@@ -73,18 +73,18 @@ export default function BreatheSection() {
       return {
         title: "Inhale",
         subtitle: `${secondsLeft}s · breathe in`,
-        scaleClass: "scale-125 transition-transform duration-[4000ms] ease-out",
-        ring1Scale: "scale-130 opacity-80 transition-all duration-[4000ms]",
-        ring2Scale: "scale-145 opacity-60 transition-all duration-[4000ms]"
+        scaleClass: "scale-125 transition-transform duration-4000 ease-out",
+        ring1Scale: "scale-130 opacity-80 transition-all duration-4000",
+        ring2Scale: "scale-145 opacity-60 transition-all duration-4000"
       };
     }
 
     return {
       title: "Exhale",
       subtitle: `${secondsLeft}s · release`,
-      scaleClass: "scale-90 transition-transform duration-[6000ms] ease-in",
-      ring1Scale: "scale-105 opacity-40 transition-all duration-[6000ms]",
-      ring2Scale: "scale-115 opacity-20 transition-all duration-[6000ms]"
+      scaleClass: "scale-90 transition-transform duration-6000 ease-in",
+      ring1Scale: "scale-105 opacity-40 transition-all duration-6000",
+      ring2Scale: "scale-115 opacity-20 transition-all duration-6000"
     };
   };
 

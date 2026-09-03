@@ -236,10 +236,17 @@ const customAuth = {
     return null;
   },
 
-  async loginViaEmailPassword(email, password) {
+  async loginViaEmailPassword(email, password, role = null) {
     try {
       if (appParams.appBaseUrl && appParams.appId) {
-        return await rawBase44.auth.loginViaEmailPassword(email, password);
+        const res = await rawBase44.auth.loginViaEmailPassword(email, password);
+        if (res) {
+          if (role) {
+            res.role = role;
+            localStorage.setItem("base44_user", JSON.stringify(res));
+          }
+          return res;
+        }
       }
     } catch (err) {
       console.warn("Remote login unreachable, creating local session:", err?.message);
@@ -248,11 +255,15 @@ const customAuth = {
     if (!email || !password) {
       throw new Error("Email and password are required");
     }
+
+    // Determine role: if explicit role provided, use it; otherwise check email pattern
+    const determinedRole = role || (email.toLowerCase().includes("admin") ? "admin" : "user");
+
     const user = {
       id: `usr-${Date.now()}`,
       email,
       name: email.split('@')[0],
-      role: 'admin',
+      role: determinedRole,
       created_date: new Date().toISOString()
     };
     localStorage.setItem("base44_user", JSON.stringify(user));
@@ -260,10 +271,29 @@ const customAuth = {
     return user;
   },
 
-  async register({ email, password }) {
+  async loginAsGuest() {
+    const guestUser = {
+      id: `guest-${Date.now()}`,
+      email: `citizen.guest@mindpluze.gov.in`,
+      name: "Anonymous Citizen",
+      role: "user",
+      isGuest: true,
+      created_date: new Date().toISOString()
+    };
+    localStorage.setItem("base44_user", JSON.stringify(guestUser));
+    localStorage.setItem("base44_access_token", `guest-tok-${Date.now()}`);
+    return guestUser;
+  },
+
+  async register({ email, password, role = "user" }) {
     try {
       if (appParams.appBaseUrl && appParams.appId) {
-        return await rawBase44.auth.register({ email, password });
+        const res = await rawBase44.auth.register({ email, password });
+        if (res) {
+          if (res.user) res.user.role = role;
+          localStorage.setItem("base44_user", JSON.stringify(res.user || res));
+          return res;
+        }
       }
     } catch (err) {
       console.warn("Remote register unreachable, using local registration:", err?.message);
@@ -275,7 +305,7 @@ const customAuth = {
       id: `usr-${Date.now()}`,
       email,
       name: email.split('@')[0],
-      role: 'admin',
+      role: role || "user",
       created_date: new Date().toISOString()
     };
     localStorage.setItem("base44_user", JSON.stringify(user));
@@ -283,7 +313,7 @@ const customAuth = {
     return { success: true, user };
   },
 
-  async verifyOtp({ email, otpCode }) {
+  async verifyOtp({ email, otpCode, role = "user" }) {
     try {
       if (appParams.appBaseUrl && appParams.appId) {
         return await rawBase44.auth.verifyOtp({ email, otpCode });
@@ -293,7 +323,7 @@ const customAuth = {
       id: `usr-${Date.now()}`,
       email: email || "user@example.com",
       name: (email || "user").split('@')[0],
-      role: 'admin',
+      role: role || "user",
       created_date: new Date().toISOString()
     };
     localStorage.setItem("base44_user", JSON.stringify(user));
@@ -312,17 +342,17 @@ const customAuth = {
     return { success: true };
   },
 
-  async loginWithProvider(provider, returnTo) {
+  async loginWithProvider(provider, returnTo, role = "user") {
     const user = {
       id: `usr-${Date.now()}`,
       email: `google.user@example.com`,
       name: `Google User`,
-      role: 'admin',
+      role: role || 'user',
       created_date: new Date().toISOString()
     };
     localStorage.setItem("base44_user", JSON.stringify(user));
     localStorage.setItem("base44_access_token", `tok-${Date.now()}`);
-    window.location.href = returnTo || '/dashboard';
+    window.location.href = returnTo || (role === 'admin' ? '/dashboard' : '/home');
   },
 
   logout(redirectUrl) {
