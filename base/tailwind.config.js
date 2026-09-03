@@ -6,8 +6,6 @@ module.exports = {
   	extend: {
   		opacity: Object.fromEntries(Array.from({ length: 101 }, (_, i) => [i, `${i / 100}`])),
   		borderRadius: {
-  			'3xl': '1.75rem',
-  			'4xl': '2.25rem',
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
@@ -24,10 +22,8 @@ module.exports = {
   				foreground: 'hsl(var(--popover-foreground))'
   			},
   			primary: {
-  				DEFAULT: '#4E36E2',
-  				foreground: '#FFFFFF',
-  				dark: '#3C28B6',
-  				light: '#EEF0FD'
+  				DEFAULT: 'hsl(var(--primary))',
+  				foreground: 'hsl(var(--primary-foreground))'
   			},
   			secondary: {
   				DEFAULT: 'hsl(var(--secondary))',
@@ -38,10 +34,8 @@ module.exports = {
   				foreground: 'hsl(var(--muted-foreground))'
   			},
   			accent: {
-  				DEFAULT: '#FF8C68',
-  				foreground: '#1E1B4B',
-  				soft: '#FFA07A',
-  				light: '#FFF0EB'
+  				DEFAULT: 'hsl(var(--accent))',
+  				foreground: 'hsl(var(--accent-foreground))'
   			},
   			destructive: {
   				DEFAULT: 'hsl(var(--destructive))',
@@ -51,40 +45,44 @@ module.exports = {
   			input: 'hsl(var(--input))',
   			ring: 'hsl(var(--ring))',
   			chart: {
-  				'1': '#4E36E2',
-  				'2': '#FFA07A',
-  				'3': '#FFB396',
-  				'4': '#6C5CE7',
-  				'5': '#CBD5E1'
+  				'1': 'hsl(var(--chart-1))',
+  				'2': 'hsl(var(--chart-2))',
+  				'3': 'hsl(var(--chart-3))',
+  				'4': 'hsl(var(--chart-4))',
+  				'5': 'hsl(var(--chart-5))'
   			},
-  			brand: {
-  				purple: '#4E36E2',
-  				'purple-dark': '#3C28B6',
-  				'purple-light': '#EEF0FD',
-  				'purple-soft': '#6C5CE7',
-  				peach: '#FF8C68',
-  				'peach-soft': '#FFA07A',
-  				'peach-pink': '#FFB396',
-  				'peach-light': '#FFF0EB',
-  				navy: '#1E1B4B',
-  				slate: '#8E95B2',
-  				bg: '#EEF2F8',
-  				card: '#FFFFFF',
-  				pill: '#F4F6FB'
+  			sidebar: {
+  				DEFAULT: 'hsl(var(--sidebar-background))',
+  				foreground: 'hsl(var(--sidebar-foreground))',
+  				primary: 'hsl(var(--sidebar-primary))',
+  				'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
+  				accent: 'hsl(var(--sidebar-accent))',
+  				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
+  				border: 'hsl(var(--sidebar-border))',
+  				ring: 'hsl(var(--sidebar-ring))'
+  			},
+  			navy: {
+  				DEFAULT: '#081C35',
+  				dark: '#051224',
+  				light: '#0D2B52',
+  			},
+  			teal: {
+  				DEFAULT: '#0E9F9A',
+  				hover: '#0C8783',
+  				light: '#D9F6EF',
+  			},
+  			softblue: '#E8F3FC',
+  			wellness: {
+  				mint: '#D9F6EF',
+  				amber: '#FFF0C2',
+  				softred: '#FCE1E0',
   			}
   		},
   		fontFamily: {
-  			heading: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
-  			body: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
-  			display: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+  			heading: ['var(--font-heading)'],
+  			body: ['var(--font-body)'],
+  			display: ['var(--font-display)'],
   			mono: ['var(--font-mono)']
-  		},
-  		boxShadow: {
-  			'soft': '0 10px 30px -5px rgba(45, 55, 95, 0.05), 0 4px 12px -2px rgba(45, 55, 95, 0.02)',
-  			'soft-lg': '0 16px 40px -8px rgba(45, 55, 95, 0.08), 0 6px 16px -3px rgba(45, 55, 95, 0.03)',
-  			'soft-circle': '0 4px 14px 0 rgba(71, 91, 166, 0.08), 0 1px 3px 0 rgba(71, 91, 166, 0.04)',
-  			'soft-purple': '0 8px 25px -4px rgba(78, 54, 226, 0.35)',
-  			'soft-peach': '0 8px 25px -4px rgba(255, 140, 104, 0.35)'
   		},
   		keyframes: {
   			'accordion-down': {

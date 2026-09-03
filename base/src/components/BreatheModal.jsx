@@ -41,13 +41,13 @@ export default function BreatheModal({ isOpen, onClose }) {
 
   const scaleClass =
     phase === "Inhale"
-      ? "scale-125 bg-purple-50 text-[#4E36E2] border-2 border-[#4E36E2]"
+      ? "scale-125 bg-[#D9F6EF] text-[#0E9F9A] border-2 border-[#0E9F9A]"
       : phase === "Hold"
-      ? "scale-125 bg-orange-50 text-[#FF8C68] border-2 border-[#FF8C68]"
-      : "scale-90 bg-slate-50 text-[#1E1B4B] border-2 border-[#1E1B4B]";
+      ? "scale-125 bg-[#FFF0C2] text-[#9A7000] border-2 border-[#D9A600]"
+      : "scale-90 bg-[#E8F3FC] text-[#081C35] border-2 border-[#081C35]";
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
       <div className="relative w-full max-w-md bg-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-100 text-center">
         <button
           onClick={onClose}
@@ -57,12 +57,12 @@ export default function BreatheModal({ isOpen, onClose }) {
           <X className="w-5 h-5" />
         </button>
 
-        <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-purple-50 text-[#4E36E2] mb-3">
+        <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-[#E8F3FC] text-[#0E9F9A] mb-3">
           <Wind className="w-6 h-6" />
         </div>
 
-        <h3 className="text-2xl font-black text-[#1E1B4B]">4-7-8 Calm Breathing</h3>
-        <p className="text-xs text-[#8E95B2] font-semibold mt-1">
+        <h3 className="text-2xl font-bold text-[#081C35]">4-7-8 Calm Breathing</h3>
+        <p className="text-sm text-slate-500 mt-1">
           Ground yourself to reduce immediate stress and regulate heart rate.
         </p>
 
@@ -71,19 +71,19 @@ export default function BreatheModal({ isOpen, onClose }) {
           <div
             className={`w-44 h-44 rounded-full flex flex-col items-center justify-center transition-all duration-1000 ease-in-out shadow-inner ${scaleClass}`}
           >
-            <span className="text-2xl font-black uppercase tracking-wider">{phase}</span>
-            <span className="text-4xl font-black mt-1">{timer}s</span>
+            <span className="text-2xl font-bold uppercase tracking-wider">{phase}</span>
+            <span className="text-4xl font-extrabold mt-1">{timer}s</span>
           </div>
         </div>
 
-        <p className="text-xs font-bold text-slate-700 min-h-[35px] px-4">
+        <p className="text-sm font-medium text-slate-700 min-h-[40px] px-4">
           {phaseInstruction[phase]}
         </p>
 
         <div className="mt-6 flex items-center justify-center gap-3">
           <button
             onClick={() => setIsActive(!isActive)}
-            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#4E36E2] hover:bg-[#3C28B6] text-white font-bold text-xs transition shadow-soft-purple"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#0E9F9A] hover:bg-[#0C8783] text-white font-medium text-sm transition shadow"
           >
             {isActive ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
             {isActive ? "Pause" : "Resume"}
@@ -94,14 +94,14 @@ export default function BreatheModal({ isOpen, onClose }) {
               setTimer(4);
               setIsActive(true);
             }}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-sm transition"
           >
             <RotateCcw className="w-4 h-4" /> Reset
           </button>
         </div>
 
-        <div className="mt-4 pt-4 border-t border-slate-100 text-xs text-[#8E95B2] flex items-center justify-center gap-1 font-semibold">
-          <Heart className="w-3.5 h-3.5 text-[#FF8C68]" /> Completed Cycles: {cycleCount}
+        <div className="mt-4 pt-4 border-t border-slate-100 text-xs text-slate-400 flex items-center justify-center gap-1">
+          <Heart className="w-3.5 h-3.5 text-rose-500" /> Completed Cycles: {cycleCount}
         </div>
       </div>
     </div>

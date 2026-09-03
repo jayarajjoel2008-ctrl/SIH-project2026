@@ -5,10 +5,7 @@ import { base44 } from "@/api/base44Client";
 export default function Chatbot() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState([
-    {
-      role: "assistant",
-      content: "Hello, I am your MindPluze AI Companion. You are in a safe, confidential space. How can I assist you today?"
-    },
+    { role: "assistant", content: "Hello, I'm here to support you. You are not alone. How are you feeling today?" },
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -24,10 +21,9 @@ export default function Chatbot() {
     return () => window.removeEventListener("open-chatbot", handleOpen);
   }, []);
 
-  const send = async (customText = null) => {
-    const textToSend = customText || input.trim();
-    if (!textToSend || loading) return;
-    const userMsg = { role: "user", content: textToSend };
+  const send = async () => {
+    if (!input.trim() || loading) return;
+    const userMsg = { role: "user", content: input.trim() };
     setMessages((m) => [...m, userMsg]);
     setInput("");
     setLoading(true);
@@ -38,13 +34,7 @@ export default function Chatbot() {
       });
       setMessages((m) => [...m, { role: "assistant", content: res.data.reply }]);
     } catch {
-      setMessages((m) => [
-        ...m,
-        {
-          role: "assistant",
-          content: "I am having temporary difficulty connecting. For emergency support, please dial toll-free National Helpline 14566."
-        }
-      ]);
+      setMessages((m) => [...m, { role: "assistant", content: "I'm having trouble responding right now. Please call 14566 for support." }]);
     } finally {
       setLoading(false);
     }
@@ -52,116 +42,64 @@ export default function Chatbot() {
 
   return (
     <>
-      {/* Floating Trigger Button */}
+      {/* Floating button */}
       <button
         onClick={() => setOpen((o) => !o)}
-        className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-[#4E36E2] text-white shadow-soft-purple flex items-center justify-center hover:scale-105 active:scale-95 transition-all cursor-pointer border border-white/40 group"
+        className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-[#081C35] text-[#0E9F9A] shadow-xl shadow-slate-900/30 flex items-center justify-center hover:scale-105 transition cursor-pointer border border-[#0E9F9A]/30"
         aria-label="AI Support Chatbot"
       >
-        {open ? <X className="w-6 h-6 text-white" /> : <Bot className="w-7 h-7 text-white group-hover:rotate-12 transition-transform" />}
+        {open ? <X className="w-6 h-6 text-white" /> : <Bot className="w-6 h-6 text-[#0E9F9A]" />}
       </button>
 
-      {/* Floating Chat Modal */}
       {open && (
-        <div className="fixed bottom-24 right-6 z-50 w-[calc(100vw-2.5rem)] sm:w-[26rem] h-[32rem] bg-white rounded-3xl shadow-soft-lg border border-slate-100 flex flex-col overflow-hidden animate-in zoom-in-95 slide-in-from-bottom-3 duration-200">
-          
-          {/* Header */}
-          <div className="px-5 py-4 bg-white text-[#1E1B4B] flex items-center justify-between border-b border-slate-100">
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-[#FFA07A] via-[#FF8C68] to-[#4E36E2] text-white flex items-center justify-center shadow-soft-purple font-bold">
-                <Bot className="w-5 h-5" />
-              </div>
+        <div className="fixed bottom-24 right-6 z-50 w-[calc(100vw-2.5rem)] sm:w-96 h-[28rem] bg-white rounded-3xl shadow-2xl border border-slate-100 flex flex-col overflow-hidden animate-in slide-in-from-bottom-2">
+          <div className="px-4 py-3.5 bg-[#081C35] text-white flex items-center justify-between border-b border-[#0E9F9A]/30">
+            <div className="flex items-center gap-2">
+              <Bot className="w-5 h-5 text-[#0E9F9A]" />
               <div>
-                <p className="font-black text-sm leading-tight text-[#1E1B4B]">
-                  MindPluze AI Companion
-                </p>
-                <p className="text-[10px] text-[#4E36E2] flex items-center gap-1 font-bold mt-0.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                  Online · 24/7 Crisis Triage
+                <p className="font-semibold text-sm leading-tight text-white">MindPluze AI Assistant</p>
+                <p className="text-[11px] opacity-90 flex items-center gap-1 text-[#D9F6EF]">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#0E9F9A]" /> Online · 24/7 Support
                 </p>
               </div>
             </div>
             <button
               onClick={() => setOpen(false)}
-              className="text-[#8E95B2] hover:text-[#1E1B4B] p-1.5 rounded-full hover:bg-slate-50 transition cursor-pointer"
+              className="text-white/80 hover:text-white p-1 rounded-lg"
             >
               <X className="w-4 h-4" />
             </button>
           </div>
-
-          {/* Quick Starter Chips */}
-          <div className="bg-[#F4F6FB] px-4 py-2 flex items-center gap-1.5 overflow-x-auto border-b border-slate-200/60 text-[11px] font-bold">
-            <button
-              onClick={() => send("I am feeling anxious and overwhelmed.")}
-              className="bg-white hover:bg-[#4E36E2] hover:text-white text-[#1E1B4B] px-3 py-1 rounded-full border border-slate-200 transition shrink-0 cursor-pointer shadow-sm"
-            >
-              Calm panic
-            </button>
-            <button
-              onClick={() => send("How do I contact National Helpline 14566?")}
-              className="bg-white hover:bg-[#4E36E2] hover:text-white text-[#1E1B4B] px-3 py-1 rounded-full border border-slate-200 transition shrink-0 cursor-pointer shadow-sm"
-            >
-              14566 Helpline
-            </button>
-            <button
-              onClick={() => send("Explain the Stress Vulnerability Index (SVI).")}
-              className="bg-white hover:bg-[#4E36E2] hover:text-white text-[#1E1B4B] px-3 py-1 rounded-full border border-slate-200 transition shrink-0 cursor-pointer shadow-sm"
-            >
-              What is SVI?
-            </button>
-          </div>
-
-          {/* Chat Messages */}
-          <div ref={scrollRef} className="flex-1 p-4 overflow-y-auto space-y-3 bg-[#EEF2F8]/50 text-xs">
+          <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3 bg-slate-50">
             {messages.map((m, i) => (
-              <div
-                key={i}
-                className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}
-              >
-                <div
-                  className={`max-w-[85%] rounded-2xl px-4 py-2.5 leading-relaxed font-medium ${
-                    m.role === "user"
-                      ? "bg-[#4E36E2] text-white rounded-br-none shadow-soft-purple"
-                      : "bg-white text-[#1E1B4B] rounded-bl-none shadow-sm border border-slate-100"
-                  }`}
-                >
+              <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
+                <div className={`max-w-[80%] px-3 py-2 rounded-2xl text-sm ${
+                  m.role === "user" ? "bg-[#0E9F9A] text-white rounded-br-sm" : "bg-white border border-slate-200 text-slate-700 rounded-bl-sm"
+                }`}>
                   {m.content}
                 </div>
               </div>
             ))}
             {loading && (
               <div className="flex justify-start">
-                <div className="bg-white text-[#8E95B2] rounded-2xl rounded-bl-none px-4 py-2.5 shadow-sm border border-slate-100 flex items-center gap-2">
-                  <Loader2 className="w-3.5 h-3.5 animate-spin text-[#4E36E2]" />
-                  <span className="text-[11px] font-semibold">MindPluze is typing...</span>
+                <div className="bg-white border border-slate-200 px-3 py-2 rounded-2xl rounded-bl-sm flex items-center gap-1.5 text-slate-400">
+                  <Loader2 className="w-4 h-4 animate-spin" /> typing...
                 </div>
               </div>
             )}
           </div>
-
-          {/* Input Form */}
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              send();
-            }}
-            className="p-3 bg-white border-t border-slate-100 flex items-center gap-2"
-          >
+          <div className="p-3 border-t border-slate-200 bg-white flex gap-2">
             <input
-              type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask anything or express how you feel..."
-              className="flex-1 px-4 py-2.5 rounded-full border border-slate-200 text-xs font-semibold focus:outline-none focus:border-[#4E36E2] focus:ring-2 focus:ring-[#4E36E2]/20 bg-[#F4F6FB]"
+              onKeyDown={(e) => e.key === "Enter" && send()}
+              placeholder="Type how you feel..."
+              className="flex-1 text-sm px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#0E9F9A]/30"
             />
-            <button
-              type="submit"
-              disabled={!input.trim() || loading}
-              className="w-10 h-10 rounded-full bg-[#4E36E2] hover:bg-[#3C28B6] disabled:opacity-40 text-white flex items-center justify-center transition shadow-soft-purple cursor-pointer shrink-0"
-            >
+            <button onClick={send} disabled={loading} className="w-10 h-10 rounded-lg bg-[#0E9F9A] text-white flex items-center justify-center disabled:opacity-50 hover:bg-[#081C35] transition">
               <Send className="w-4 h-4" />
             </button>
-          </form>
+          </div>
         </div>
       )}
     </>
