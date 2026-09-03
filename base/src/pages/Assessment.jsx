@@ -35,9 +35,9 @@ const LANGUAGES = [
 const CONCERNS = ["Work & Discrimination", "Acute Stress", "Anxiety & Panic", "Past Trauma & Atrocities", "Depression", "Family & Social Distress", "Other"];
 
 const riskStyles = {
-  Low: { color: "#00B4D8", bg: "bg-cyan-50", text: "text-[#00B4D8]", label: "Low Vulnerability" },
-  Moderate: { color: "#FFA217", bg: "bg-amber-50", text: "text-amber-700", label: "Moderate Risk" },
-  High: { color: "#F87171", bg: "bg-rose-50", text: "text-rose-600", label: "High Risk" },
+  Low: { color: "#4E36E2", bg: "bg-purple-50", text: "text-[#4E36E2]", label: "Low Vulnerability" },
+  Moderate: { color: "#FFA07A", bg: "bg-orange-50", text: "text-orange-700", label: "Moderate Risk" },
+  High: { color: "#FF8C68", bg: "bg-rose-50", text: "text-rose-600", label: "High Risk" },
   Critical: { color: "#EF4444", bg: "bg-red-50", text: "text-red-700", label: "Critical Escalation" },
 };
 
@@ -183,28 +183,26 @@ export default function Assessment() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A1118] text-slate-800 font-sans selection:bg-[#FFA217] selection:text-slate-950">
+    <div className="min-h-screen bg-[#EEF2F8] text-[#1E1B4B] font-sans selection:bg-[#4E36E2] selection:text-white">
       <SiteNav />
       <Chatbot />
 
       {/* Header Banner */}
-      <section className="bg-gradient-to-b from-[#0A1118] via-[#0B131E] to-[#0D1826] text-white pt-10 pb-16 px-4 border-b border-white/10">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 bg-cyan-500/15 border border-cyan-400/30 text-[#00B4D8] px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-3">
-            <Activity className="w-3.5 h-3.5" /> NHAA 14566 Clinical Screening Engine
-          </div>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight">
-            Stress & Trauma Assessment
-          </h1>
-          <p className="text-slate-300 mt-2 text-sm sm:text-base max-w-xl mx-auto">
-            AI-enabled real-time psychological evaluation, acoustic voice tremor detection, and objective SVI vulnerability screening.
-          </p>
+      <section className="pt-10 pb-16 text-center max-w-3xl mx-auto px-4">
+        <div className="inline-flex items-center gap-2 bg-purple-50 border border-purple-100 text-[#4E36E2] px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-3 shadow-sm">
+          <Activity className="w-3.5 h-3.5" /> Confidential Trauma Intake Module
         </div>
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#1E1B4B] tracking-tight">
+          Clinical SVI Trauma Assessment
+        </h1>
+        <p className="text-xs sm:text-sm text-[#8E95B2] font-semibold mt-2 max-w-xl mx-auto">
+          AI-enabled real-time psychological evaluation, acoustic voice tremor detection, and objective SVI vulnerability screening.
+        </p>
       </section>
 
-      <div className="max-w-4xl mx-auto px-4 -mt-8 pb-16 relative z-10">
+      <div className="max-w-4xl mx-auto px-4 -mt-6 pb-16 relative z-10">
         {/* Stepper Bar */}
-        <div className="bg-[#111A24] rounded-3xl p-5 sm:p-6 border border-white/10 shadow-2xl shadow-black/40 mb-8">
+        <div className="bg-white rounded-3xl p-5 sm:p-6 border border-white/80 shadow-soft mb-8">
           <div className="grid grid-cols-4 gap-2">
             {[
               { n: "01", name: "Consent", id: 1 },
@@ -219,17 +217,17 @@ export default function Assessment() {
                   <div
                     className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center font-black text-xs sm:text-sm transition-all duration-300 mb-2 ${
                       isDone
-                        ? "bg-[#FFA217] text-slate-950 shadow-md shadow-amber-500/30"
+                        ? "bg-[#FF8C68] text-white shadow-soft-peach"
                         : isCurrent
-                        ? "bg-[#00B4D8] text-white ring-4 ring-cyan-500/20 shadow-sm"
-                        : "bg-white/10 text-slate-400"
+                        ? "bg-[#4E36E2] text-white shadow-soft-purple ring-4 ring-purple-100"
+                        : "bg-[#F4F6FB] text-[#8E95B2]"
                     }`}
                   >
                     {isDone ? "✓" : s.n}
                   </div>
                   <span
                     className={`text-[11px] sm:text-xs font-bold transition-colors ${
-                      isCurrent ? "text-[#00B4D8]" : isDone ? "text-[#FFA217]" : "text-slate-400"
+                      isCurrent ? "text-[#4E36E2]" : isDone ? "text-[#FF8C68]" : "text-[#8E95B2]"
                     }`}
                   >
                     {s.name}
@@ -241,7 +239,7 @@ export default function Assessment() {
         </div>
 
         {error && (
-          <div className="mb-6 bg-red-50 border border-red-200 text-red-700 text-sm rounded-2xl px-5 py-4 flex items-center gap-3">
+          <div className="mb-6 bg-red-50 border border-red-200 text-red-700 text-xs rounded-2xl px-5 py-4 flex items-center gap-3">
             <AlertTriangle className="w-5 h-5 shrink-0 text-red-600" />
             <span className="font-semibold">{error}</span>
           </div>
@@ -249,45 +247,45 @@ export default function Assessment() {
 
         {/* STEP 1: Consent */}
         {step === 1 && (
-          <div className="bg-white rounded-3xl shadow-2xl p-6 sm:p-9 animate-in fade-in duration-200">
+          <div className="bg-white rounded-3xl shadow-soft border border-white/80 p-6 sm:p-9 animate-in fade-in duration-200">
             <div className="flex items-center gap-3 mb-5">
-              <div className="w-12 h-12 rounded-full bg-cyan-50 text-[#00B4D8] flex items-center justify-center">
+              <div className="w-12 h-12 rounded-2xl bg-purple-50 text-[#4E36E2] flex items-center justify-center shadow-sm">
                 <ShieldCheck className="w-6 h-6" />
               </div>
               <div>
-                <h2 className="text-xl sm:text-2xl font-black text-[#0A1118]">Informed Consent & Confidentiality</h2>
-                <p className="text-xs text-slate-500">Voluntary psychological triage under SC/ST PoA Protection Standards</p>
+                <h2 className="text-xl sm:text-2xl font-black text-[#1E1B4B]">Informed Consent & Confidentiality</h2>
+                <p className="text-xs text-[#8E95B2] font-semibold">Voluntary psychological triage under SC/ST PoA Protection Standards</p>
               </div>
             </div>
 
-            <div className="space-y-3.5 text-xs sm:text-sm text-slate-600 leading-relaxed bg-slate-50 p-5 rounded-2xl border border-slate-100">
+            <div className="space-y-3.5 text-xs sm:text-sm text-slate-600 leading-relaxed bg-[#F4F6FB] p-5 rounded-2xl border border-slate-100 font-medium">
               <p>
                 This screening module uses artificial intelligence (NLP, speech tremor acoustic analytics, and trauma-informed cognitive metrics) to assess stress and vulnerability.
               </p>
               <ul className="space-y-2">
-                <li className="flex items-start gap-2.5 font-medium text-slate-700">
-                  <CheckCircle2 className="w-4 h-4 text-[#00B4D8] mt-0.5 shrink-0" />
+                <li className="flex items-start gap-2.5 font-semibold text-slate-700">
+                  <CheckCircle2 className="w-4 h-4 text-[#4E36E2] mt-0.5 shrink-0" />
                   All data is encrypted in transit and at rest with zero unauthorized disclosure.
                 </li>
-                <li className="flex items-start gap-2.5 font-medium text-slate-700">
-                  <CheckCircle2 className="w-4 h-4 text-[#00B4D8] mt-0.5 shrink-0" />
+                <li className="flex items-start gap-2.5 font-semibold text-slate-700">
+                  <CheckCircle2 className="w-4 h-4 text-[#4E36E2] mt-0.5 shrink-0" />
                   Participation is completely voluntary. You may decline or exit at any moment.
                 </li>
-                <li className="flex items-start gap-2.5 font-medium text-slate-700">
-                  <CheckCircle2 className="w-4 h-4 text-[#00B4D8] mt-0.5 shrink-0" />
+                <li className="flex items-start gap-2.5 font-semibold text-slate-700">
+                  <CheckCircle2 className="w-4 h-4 text-[#4E36E2] mt-0.5 shrink-0" />
                   This is a crisis screening and clinical prioritization tool, not a medical diagnosis.
                 </li>
               </ul>
             </div>
 
-            <label className="mt-6 flex items-start gap-3 cursor-pointer bg-cyan-500/5 border border-cyan-500/20 rounded-2xl p-4 hover:bg-cyan-500/10 transition">
+            <label className="mt-6 flex items-start gap-3 cursor-pointer bg-purple-50/50 border border-purple-100 rounded-2xl p-4 hover:bg-purple-50 transition">
               <input
                 type="checkbox"
                 checked={form.consent_given}
                 onChange={(e) => update("consent_given", e.target.checked)}
-                className="mt-0.5 w-5 h-5 accent-[#00B4D8] rounded cursor-pointer"
+                className="mt-0.5 w-5 h-5 accent-[#4E36E2] rounded cursor-pointer"
               />
-              <span className="text-xs sm:text-sm font-semibold text-slate-800">
+              <span className="text-xs sm:text-sm font-bold text-[#1E1B4B]">
                 I have read and understood the information above. I consent to voluntary AI-based clinical screening.
               </span>
             </label>
@@ -295,7 +293,7 @@ export default function Assessment() {
             <button
               disabled={!form.consent_given}
               onClick={() => setStep(2)}
-              className="mt-6 w-full bg-[#FFA217] hover:bg-[#FF8C00] disabled:opacity-40 disabled:cursor-not-allowed text-slate-950 font-black py-3.5 rounded-full flex items-center justify-center gap-2 shadow-lg shadow-amber-500/25 transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
+              className="mt-6 w-full bg-[#4E36E2] hover:bg-[#3C28B6] disabled:opacity-40 disabled:cursor-not-allowed text-white font-black py-3.5 rounded-full flex items-center justify-center gap-2 shadow-soft-purple transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer text-xs"
             >
               <span>Continue to Intake Details</span>
               <ArrowRight className="w-4 h-4" />
@@ -305,10 +303,10 @@ export default function Assessment() {
 
         {/* STEP 2: Details */}
         {step === 2 && (
-          <div className="bg-white rounded-3xl shadow-2xl p-6 sm:p-9 animate-in fade-in duration-200">
+          <div className="bg-white rounded-3xl shadow-soft border border-white/80 p-6 sm:p-9 animate-in fade-in duration-200">
             <div className="mb-6">
-              <h2 className="text-xl sm:text-2xl font-black text-[#0A1118]">Complainant & Intake Details</h2>
-              <p className="text-xs text-slate-500">Provide demographic context to tailor multilingual acoustic and trauma analysis.</p>
+              <h2 className="text-xl sm:text-2xl font-black text-[#1E1B4B]">Complainant & Intake Details</h2>
+              <p className="text-xs text-[#8E95B2] font-semibold">Provide demographic context to tailor multilingual acoustic and trauma analysis.</p>
             </div>
 
             <div className="grid sm:grid-cols-2 gap-4">
@@ -375,10 +373,10 @@ export default function Assessment() {
               </Field>
             </div>
 
-            <div className="mt-6 bg-slate-50 p-4 rounded-2xl border border-slate-100">
+            <div className="mt-6 bg-[#F4F6FB] p-4 rounded-2xl border border-slate-100">
               <div className="flex items-center justify-between text-xs font-bold text-slate-700">
                 <span>Self-Reported Distress Level</span>
-                <span className="text-base font-black text-[#00B4D8] bg-cyan-50 px-2.5 py-0.5 rounded-lg border border-cyan-200">
+                <span className="text-base font-black text-[#4E36E2] bg-purple-50 px-2.5 py-0.5 rounded-lg border border-purple-100">
                   {form.self_reported_stress} / 10
                 </span>
               </div>
@@ -388,9 +386,9 @@ export default function Assessment() {
                 max={10}
                 value={form.self_reported_stress}
                 onChange={(e) => update("self_reported_stress", Number(e.target.value))}
-                className="w-full mt-3 accent-[#00B4D8] cursor-pointer"
+                className="w-full mt-3 accent-[#4E36E2] cursor-pointer"
               />
-              <div className="flex justify-between text-[10px] text-slate-400 mt-1 font-semibold">
+              <div className="flex justify-between text-[10px] text-[#8E95B2] mt-1 font-semibold">
                 <span>1 - Mild Concern</span>
                 <span>5 - Moderate Distress</span>
                 <span>10 - Acute Crisis</span>
@@ -412,15 +410,15 @@ export default function Assessment() {
                     onClick={() => update("input_mode", m)}
                     className={`p-4 rounded-2xl border-2 text-left transition cursor-pointer ${
                       form.input_mode === m
-                        ? "border-[#00B4D8] bg-cyan-50/50 shadow-sm"
+                        ? "border-[#4E36E2] bg-purple-50/50 shadow-sm"
                         : "border-slate-200 hover:border-slate-300 bg-white"
                     }`}
                   >
-                    <div className="flex items-center gap-2 font-black text-sm text-[#0A1118]">
-                      <Icon className="w-4 h-4 text-[#00B4D8]" />
+                    <div className="flex items-center gap-2 font-black text-xs text-[#1E1B4B]">
+                      <Icon className="w-4 h-4 text-[#4E36E2]" />
                       <span>{m} Mode</span>
                     </div>
-                    <p className="text-xs text-slate-500 mt-1 leading-snug">{d}</p>
+                    <p className="text-[11px] text-[#8E95B2] mt-1 leading-snug font-medium">{d}</p>
                   </button>
                 ))}
               </div>
@@ -429,13 +427,13 @@ export default function Assessment() {
             <div className="mt-7 flex gap-3">
               <button
                 onClick={() => setStep(1)}
-                className="px-6 py-3 rounded-full border border-slate-200 text-slate-600 font-bold hover:bg-slate-50 transition cursor-pointer text-xs"
+                className="px-6 py-3 rounded-full border border-slate-200 text-[#8E95B2] font-bold hover:bg-[#F4F6FB] transition cursor-pointer text-xs"
               >
                 Back
               </button>
               <button
                 onClick={() => setStep(3)}
-                className="flex-1 bg-[#FFA217] hover:bg-[#FF8C00] text-slate-950 font-black py-3.5 rounded-full flex items-center justify-center gap-2 shadow-lg shadow-amber-500/25 transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer text-xs"
+                className="flex-1 bg-[#4E36E2] hover:bg-[#3C28B6] text-white font-black py-3.5 rounded-full flex items-center justify-center gap-2 shadow-soft-purple transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer text-xs"
               >
                 <span>Continue to Narrative</span>
                 <ArrowRight className="w-4 h-4" />
@@ -446,29 +444,29 @@ export default function Assessment() {
 
         {/* STEP 3: Input */}
         {step === 3 && (
-          <div className="bg-white rounded-3xl shadow-2xl p-6 sm:p-9 animate-in fade-in duration-200">
+          <div className="bg-white rounded-3xl shadow-soft border border-white/80 p-6 sm:p-9 animate-in fade-in duration-200">
             <div className="mb-6">
-              <h2 className="text-xl sm:text-2xl font-black text-[#0A1118]">
+              <h2 className="text-xl sm:text-2xl font-black text-[#1E1B4B]">
                 {form.input_mode === "Voice" ? "🎙️ Acoustic Voice Narrative" : "📝 Complainant Narrative Entry"}
               </h2>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-[#8E95B2] font-semibold">
                 Express what happened in {form.language}. Speak or write freely in your own words.
               </p>
             </div>
 
             {form.input_mode === "Voice" && (
-              <div className="text-center py-8 bg-gradient-to-b from-cyan-500/5 to-slate-50 rounded-2xl border border-cyan-500/20 p-6 mb-6">
+              <div className="text-center py-8 bg-[#F4F6FB] rounded-2xl border border-slate-100 p-6 mb-6">
                 <div
                   className={`w-28 h-28 mx-auto rounded-full flex items-center justify-center transition-all ${
                     recording
                       ? "bg-rose-500 text-white shadow-xl shadow-rose-500/40 animate-pulse scale-105"
-                      : "bg-[#00B4D8] text-white shadow-xl shadow-cyan-500/30"
+                      : "bg-[#4E36E2] text-white shadow-soft-purple"
                   }`}
                 >
                   <Mic className="w-12 h-12" />
                 </div>
                 
-                <p className="mt-5 text-sm font-bold text-slate-800">
+                <p className="mt-5 text-xs font-bold text-[#1E1B4B]">
                   {recording
                     ? "Recording speech... Analyzing pitch cadence & tremors in real-time"
                     : transcribing
@@ -479,7 +477,7 @@ export default function Assessment() {
                 {!recording && !transcribing && (
                   <button
                     onClick={startRecording}
-                    className="mt-4 bg-[#00B4D8] hover:bg-[#0096C7] text-white font-black px-7 py-3 rounded-full shadow-lg shadow-cyan-500/30 inline-flex items-center gap-2 transition cursor-pointer text-xs"
+                    className="mt-4 bg-[#4E36E2] hover:bg-[#3C28B6] text-white font-black px-7 py-3 rounded-full shadow-soft-purple inline-flex items-center gap-2 transition cursor-pointer text-xs"
                   >
                     <Mic className="w-4 h-4" /> Start Recording
                   </button>
@@ -492,7 +490,7 @@ export default function Assessment() {
                     <Square className="w-4 h-4 fill-white" /> Stop & Process Audio
                   </button>
                 )}
-                {transcribing && <Loader2 className="w-6 h-6 text-[#00B4D8] animate-spin mx-auto mt-4" />}
+                {transcribing && <Loader2 className="w-6 h-6 text-[#4E36E2] animate-spin mx-auto mt-4" />}
               </div>
             )}
 
@@ -504,10 +502,10 @@ export default function Assessment() {
                 value={narrative}
                 onChange={(e) => setNarrative(e.target.value)}
                 rows={6}
-                className="input resize-none text-slate-800 leading-relaxed font-normal"
+                className="input resize-none text-[#1E1B4B] leading-relaxed font-normal"
                 placeholder="Share your experience, specific distress symptoms, threats, or caste-related harassment..."
               />
-              <p className="text-[11px] font-semibold text-slate-400 mt-1.5">
+              <p className="text-[11px] font-semibold text-[#8E95B2] mt-1.5">
                 {narrative.trim().split(/\s+/).filter(Boolean).length} words recorded
               </p>
             </div>
@@ -515,14 +513,14 @@ export default function Assessment() {
             <div className="mt-7 flex gap-3">
               <button
                 onClick={() => setStep(2)}
-                className="px-6 py-3 rounded-full border border-slate-200 text-slate-600 font-bold hover:bg-slate-50 transition cursor-pointer text-xs"
+                className="px-6 py-3 rounded-full border border-slate-200 text-[#8E95B2] font-bold hover:bg-[#F4F6FB] transition cursor-pointer text-xs"
               >
                 Back
               </button>
               <button
                 onClick={runAnalysis}
                 disabled={!narrative.trim()}
-                className="flex-1 bg-[#FFA217] hover:bg-[#FF8C00] disabled:opacity-40 disabled:cursor-not-allowed text-slate-950 font-black py-3.5 rounded-full flex items-center justify-center gap-2 shadow-lg shadow-amber-500/25 transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer text-xs"
+                className="flex-1 bg-[#4E36E2] hover:bg-[#3C28B6] disabled:opacity-40 disabled:cursor-not-allowed text-white font-black py-3.5 rounded-full flex items-center justify-center gap-2 shadow-soft-purple transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer text-xs"
               >
                 <Zap className="w-4 h-4" />
                 <span>Calculate SVI & Run AI Diagnostic</span>
@@ -533,10 +531,10 @@ export default function Assessment() {
 
         {/* STEP 4: Analyzing */}
         {step === 4 && (
-          <div className="bg-white rounded-3xl shadow-xl border border-slate-100 p-12 text-center">
-            <Loader2 className="w-14 h-14 text-[#00B4D8] animate-spin mx-auto mb-4" />
-            <h2 className="text-2xl font-black text-[#0A1118]">Analyzing Clinical Biomarkers...</h2>
-            <p className="text-xs sm:text-sm text-slate-500 mt-2 max-w-md mx-auto">
+          <div className="bg-white rounded-3xl shadow-soft border border-white/80 p-12 text-center">
+            <Loader2 className="w-14 h-14 text-[#4E36E2] animate-spin mx-auto mb-4" />
+            <h2 className="text-2xl font-black text-[#1E1B4B]">Analyzing Clinical Biomarkers...</h2>
+            <p className="text-xs sm:text-sm text-[#8E95B2] font-semibold mt-2 max-w-md mx-auto">
               Computing the Stress Vulnerability Index, evaluating acoustic speech cadence, and parsing trauma semantics.
             </p>
           </div>
@@ -548,7 +546,7 @@ export default function Assessment() {
         )}
       </div>
 
-      <style>{`.input{width:100%;padding:0.75rem 1rem;border:1px solid #e2e8f0;border-radius:1rem;font-size:0.875rem;font-weight:500;outline:none;background:#fafbfc;transition:all .15s}.input:focus{box-shadow:0 0 0 3px rgba(0,180,216,.2);border-color:#00B4D8;background:#fff}`}</style>
+      <style>{`.input{width:100%;padding:0.75rem 1rem;border:1px solid #e2e8f0;border-radius:1rem;font-size:0.875rem;font-weight:500;outline:none;background:#fafbfc;transition:all .15s}.input:focus{box-shadow:0 0 0 3px rgba(78,54,226,.2);border-color:#4E36E2;background:#fff}`}</style>
     </div>
   );
 }
@@ -571,30 +569,30 @@ function ResultsView({ result, savedId, onReset }) {
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
       {/* Success banner */}
-      <div className="bg-white rounded-3xl shadow-2xl p-6 sm:p-8 text-center">
-        <div className="w-14 h-14 rounded-full bg-cyan-50 text-[#00B4D8] flex items-center justify-center mx-auto mb-3 shadow-md shadow-cyan-500/10">
+      <div className="bg-white rounded-3xl shadow-soft border border-white/80 p-6 sm:p-8 text-center">
+        <div className="w-14 h-14 rounded-2xl bg-purple-50 text-[#4E36E2] flex items-center justify-center mx-auto mb-3 shadow-sm">
           <CheckCircle2 className="w-8 h-8" />
         </div>
-        <h2 className="text-2xl sm:text-3xl font-black text-[#0A1118]">Diagnostic Screening Complete</h2>
-        <p className="text-xs sm:text-sm text-slate-500 mt-1 max-w-lg mx-auto">
+        <h2 className="text-2xl sm:text-3xl font-black text-[#1E1B4B]">Diagnostic Screening Complete</h2>
+        <p className="text-xs sm:text-sm text-[#8E95B2] font-semibold mt-1 max-w-lg mx-auto">
           AI clinical assessment completed. Case details have been encrypted and categorized for National Helpline 14566 action.
         </p>
         {savedId && (
-          <p className="mt-3 text-xs font-mono font-bold text-[#00B4D8] bg-cyan-50 px-3 py-1 rounded-full inline-block">
+          <p className="mt-3 text-xs font-mono font-bold text-[#4E36E2] bg-purple-50 px-3 py-1 rounded-full inline-block border border-purple-100">
             Reference ID: {savedId}
           </p>
         )}
       </div>
 
       {/* SVI Gauge Card */}
-      <div className="bg-white rounded-3xl shadow-2xl p-6 sm:p-8">
-        <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-wider mb-4">
+      <div className="bg-white rounded-3xl shadow-soft border border-white/80 p-6 sm:p-8">
+        <h3 className="text-xs font-black text-[#8E95B2] uppercase tracking-wider mb-4">
           Stress Vulnerability Index (SVI)
         </h3>
         <div className="flex flex-col sm:flex-row items-center gap-8">
           <div className="relative w-44 h-44 shrink-0">
             <svg className="w-full h-full -rotate-90" viewBox="0 0 160 160">
-              <circle cx="80" cy="80" r="70" fill="none" stroke="#e2e8f0" strokeWidth="12" />
+              <circle cx="80" cy="80" r="70" fill="none" stroke="#F0F2F9" strokeWidth="12" />
               <circle
                 cx="80"
                 cy="80"
@@ -608,15 +606,15 @@ function ResultsView({ result, savedId, onReset }) {
               />
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="text-4xl font-black text-[#0A1118]">{svi_score}</span>
-              <span className="text-[11px] font-bold text-slate-400">Score / 100</span>
+              <span className="text-4xl font-black text-[#1E1B4B]">{svi_score}</span>
+              <span className="text-[11px] font-bold text-[#8E95B2]">Score / 100</span>
             </div>
           </div>
           <div className="flex-1 text-center sm:text-left space-y-2">
             <span className={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-black uppercase ${rs.bg} ${rs.text}`}>
               <AlertTriangle className="w-4 h-4" /> {rs.label}
             </span>
-            <p className="text-sm font-medium text-slate-700 leading-relaxed">
+            <p className="text-xs sm:text-sm font-medium text-slate-700 leading-relaxed">
               {risk_category === "Critical" && "Immediate high-priority alert. Rapid emergency dispatch, police protection, and medical care are recommended."}
               {risk_category === "High" && "High psychological vulnerability detected. Prompt legal assistance and targeted trauma debriefing recommended."}
               {risk_category === "Moderate" && "Moderate trauma and anxiety indicators detected. Psychological counselling and support scheduled."}
@@ -628,25 +626,25 @@ function ResultsView({ result, savedId, onReset }) {
 
       {/* Clinical Summary */}
       {summary && (
-        <div className="bg-white rounded-3xl shadow-2xl p-6 sm:p-8">
-          <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-wider mb-2">
+        <div className="bg-white rounded-3xl shadow-soft border border-white/80 p-6 sm:p-8">
+          <h3 className="text-xs font-black text-[#8E95B2] uppercase tracking-wider mb-2">
             AI Clinical Summary
           </h3>
-          <p className="text-sm text-slate-700 leading-relaxed font-medium">{summary}</p>
+          <p className="text-xs sm:text-sm text-slate-700 leading-relaxed font-medium">{summary}</p>
         </div>
       )}
 
       {/* Detected Indicators */}
       {detected_indicators?.length > 0 && (
-        <div className="bg-white rounded-3xl shadow-2xl p-6 sm:p-8">
-          <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-wider mb-3">
+        <div className="bg-white rounded-3xl shadow-soft border border-white/80 p-6 sm:p-8">
+          <h3 className="text-xs font-black text-[#8E95B2] uppercase tracking-wider mb-3">
             Trauma & Stress Biomarker Indicators
           </h3>
           <div className="flex flex-wrap gap-2">
             {detected_indicators.map((ind) => (
               <span
                 key={ind}
-                className="px-3.5 py-1.5 rounded-xl bg-red-50 text-red-700 text-xs font-bold border border-red-200"
+                className="px-3.5 py-1.5 rounded-xl bg-orange-50 text-[#FF8C68] text-xs font-bold border border-orange-100"
               >
                 ● {ind}
               </span>
@@ -657,19 +655,19 @@ function ResultsView({ result, savedId, onReset }) {
 
       {/* Recommended Support */}
       {recommendations?.length > 0 && (
-        <div className="bg-white rounded-3xl shadow-2xl p-6 sm:p-8">
-          <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-wider mb-3">
+        <div className="bg-white rounded-3xl shadow-soft border border-white/80 p-6 sm:p-8">
+          <h3 className="text-xs font-black text-[#8E95B2] uppercase tracking-wider mb-3">
             Recommended Next Actions
           </h3>
           <div className="grid sm:grid-cols-2 gap-3">
             {recommendations.map((r) => {
               const Icon = recIcons[String(r).toLowerCase().trim()] || CheckCircle2;
               return (
-                <div key={r} className="flex items-center gap-3 bg-cyan-500/5 rounded-2xl p-4 border border-cyan-500/15">
-                  <div className="w-10 h-10 rounded-full bg-[#00B4D8] text-white flex items-center justify-center shrink-0 shadow-sm">
+                <div key={r} className="flex items-center gap-3 bg-[#F4F6FB] rounded-2xl p-4 border border-slate-100">
+                  <div className="w-10 h-10 rounded-full bg-[#4E36E2] text-white flex items-center justify-center shrink-0 shadow-sm">
                     <Icon className="w-5 h-5" />
                   </div>
-                  <span className="text-xs font-bold text-slate-800 capitalize">{r}</span>
+                  <span className="text-xs font-bold text-[#1E1B4B] capitalize">{r}</span>
                 </div>
               );
             })}
@@ -679,7 +677,7 @@ function ResultsView({ result, savedId, onReset }) {
 
       <button
         onClick={onReset}
-        className="w-full bg-[#FFA217] hover:bg-[#FF8C00] text-slate-950 font-black py-4 rounded-full flex items-center justify-center gap-2 shadow-lg shadow-amber-500/25 transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer text-xs"
+        className="w-full bg-[#4E36E2] hover:bg-[#3C28B6] text-white font-black py-4 rounded-full flex items-center justify-center gap-2 shadow-soft-purple transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer text-xs"
       >
         <RotateCcw className="w-4 h-4" />
         <span>Start New Assessment</span>
