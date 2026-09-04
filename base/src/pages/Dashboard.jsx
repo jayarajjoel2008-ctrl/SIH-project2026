@@ -19,13 +19,10 @@ import {
   MapPin,
   LogOut,
   Brain,
-  Calendar as CalendarIcon,
   CalendarDays,
   Clock,
   Activity,
-  Check,
   Plus,
-  AlertTriangle,
   PhoneCall
 } from "lucide-react";
 import { base44 } from "@/api/base44Client";
