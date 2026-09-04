@@ -9,8 +9,12 @@ const DefaultFallback = () => (
   </div>
 );
 
-export default function ProtectedRoute({ fallback = <DefaultFallback />, unauthenticatedElement }) {
-  const { isAuthenticated, isLoadingAuth, authChecked, authError, checkUserAuth } = useAuth();
+export default function ProtectedRoute({ 
+  fallback = <DefaultFallback />, 
+  unauthenticatedElement,
+  requireAdmin = false
+}) {
+  const { isAuthenticated, isLoadingAuth, authChecked, authError, checkUserAuth, isAdmin } = useAuth();
   const location = useLocation();
 
   useEffect(() => {
@@ -30,6 +34,10 @@ export default function ProtectedRoute({ fallback = <DefaultFallback />, unauthe
   if (!isAuthenticated) {
     const returnPath = location.pathname + location.search;
     return unauthenticatedElement || <Navigate to={`/login?returnTo=${encodeURIComponent(returnPath)}`} replace />;
+  }
+
+  if (requireAdmin && !isAdmin) {
+    return <Navigate to="/home" replace />;
   }
 
   return <Outlet />;

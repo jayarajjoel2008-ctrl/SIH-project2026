@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Loader2,
   Search,
@@ -98,7 +98,15 @@ const SemicircleGauge = ({ value = 145, subtitle = "Urgent Intakes", totalTicks 
 };
 
 export default function Dashboard() {
-  const { user, logout } = useAuth();
+  const { user, logout, isAdmin, isLoadingAuth } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLoadingAuth && !isAdmin) {
+      navigate("/home", { replace: true });
+    }
+  }, [isLoadingAuth, isAdmin, navigate]);
+
   const [assessments, setAssessments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState("");
@@ -428,8 +436,8 @@ export default function Dashboard() {
         {/* ================= TOP NAVIGATION BAR ================= */}
         <header className="flex flex-col md:flex-row items-center justify-between gap-4 pb-7 mb-7 border-b border-slate-100">
           {/* Left Brand */}
-          <div className="flex items-center gap-3 self-start md:self-auto">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#0092B8] to-[#0D2444] flex items-center justify-center text-white shadow-md shadow-cyan-900/10">
+          <Link to="/home" className="flex items-center gap-3 self-start md:self-auto group" title="Return to Citizen Portal Home">
+            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#0092B8] to-[#0D2444] flex items-center justify-center text-white shadow-md shadow-cyan-900/10 group-hover:scale-105 transition">
               <Brain className="w-5 h-5" />
             </div>
             <div>
@@ -438,7 +446,7 @@ export default function Dashboard() {
                 NHAA 14566
               </span>
             </div>
-          </div>
+          </Link>
 
           {/* Center Navigation Pills */}
           <nav className="flex items-center gap-1 bg-slate-50 p-1.5 rounded-full border border-slate-200/60 overflow-x-auto max-w-full">

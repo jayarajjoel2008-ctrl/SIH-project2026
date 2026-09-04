@@ -40,9 +40,14 @@ export default function Login() {
   useEffect(() => {
     if (isAuthenticated && user) {
       const returnTo = safeReturnTo();
+      const isRoleAdmin = user.role === "admin";
       if (returnTo) {
-        navigate(returnTo);
-      } else if (user.role === "admin") {
+        if (!isRoleAdmin && (returnTo === "/dashboard" || returnTo.startsWith("/dashboard") || returnTo === "/admin" || returnTo.startsWith("/admin"))) {
+          navigate("/home");
+        } else {
+          navigate(returnTo);
+        }
+      } else if (isRoleAdmin) {
         navigate("/dashboard");
       } else {
         navigate("/home");
@@ -77,7 +82,7 @@ export default function Login() {
       const loggedUser = await loginWithRole(email, password, activeTab);
       const isRoleAdmin = activeTab === "admin" || loggedUser?.role === "admin";
       
-      if (returnTo) {
+      if (returnTo && (isRoleAdmin || (!returnTo.startsWith("/dashboard") && !returnTo.startsWith("/admin")))) {
         navigate(returnTo);
       } else if (isRoleAdmin) {
         navigate("/dashboard");

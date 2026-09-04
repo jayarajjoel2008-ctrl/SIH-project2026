@@ -85,8 +85,8 @@ export const AuthProvider = ({ children }) => {
     window.location.href = "/";
   };
 
-  const isAdmin = user?.role === "admin";
-  const isUser = user?.role === "user" || !user?.role;
+  const isAdmin = Boolean(isAuthenticated && user?.role && String(user.role).toLowerCase() === "admin");
+  const isUser = Boolean(isAuthenticated && !isAdmin);
 
   return (
     <AuthContext.Provider value={{ 

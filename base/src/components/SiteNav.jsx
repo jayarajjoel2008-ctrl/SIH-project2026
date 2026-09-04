@@ -7,7 +7,7 @@ import BreatheModal from "@/components/BreatheModal";
 export default function SiteNav() {
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const { isAuthenticated, user, logout } = useAuth();
+  const { isAuthenticated, user, logout, isAdmin } = useAuth();
   const [breatheOpen, setBreatheOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -132,18 +132,20 @@ export default function SiteNav() {
               🫁 Breathe
             </Link>
 
-            <Link
-              to="/dashboard"
-              className={`px-4 py-2 rounded-full transition-all ${
-                pathname === "/dashboard"
-                  ? "bg-[#4E36E2] text-white shadow-soft-purple font-black"
-                  : isHome
-                  ? "hover:text-white"
-                  : "hover:text-[#1E1B4B]"
-              }`}
-            >
-              📈 Admin
-            </Link>
+            {isAdmin && (
+              <Link
+                to="/dashboard"
+                className={`px-4 py-2 rounded-full transition-all ${
+                  pathname === "/dashboard" || pathname === "/admin"
+                    ? "bg-[#4E36E2] text-white shadow-soft-purple font-black"
+                    : isHome
+                    ? "hover:text-white"
+                    : "hover:text-[#1E1B4B]"
+                }`}
+              >
+                📈 Admin
+              </Link>
+            )}
           </nav>
 
           {/* Right Action Buttons */}
@@ -193,12 +195,14 @@ export default function SiteNav() {
               </Link>
             )}
 
-            <Link
-              to="/dashboard"
-              className="text-xs sm:text-sm font-bold flex items-center gap-1.5 px-4 py-2 rounded-full border transition bg-white text-[#1E1B4B] border-slate-200 hover:border-[#4E36E2] shadow-sm hover:scale-105"
-            >
-              <TrendingUp className="w-4 h-4 text-[#FF8C68]" /> My Dashboard
-            </Link>
+            {isAdmin && (
+              <Link
+                to="/dashboard"
+                className="text-xs sm:text-sm font-bold flex items-center gap-1.5 px-4 py-2 rounded-full border transition bg-white text-[#1E1B4B] border-slate-200 hover:border-[#4E36E2] shadow-sm hover:scale-105"
+              >
+                <TrendingUp className="w-4 h-4 text-[#FF8C68]" /> My Dashboard
+              </Link>
+            )}
           </div>
 
           {/* Mobile menu trigger */}
@@ -273,13 +277,24 @@ export default function SiteNav() {
             >
               • 🫁 Breathe
             </Link>
-            <Link
-              to="/dashboard"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block py-2.5 text-[#4E36E2] font-black text-sm"
-            >
-              • 📈 My Dashboard
-            </Link>
+            {isAdmin && (
+              <>
+                <Link
+                  to="/dashboard"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block py-2.5 text-[#4E36E2] font-black text-sm"
+                >
+                  • 📈 Admin Portal
+                </Link>
+                <Link
+                  to="/dashboard"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block py-2.5 text-[#4E36E2] font-black text-sm"
+                >
+                  • 📊 My Dashboard
+                </Link>
+              </>
+            )}
           </div>
         )}
       </header>

@@ -48,9 +48,14 @@ const AuthenticatedApp = () => {
       <Route path="/reset-password" element={<ResetPassword />} />
       <Route path="/oauth-consent" element={<OAuthConsent />} />
 
-      {/* Protected Routes: Require Authentication */}
-      <Route element={<ProtectedRoute />}>
+      {/* Admin Only Routes: Strictly restricted to Admin */}
+      <Route element={<ProtectedRoute requireAdmin />}>
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/admin" element={<Dashboard />} />
+      </Route>
+
+      {/* Protected Routes: Require Authentication (User or Admin) */}
+      <Route element={<ProtectedRoute />}>
         <Route path="/assessment/:id" element={<AssessmentDetail />} />
       </Route>
 
